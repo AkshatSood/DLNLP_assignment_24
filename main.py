@@ -1,5 +1,10 @@
+from data.loader import DataLoader
+
+
 def main():
-    pass
+    data_loader = DataLoader()
+
+    data_loader.load()
 
 
 if __name__ == "__main__":
