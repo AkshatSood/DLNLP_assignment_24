@@ -24,15 +24,15 @@ def main():
 
         for batch in data_loader:
 
-            print(batch.items())
+            print(len(batch))
 
             with torch.no_grad():
-                inputs = {
-                    key: value.to(device)
-                    for key, value in batch.items()
-                    if key != "label"
-                }
-                labels.extend(batch["label"].cpu().numpy())
+                inputs = tokenizer(batch['text'], padding=True, truncation=True, return_tensors="pt", max_length=512, add_special_tokens=True)
+                inputs = {key: tensor.to(device) for key, tensor in inputs.items()}
+
+                # If 'label' is part of the batch, you can extract it similarly
+                labels = batch['label'] if 'label' in batch else None
+
                 outputs = model(**inputs)
                 predictions.extend(np.argmax(outputs.logits.cpu().numpy(), axis=1))
 
