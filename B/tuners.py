@@ -2,12 +2,11 @@ from transformers import DataCollatorWithPadding, TrainingArguments, Trainer
 from peft import get_peft_model, LoraConfig
 import evaluate
 import numpy as np
-from A.models import DistilBertUncased
 
 
 class LoraTuner:
 
-    def __init__(self, model, tokenizer, train_dataset, eval_dataset):
+    def __init__(self, model, tokenizer, train_dataset, eval_dataset, checkpoints_dir):
         self.model = model
         self.tokenizer = tokenizer
 
@@ -27,7 +26,7 @@ class LoraTuner:
         num_epochs = 10
 
         training_args = TrainingArguments(
-            output_dir="./test",
+            output_dir=checkpoints_dir,
             learning_rate=lr,
             per_device_train_batch_size=batch_size,
             per_device_eval_batch_size=batch_size,
@@ -60,6 +59,6 @@ class LoraTuner:
     def get_trainable_parameters(self):
         return self.model.print_trainable_parameters()
 
-    def fine_tune(self):
+    def fine_tune(self, output_dir):
         self.trainer.train()
-        self.trainer.save_model("./example")
+        self.trainer.save_model(output_dir)
