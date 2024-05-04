@@ -32,10 +32,11 @@ class DatasetLoader:
         return self.dataset
 
 
-class AGNewsDatasetLoader(Dataset):
+class AGNewsDatasetLoader(DatasetLoader):
 
     def __init__(self):
-        Dataset.__init__(
+        DatasetLoader.__init__(
+            self,
             name="ag_news",
             text_header="text",
             label_header="label",
@@ -51,11 +52,5 @@ class AGNewsDatasetLoader(Dataset):
     def load(self):
         return self.dataset
 
-    def get_id2label(self):
-        return self.id2label
-
-    def get_label2id(self):
-        return self.label2id
-
     def tokenize(self, tokenizer, max_length: int = 512):
-        return Dataset.tokenize(tokenizer=tokenizer, max_length=max_length)
+        return DatasetLoader.tokenize(self, tokenizer=tokenizer, max_length=max_length)
