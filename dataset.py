@@ -1,7 +1,7 @@
 from datasets import load_dataset
 
 
-class Dataset:
+class DatasetLoader:
     def __init__(
         self,
         name: str,
@@ -32,7 +32,7 @@ class Dataset:
         return self.dataset
 
 
-class AGNewsDataset(Dataset):
+class AGNewsDatasetLoader(Dataset):
 
     def __init__(self):
         Dataset.__init__(
@@ -42,6 +42,11 @@ class AGNewsDataset(Dataset):
             id2label={0: "World", 1: "Sports", 2: "Business", 3: "Sci/Tech"},
             label2id={"World": 0, "Sports": 1, "Business": 2, "Sci/Tech": 3},
         )
+
+        # Create a validation dataset from the test dataset
+        split = self.dataset["train"].train_test_split(20000, seed=42)
+        self.dataset["train"] = split["train"]
+        self.dataset["validation"] = split["test"]
 
     def load(self):
         return self.dataset
