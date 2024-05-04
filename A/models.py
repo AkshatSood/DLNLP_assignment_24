@@ -19,17 +19,15 @@ class DistilBertUncased:
     def __init__(
         self, num_labels: int = 2, id2label: dict = None, label2id: dict = None
     ):
-        self.model_name = "distilbert-base-uncased"
+        self.name = "distilbert-base-uncased"
         self.model = AutoModelForSequenceClassification.from_pretrained(
-            self.model_name,
+            self.name,
             num_labels=num_labels,
             id2label=id2label,
             label2id=label2id,
         )
 
-        self.tokenizer = AutoTokenizer.from_pretrained(
-            self.model_name, add_prefix_space=True
-        )
+        self.tokenizer = AutoTokenizer.from_pretrained(self.name, add_prefix_space=True)
 
         self.tokenizer.truncation_side = "left"
 
