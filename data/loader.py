@@ -61,13 +61,13 @@ class Dataset:
         print(self.tokenized_data["train"][0])
 
     def get_train_loader(self):
-        return DataLoader(self.tokenized_data["train"], batch_size=8)
+        return DataLoader(self.tokenized_data["train"], batch_size=5)
 
     def get_test_loader(self):
-        return DataLoader(self.tokenized_data["test"], batch_size=8)
+        return DataLoader(self.tokenized_data["test"], batch_size=5)
 
     def get_validation_loader(self):
-        return DataLoader(self.tokenized_data["validation"], batch_size=8)
+        return DataLoader(self.tokenized_data["validation"], batch_size=7600)
 
     def get(self):
         return self.data
