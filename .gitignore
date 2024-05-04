@@ -32,3 +32,6 @@ MANIFEST
 
 # VS Code
 .vscode/
+
+# Test scripts
+test*.py
