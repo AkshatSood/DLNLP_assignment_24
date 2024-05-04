@@ -1,0 +1,15 @@
+name: dlnlp24
+
+dependencies: 
+  - python=3.9
+  - pip=22.1.*
+  - pip: 
+    - numpy==1.26.*
+    - torch==2.2.*
+    - torchvision==0.17.*
+    - cuda-python==12.4.*
+    - transformers==4.39.*
+    - accelerate==0.29.*
+    - scikit-learn==1.4.*
+    - omegaconf==2.3.*
+    - datasets==2.18.*
