@@ -88,24 +88,10 @@ def evaluate_bert_large_uncased():
     )
 
 
-def evaluate_camembert_base():
-    __print(f"Evaluating {config.A.camembert_base.name}...")
-
-    model, tokenizer = CamembertBase(
-        num_labels=ag_news.num_labels,
-        id2label=ag_news.id2label,
-        label2id=ag_news.label2id,
-    ).load()
-
-    evaluator.create_evaluations(
-        model=model, tokenizer=tokenizer, name=config.A.camembert_base.name
-    )
-
-
 def evaluate_roberta_base():
     __print(f"Evaluating {config.A.roberta_base.name}...")
 
-    model, tokenizer = CamembertBase(
+    model, tokenizer = RobertaBase(
         num_labels=ag_news.num_labels,
         id2label=ag_news.id2label,
         label2id=ag_news.label2id,
@@ -124,9 +110,6 @@ if config.A.bert_base_uncased.evaluate:
 
 if config.A.bert_large_uncased.evaluate:
     evaluate_bert_large_uncased()
-
-if config.A.camembert_base.evaluate:
-    evaluate_camembert_base()
 
 if config.A.roberta_base.evaluate:
     evaluate_roberta_base()

@@ -6,15 +6,12 @@ A:
   output_dir: ".\\A\\results"
   distilbert_base_uncased:
     name: "distilbert_base_uncased_pt"
-    evaluate: True
+    evaluate: False
   bert_base_uncased:
     name: "bert_base_uncased_pt"
-    evaluate: True
+    evaluate: False
   bert_large_uncased:
     name: "bert_large_uncased_pt"
-    evaluate: False
-  camembert_base:
-    name: "camembert_base"
     evaluate: False
   roberta_base:
     name: "roberta_base"
