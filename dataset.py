@@ -33,6 +33,32 @@ class DatasetLoader:
 
         return self.dataset
 
+    def information(self):
+
+        distributions = {}
+        for split in self.dataset.keys():
+            label_counts = {}
+
+            for sample in self.dataset[split]:
+                label = sample[self.label_header]
+                if label in label_counts:
+                    label_counts[label] += 1
+                else:
+                    label_counts[label] = 1
+
+            distributions[split] = label_counts
+
+        return {
+            "name": self.name,
+            "id2label": self.id2label,
+            "label2id": self.label2id,
+            "num_columns": self.dataset.num_columns,
+            "num_rows": self.dataset.num_rows,
+            "column_names": self.dataset.column_names,
+            "shapes": self.dataset.shape,
+            "label_distribution": distributions,
+        }
+
 
 class AGNewsDatasetLoader(DatasetLoader):
 
