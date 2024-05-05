@@ -105,7 +105,7 @@ if config.A.roberta_base.evaluate:
 
 
 def fine_tune_B_bert_base_uncased(args):
-    __print(f"Fine tuning {config.B.distilbert_base_uncased.name}...")
+    __print(f"Fine tuning {args.name}...")
 
     model, tokenizer = BertBaseUncased(
         num_labels=ag_news.num_labels,
@@ -128,7 +128,7 @@ def fine_tune_B_bert_base_uncased(args):
         epochs=args.training_args.epochs,
     )
 
-    # print(f"\nWeight Decay Parameter Names:\n{tuner.get_decay_parameter_names()}")
+    print(f"\nWeight Decay Parameter Names:\n{tuner.get_decay_parameter_names()}")
     # print(f"\nNumber of Tunable Parameters:\n{tuner.get_trainable_parameters()}")
 
     tuner.fine_tune(output_dir=args.model_dir)
@@ -139,7 +139,7 @@ def evaluate_B_bert_base_uncased():
 
 
 def fine_tune_B_distilbert_base_uncased(args):
-    __print(f"Fine tuning {config.B.distilbert_base_uncased.name}...")
+    __print(f"Fine tuning {args.name}...")
 
     model, tokenizer = DistilBertUncased(
         num_labels=ag_news.num_labels,
@@ -172,6 +172,40 @@ def evaluate_B_distilbert_base_uncased():
     pass
 
 
+def fine_tune_B_roberta_base(args):
+    __print(f"Fine tuning {args.name}...")
+
+    model, tokenizer = RobertaBase(
+        num_labels=ag_news.num_labels,
+        id2label=ag_news.id2label,
+        label2id=ag_news.label2id,
+    ).load()
+
+    tokenized_dataset = ag_news.tokenize(tokenizer=tokenizer)
+
+    tuner = Tuner(
+        model=model,
+        tokenizer=tokenizer,
+        train_dataset=tokenized_dataset["train"],
+        eval_dataset=tokenized_dataset["validation"],
+        checkpoints_dir=args.checkpoints_dir,
+        learning_rate=args.training_args.learning_rate,
+        per_device_eval_batch_size=args.training_args.per_device_eval_batch_size,
+        per_device_train_batch_size=args.training_args.per_device_train_batch_size,
+        weight_decay=args.training_args.weight_decay,
+        epochs=args.training_args.epochs,
+    )
+
+    print(f"\nWeight Decay Parameter Names:\n{tuner.get_decay_parameter_names()}")
+    # print(f"\nNumber of Tunable Parameters:\n{tuner.get_trainable_parameters()}")
+
+    tuner.fine_tune(output_dir=args.model_dir)
+
+
+def evaluate_B_roberta_base():
+    pass
+
+
 if config.B.bert_base_uncased.fine_tune:
     fine_tune_B_bert_base_uncased(config.B.bert_base_uncased)
 
@@ -183,6 +217,12 @@ if config.B.distilbert_base_uncased.fine_tune:
 
 if config.B.distilbert_base_uncased.evaluate:
     evaluate_B_distilbert_base_uncased()
+
+if config.B.roberta_base.fine_tune:
+    fine_tune_B_roberta_base(config.B.roberta_base)
+
+if config.B.roberta_base.evaluate:
+    evaluate_B_roberta_base()
 
 
 # tokenized_dataset = ag_news.tokenize(tokenizer=tokenizer)
