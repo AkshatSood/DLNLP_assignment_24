@@ -1,3 +1,5 @@
+from omegaconf.dictconfig import DictConfig
+from datasets.dataset_dict import DatasetDict
 from datasets import load_dataset
 
 
@@ -18,7 +20,7 @@ class DatasetLoader:
 
         self.dataset = load_dataset(name)
 
-    def tokenize(self, tokenizer, max_length):
+    def tokenize(self, tokenizer, max_length) -> DatasetDict:
 
         def __tokenize_mapping(samples):
             text = samples[self.text_header]
@@ -34,7 +36,7 @@ class DatasetLoader:
 
 class AGNewsDatasetLoader(DatasetLoader):
 
-    def __init__(self):
+    def __init__(self, config: DictConfig):
         DatasetLoader.__init__(
             self,
             name="ag_news",
@@ -45,12 +47,14 @@ class AGNewsDatasetLoader(DatasetLoader):
         )
 
         # Create a validation dataset from the test dataset
-        split = self.dataset["train"].train_test_split(20000, seed=42)
+        split = self.dataset["train"].train_test_split(
+            test_size=config.validation_size, stratify_by_column="label", seed=42
+        )
         self.dataset["train"] = split["train"]
         self.dataset["validation"] = split["test"]
 
-    def load(self):
+    def load(self) -> DatasetDict:
         return self.dataset
 
-    def tokenize(self, tokenizer, max_length: int = 512):
+    def tokenize(self, tokenizer, max_length: int = 512) -> DatasetDict:
         return DatasetLoader.tokenize(self, tokenizer=tokenizer, max_length=max_length)

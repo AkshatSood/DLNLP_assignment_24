@@ -1,0 +1,9 @@
+dataset:
+  ag_news:
+    validation_size: 20000
+
+A: 
+  output_dir: "./A/output_dir/"
+
+B:
+  distilbert_base_uncased:

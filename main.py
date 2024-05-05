@@ -1,13 +1,18 @@
+from omegaconf import OmegaConf
 from dataset import AGNewsDatasetLoader
-from A.models import DistilBertUncased
+from A.models import DistilBertUncased, BertBaseUncased, BertLargeUncased
 from B.tuners import LoraTuner
+
+config = OmegaConf.load(open("./config.yaml"))
 
 # ======================================================================================================================
 # Data preprocessing
 # data_train, data_val, data_test = data_preprocessing(args...)
 
-ag_news_loader = AGNewsDatasetLoader()
+ag_news_loader = AGNewsDatasetLoader(config.dataset.ag_news)
 dataset = ag_news_loader.load()
+
+print(type(dataset))
 
 x_test = dataset["test"][ag_news_loader.text_header]
 y_test = dataset["test"][ag_news_loader.label_header]
@@ -19,7 +24,11 @@ y_test = dataset["test"][ag_news_loader.label_header]
 # acc_A_test = model_A.test(args...)   # Test model based on the test set.
 # Clean up memory/GPU etc...             # Some code to free memory if necessary.
 
-model, tokenizer = DistilBertUncased(
+# model, tokenizer = DistilBertUncased(
+#     num_labels=4, id2label=ag_news_loader.id2label, label2id=ag_news_loader.label2id
+# ).load()
+
+model, tokenizer = BertBaseUncased(
     num_labels=4, id2label=ag_news_loader.id2label, label2id=ag_news_loader.label2id
 ).load()
 
@@ -41,10 +50,13 @@ tuner = LoraTuner(
     tokenizer=tokenizer,
     train_dataset=tokenized_dataset["train"],
     eval_dataset=tokenized_dataset["validation"],
-    checkpoints_dir="./B/checkpoints/DistilBertUncased",
+    checkpoints_dir="./B/checkpoints/BertBaseUncased",
+    logs_dir="./B/logs",
 )
 
-tuner.fine_tune(output_dir="./B/models/DistilBertUncased")
+print(tuner.get_trainable_parameters())
+
+tuner.fine_tune(output_dir="./B/models/BertBaseUncased")
 
 # ======================================================================================================================
 ## Print out your results with following format:

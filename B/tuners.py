@@ -6,7 +6,9 @@ import numpy as np
 
 class LoraTuner:
 
-    def __init__(self, model, tokenizer, train_dataset, eval_dataset, checkpoints_dir):
+    def __init__(
+        self, model, tokenizer, train_dataset, eval_dataset, checkpoints_dir, logs_dir
+    ):
         self.model = model
         self.tokenizer = tokenizer
 
