@@ -6,7 +6,7 @@ from A.models import (
     RobertaBase,
 )
 from A.evaluator import Evaluator
-from B.tuners import Tuner, LoraTuner
+from B.tuners import Tuner
 
 
 def __print(text):
@@ -199,7 +199,7 @@ def fine_tune_B_roberta_base(args):
     print(f"\nWeight Decay Parameter Names:\n{tuner.get_decay_parameter_names()}")
     # print(f"\nNumber of Tunable Parameters:\n{tuner.get_trainable_parameters()}")
 
-    tuner.fine_tune(output_dir=args.model_dir)
+    # tuner.fine_tune(output_dir=args.model_dir)
 
 
 def evaluate_B_roberta_base():
