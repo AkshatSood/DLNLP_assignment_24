@@ -70,11 +70,8 @@ class Evaluator:
         json.dump(
             evaluation,
             codecs.open(
-                os.path.join(self.output_dir, f"{name}-evaluation.json"),
-                "w",
+                filename=os.path.join(self.output_dir, f"{name}-evaluation.json"),
+                mode="w",
                 encoding="utf-8",
-                separators=(",", ":"),
-                sort_keys=True,
-                indent=4,
             ),
         )

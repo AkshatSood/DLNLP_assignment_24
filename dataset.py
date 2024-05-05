@@ -7,12 +7,14 @@ class DatasetLoader:
     def __init__(
         self,
         name: str,
+        num_labels: int,
         text_header: str,
         label_header: str,
         id2label: dict,
         label2id: dict,
     ):
         self.name = name
+        self.num_labels = num_labels
         self.text_header = text_header
         self.label_header = label_header
         self.id2label = id2label
@@ -66,6 +68,7 @@ class AGNewsDatasetLoader(DatasetLoader):
         DatasetLoader.__init__(
             self,
             name="ag_news",
+            num_labels=4,
             text_header="text",
             label_header="label",
             id2label={0: "World", 1: "Sports", 2: "Business", 3: "Sci/Tech"},
