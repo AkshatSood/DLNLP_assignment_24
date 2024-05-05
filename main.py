@@ -3,12 +3,10 @@ from dataset import AGNewsDatasetLoader
 from A.models import (
     DistilBertUncased,
     BertBaseUncased,
-    BertLargeUncased,
-    CamembertBase,
     RobertaBase,
 )
 from A.evaluator import Evaluator
-from B.tuners import LoraTuner
+from B.tuners import Tuner, LoraTuner
 
 
 def __print(text):
@@ -46,7 +44,7 @@ evaluator = Evaluator(
 )
 
 
-def evaluate_distilbert_base_uncased():
+def evaluate_A_distilbert_base_uncased():
     __print(f"Evaluating {config.A.distilbert_base_uncased.name}...")
 
     model, tokenizer = DistilBertUncased(
@@ -60,7 +58,7 @@ def evaluate_distilbert_base_uncased():
     )
 
 
-def evaluate_bert_base_uncased():
+def evaluate_A_bert_base_uncased():
     __print(f"Evaluating {config.A.bert_base_uncased.name}...")
 
     model, tokenizer = BertBaseUncased(
@@ -74,21 +72,7 @@ def evaluate_bert_base_uncased():
     )
 
 
-def evaluate_bert_large_uncased():
-    __print(f"Evaluating {config.A.bert_large_uncased.name}...")
-
-    model, tokenizer = BertLargeUncased(
-        num_labels=ag_news.num_labels,
-        id2label=ag_news.id2label,
-        label2id=ag_news.label2id,
-    ).load()
-
-    evaluator.create_evaluations(
-        model=model, tokenizer=tokenizer, name=config.A.bert_large_uncased.name
-    )
-
-
-def evaluate_roberta_base():
+def evaluate_A_roberta_base():
     __print(f"Evaluating {config.A.roberta_base.name}...")
 
     model, tokenizer = RobertaBase(
@@ -103,16 +87,13 @@ def evaluate_roberta_base():
 
 
 if config.A.distilbert_base_uncased.evaluate:
-    evaluate_distilbert_base_uncased()
+    evaluate_A_distilbert_base_uncased()
 
 if config.A.bert_base_uncased.evaluate:
-    evaluate_bert_base_uncased()
-
-if config.A.bert_large_uncased.evaluate:
-    evaluate_bert_large_uncased()
+    evaluate_A_bert_base_uncased()
 
 if config.A.roberta_base.evaluate:
-    evaluate_roberta_base()
+    evaluate_A_roberta_base()
 
 
 # ======================================================================================================================
@@ -121,6 +102,87 @@ if config.A.roberta_base.evaluate:
 # acc_B_train = model_B.train(args...)
 # acc_B_test = model_B.test(args...)
 # Clean up memory/GPU etc...
+
+
+def fine_tune_B_bert_base_uncased(args):
+    __print(f"Fine tuning {config.B.distilbert_base_uncased.name}...")
+
+    model, tokenizer = BertBaseUncased(
+        num_labels=ag_news.num_labels,
+        id2label=ag_news.id2label,
+        label2id=ag_news.label2id,
+    ).load()
+
+    tokenized_dataset = ag_news.tokenize(tokenizer=tokenizer)
+
+    tuner = Tuner(
+        model=model,
+        tokenizer=tokenizer,
+        train_dataset=tokenized_dataset["train"],
+        eval_dataset=tokenized_dataset["validation"],
+        checkpoints_dir=args.checkpoints_dir,
+        learning_rate=args.training_args.learning_rate,
+        per_device_eval_batch_size=args.training_args.per_device_eval_batch_size,
+        per_device_train_batch_size=args.training_args.per_device_train_batch_size,
+        weight_decay=args.training_args.weight_decay,
+        epochs=args.training_args.epochs,
+    )
+
+    # print(f"\nWeight Decay Parameter Names:\n{tuner.get_decay_parameter_names()}")
+    # print(f"\nNumber of Tunable Parameters:\n{tuner.get_trainable_parameters()}")
+
+    tuner.fine_tune(output_dir=args.model_dir)
+
+
+def evaluate_B_bert_base_uncased():
+    pass
+
+
+def fine_tune_B_distilbert_base_uncased(args):
+    __print(f"Fine tuning {config.B.distilbert_base_uncased.name}...")
+
+    model, tokenizer = DistilBertUncased(
+        num_labels=ag_news.num_labels,
+        id2label=ag_news.id2label,
+        label2id=ag_news.label2id,
+    ).load()
+
+    tokenized_dataset = ag_news.tokenize(tokenizer=tokenizer)
+
+    tuner = Tuner(
+        model=model,
+        tokenizer=tokenizer,
+        train_dataset=tokenized_dataset["train"],
+        eval_dataset=tokenized_dataset["validation"],
+        checkpoints_dir=args.checkpoints_dir,
+        learning_rate=args.training_args.learning_rate,
+        per_device_eval_batch_size=args.training_args.per_device_eval_batch_size,
+        per_device_train_batch_size=args.training_args.per_device_train_batch_size,
+        weight_decay=args.training_args.weight_decay,
+        epochs=args.training_args.epochs,
+    )
+
+    # print(f"\nWeight Decay Parameter Names:\n{tuner.get_decay_parameter_names()}")
+    # print(f"\nNumber of Tunable Parameters:\n{tuner.get_trainable_parameters()}")
+
+    tuner.fine_tune(output_dir=args.model_dir)
+
+
+def evaluate_B_distilbert_base_uncased():
+    pass
+
+
+if config.B.bert_base_uncased.fine_tune:
+    fine_tune_B_bert_base_uncased(config.B.bert_base_uncased)
+
+if config.B.bert_base_uncased.evaluate:
+    evaluate_B_bert_base_uncased()
+
+if config.B.distilbert_base_uncased.fine_tune:
+    fine_tune_B_distilbert_base_uncased(config.B.distilbert_base_uncased)
+
+if config.B.distilbert_base_uncased.evaluate:
+    evaluate_B_distilbert_base_uncased()
 
 
 # tokenized_dataset = ag_news.tokenize(tokenizer=tokenizer)
