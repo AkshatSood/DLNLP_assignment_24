@@ -1,25 +1,31 @@
 from transformers import (
     AutoModelForSequenceClassification,
     AutoTokenizer,
+    DistilBertForSequenceClassification,
+    BertForSequenceClassification,
+    RobertaForSequenceClassification,
+    RobertaTokenizer,
+    DistilBertTokenizer,
+    BertTokenizer,
 )
 
 
-class ModelForSequenceClassification:
+# class ModelForSequenceClassification:
 
-    def __init__(self, model_name_or_path: str, tokenizer_name: str):
-        self.model = AutoModelForSequenceClassification(model_name_or_path)
-        self.tokenizer = AutoTokenizer.from_pretrained(
-            tokenizer_name, add_prefix_space=True
-        )
+#     def __init__(self, model_name_or_path: str, tokenizer_name: str):
+#         self.model = AutoModelForSequenceClassification(model_name_or_path)
+#         self.tokenizer = AutoTokenizer.from_pretrained(
+#             tokenizer_name, add_prefix_space=True
+#         )
 
-        self.tokenizer.truncation_side = "left"
+#         self.tokenizer.truncation_side = "left"
 
-        if self.tokenizer.pad_token is None:
-            self.tokenizer.add_special_tokens({"pad_token": "[PAD]"})
-            self.model.resize_token_embeddings(len(self.tokenizer))
+#         if self.tokenizer.pad_token is None:
+#             self.tokenizer.add_special_tokens({"pad_token": "[PAD]"})
+#             self.model.resize_token_embeddings(len(self.tokenizer))
 
-    def load(self):
-        return self.model, self.tokenizer
+#     def load(self):
+#         return self.model, self.tokenizer
 
 
 class BertBaseUncased:
@@ -32,7 +38,7 @@ class BertBaseUncased:
     ):
         self.name = "bert-base-uncased"
 
-        self.model = AutoModelForSequenceClassification.from_pretrained(
+        self.model = BertForSequenceClassification.from_pretrained(
             self.name if path is None else path,
             num_labels=num_labels,
             id2label=id2label,
@@ -62,7 +68,7 @@ class DistilBertUncased:
     ):
         self.name = "distilbert-base-uncased"
 
-        self.model = AutoModelForSequenceClassification.from_pretrained(
+        self.model = DistilBertForSequenceClassification.from_pretrained(
             self.name if path is None else path,
             num_labels=num_labels,
             id2label=id2label,
@@ -70,6 +76,37 @@ class DistilBertUncased:
         )
 
         self.tokenizer = AutoTokenizer.from_pretrained(self.name, add_prefix_space=True)
+
+        self.tokenizer.truncation_side = "left"
+
+        if self.tokenizer.pad_token is None:
+            self.tokenizer.add_special_tokens({"pad_token": "[PAD]"})
+            self.model.resize_token_embeddings(len(self.tokenizer))
+
+    def load(self):
+        return self.model, self.tokenizer
+
+
+class RobertaBase:
+    def __init__(
+        self,
+        num_labels: int = 2,
+        id2label: dict = None,
+        label2id: dict = None,
+        path=None,
+    ):
+        self.name = "roberta-base"
+
+        self.model = RobertaForSequenceClassification.from_pretrained(
+            self.name if path is None else path,
+            num_labels=num_labels,
+            id2label=id2label,
+            label2id=label2id,
+        )
+
+        self.tokenizer = RobertaTokenizer.from_pretrained(
+            self.name, add_prefix_space=True
+        )
 
         self.tokenizer.truncation_side = "left"
 

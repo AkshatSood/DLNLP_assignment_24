@@ -5,7 +5,7 @@ from A.models import (
     BertBaseUncased,
     BertLargeUncased,
     CamembertBase,
-    CamembertLarge,
+    RobertaBase,
 )
 from A.evaluator import Evaluator
 from B.tuners import LoraTuner
@@ -102,6 +102,20 @@ def evaluate_camembert_base():
     )
 
 
+def evaluate_roberta_base():
+    __print(f"Evaluating {config.A.roberta_base.name}...")
+
+    model, tokenizer = CamembertBase(
+        num_labels=ag_news.num_labels,
+        id2label=ag_news.id2label,
+        label2id=ag_news.label2id,
+    ).load()
+
+    evaluator.create_evaluations(
+        model=model, tokenizer=tokenizer, name=config.A.roberta_base.name
+    )
+
+
 if config.A.distilbert_base_uncased.evaluate:
     evaluate_distilbert_base_uncased()
 
@@ -113,6 +127,9 @@ if config.A.bert_large_uncased.evaluate:
 
 if config.A.camembert_base.evaluate:
     evaluate_camembert_base()
+
+if config.A.roberta_base.evaluate:
+    evaluate_roberta_base()
 
 
 # ======================================================================================================================
