@@ -1,6 +1,12 @@
 from omegaconf import OmegaConf
 from dataset import AGNewsDatasetLoader
-from A.models import DistilBertUncased, BertBaseUncased, BertLargeUncased
+from A.models import (
+    DistilBertUncased,
+    BertBaseUncased,
+    BertLargeUncased,
+    CamembertBase,
+    CamembertLarge,
+)
 from A.evaluator import Evaluator
 from B.tuners import LoraTuner
 
@@ -82,6 +88,20 @@ def evaluate_bert_large_uncased():
     )
 
 
+def evaluate_camembert_base():
+    __print(f"Evaluating {config.A.camembert_base.name}...")
+
+    model, tokenizer = CamembertBase(
+        num_labels=ag_news.num_labels,
+        id2label=ag_news.id2label,
+        label2id=ag_news.label2id,
+    ).load()
+
+    evaluator.create_evaluations(
+        model=model, tokenizer=tokenizer, name=config.A.camembert_base.name
+    )
+
+
 if config.A.distilbert_base_uncased.evaluate:
     evaluate_distilbert_base_uncased()
 
@@ -90,6 +110,10 @@ if config.A.bert_base_uncased.evaluate:
 
 if config.A.bert_large_uncased.evaluate:
     evaluate_bert_large_uncased()
+
+if config.A.camembert_base.evaluate:
+    evaluate_camembert_base()
+
 
 # ======================================================================================================================
 # Task B

@@ -9,11 +9,13 @@ A:
     evaluate: False
   bert_base_uncased:
     name: "bert_base_uncased_pt"
-    evaluate: True
+    evaluate: False
   bert_large_uncased:
     name: "bert_large_uncased_pt"
+    evaluate: False
+  camembert_base:
+    name: "camembert_base"
     evaluate: True
-
 
 B:
   logs_dir: ".\\B\\logs"
