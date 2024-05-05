@@ -75,7 +75,7 @@ C:
         r: 8
         alpha: 32
         dropout: 0.01
-        target_modules: ["q_lin"]
+        target_modules: ["query"]
   distilbert_base_uncased:
     name: "distilbert_base_uncased_ft_c"
     fine_tune: False
@@ -95,7 +95,7 @@ C:
         target_modules: ["q_lin"]
   roberta_base:
     name: "roberta_base_ft_c"
-    fine_tune: True
+    fine_tune: False
     evaluate: False
     checkpoints_dir: ".\\C\\checkpoints\\roberta_base_ft_c"
     model_dir: ".\\C\\models\\roberta_base_ft_c"
@@ -109,7 +109,7 @@ C:
         r: 8
         alpha: 32
         dropout: 0.01
-        target_modules: ["q_lin"]
+        target_modules: ["query"]
 
 
 

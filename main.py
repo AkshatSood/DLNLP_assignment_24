@@ -162,7 +162,7 @@ def fine_tune_B_distilbert_base_uncased(args):
         epochs=args.training_args.epochs,
     )
 
-    # print(f"\nWeight Decay Parameter Names:\n{tuner.get_decay_parameter_names()}")
+    print(f"\nWeight Decay Parameter Names:\n{tuner.get_decay_parameter_names()}")
     # print(f"\nNumber of Tunable Parameters:\n{tuner.get_trainable_parameters()}")
 
     tuner.fine_tune(output_dir=args.model_dir)
@@ -196,10 +196,10 @@ def fine_tune_B_roberta_base(args):
         epochs=args.training_args.epochs,
     )
 
-    print(f"\nWeight Decay Parameter Names:\n{tuner.get_decay_parameter_names()}")
+    # print(f"\nWeight Decay Parameter Names:\n{tuner.get_decay_parameter_names()}")
     # print(f"\nNumber of Tunable Parameters:\n{tuner.get_trainable_parameters()}")
 
-    # tuner.fine_tune(output_dir=args.model_dir)
+    tuner.fine_tune(output_dir=args.model_dir)
 
 
 def evaluate_B_roberta_base():

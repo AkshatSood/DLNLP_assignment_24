@@ -37,4 +37,4 @@ MANIFEST
 test*.py
 
 # Checkpoints
-./B/checkpoints/distilbert_base_uncased_ft_b/*
+./B/checkpoints/
