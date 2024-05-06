@@ -1,4 +1,5 @@
 import os
+from time import time
 import json, codecs
 import torch
 import pandas as pd
@@ -29,6 +30,7 @@ class Evaluator:
 
         pred_labels = []
         pred_classes = []
+        start_time = time()
         for text in tqdm(self.x_test):
             inputs = tokenizer.encode(text, return_tensors="pt")
             logits = model(inputs).logits
@@ -42,8 +44,10 @@ class Evaluator:
         outputs_df["pred_classes"] = pred_classes
         outputs_df["pred_labels"] = pred_labels
 
+        end_time = time()
         evaluation = {
             "model": name,
+            "evaluation_time": end_time - start_time,
             "accuracy": accuracy_score(y_true=self.y_test, y_pred=pred_labels),
             "f1_score": f1_score(
                 y_true=self.y_test, y_pred=pred_labels, average="macro"
