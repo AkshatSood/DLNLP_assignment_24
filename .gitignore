@@ -36,5 +36,8 @@ MANIFEST
 # Test scripts
 test*.py
 
-# Checkpoints
-./B/checkpoints/
+# Checkpoints and Models
+B/checkpoints/
+B/models/
+C/checkpoints/
+C/models/
