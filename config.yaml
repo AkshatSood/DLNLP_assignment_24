@@ -8,18 +8,18 @@ A:
   distilbert_base_uncased:
     name: "distilbert_base_uncased_pt"
     model_name: "DistilBERT"
-    evaluate: True
+    evaluate: False
   bert_base_uncased:
     name: "bert_base_uncased_pt"
     model_name: "BERT"
-    evaluate: True
+    evaluate: False
   bert_large_uncased:
     name: "bert_large_uncased_pt"
     evaluate: False
   roberta_base:
     name: "roberta_base_pt"
     model_name: "RoBERTa"
-    evaluate: True
+    evaluate: False
 
 B:
   logs_dir: ".\\B\\logs"
@@ -31,7 +31,7 @@ B:
     checkpoints_dir: ".\\B\\checkpoints\\bert_base_uncased_ft_b_v2"
     model_dir: ".\\B\\models\\bert_base_uncased_ft_b_v2"
     training_args:
-      learning_rate: 2e-5
+      learning_rate: 1e-5
       per_device_train_batch_size: 8
       per_device_eval_batch_size: 8
       weight_decay: 0.01
@@ -44,7 +44,7 @@ B:
     checkpoints_dir: ".\\B\\checkpoints\\distilbert_base_uncased_ft_b_v2"
     model_dir: ".\\B\\models\\distilbert_base_uncased_ft_b_v2"
     training_args:
-      learning_rate: 2e-5
+      learning_rate: 1e-5
       per_device_train_batch_size: 8
       per_device_eval_batch_size: 8
       weight_decay: 0.01
@@ -53,11 +53,11 @@ B:
     name: "roberta_base_ft_b_v2"
     model_name: "RoBERTa"
     fine_tune: False
-    evaluate: False
+    evaluate: True
     checkpoints_dir: ".\\B\\checkpoints\\roberta_base_ft_b_v2"
     model_dir: ".\\B\\models\\roberta_base_ft_b_v2"
     training_args:
-      learning_rate: 2e-5
+      learning_rate: 1e-5
       per_device_train_batch_size: 8
       per_device_eval_batch_size: 8
       weight_decay: 0.01

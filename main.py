@@ -108,6 +108,9 @@ def fine_tune_B(args):
     model, tokenizer = get_model_and_tokenizer(model_name=args.model_name)
 
     tokenized_dataset = ag_news.tokenize(tokenizer=tokenizer)
+    # print(tokenized_dataset)
+    # tokenized_dataset = tokenized_dataset.remove_columns("text")
+    # print(tokenized_dataset)
 
     tuner = Tuner(
         model=model,
@@ -122,8 +125,8 @@ def fine_tune_B(args):
         epochs=args.training_args.epochs,
     )
 
-    # print(f"\n=>Weight Decay Parameter Names:\n{tuner.get_decay_parameter_names()}")
-    # print(f"\n=>Number of Tunable Parameters:\n{tuner.get_trainable_parameters()}")
+    # print(f"\n=> Weight Decay Parameter Names: {tuner.get_decay_parameter_names()}")
+    # print(f"\n=> Number of Tunable Parameters: {tuner.get_trainable_parameters()}")
 
     tuner.fine_tune(output_dir=args.model_dir)
 
