@@ -53,6 +53,30 @@ evaluator = Evaluator(
 )
 
 
+def get_model_and_tokenizer(model_name: str, path: str = None):
+    if model_name == "BERT":
+        return BertBaseUncased(
+            num_labels=ag_news.num_labels,
+            id2label=ag_news.id2label,
+            label2id=ag_news.label2id,
+            path=path,
+        ).load()
+    elif model_name == "DistilBERT":
+        return DistilBertUncased(
+            num_labels=ag_news.num_labels,
+            id2label=ag_news.id2label,
+            label2id=ag_news.label2id,
+            path=path,
+        ).load()
+    elif model_name == "RoBERTa":
+        return RobertaBase(
+            num_labels=ag_news.num_labels,
+            id2label=ag_news.id2label,
+            label2id=ag_news.label2id,
+            path=path,
+        ).load()
+
+
 def evaluate_A_distilbert_base_uncased():
     __print(f"Evaluating {config.A.distilbert_base_uncased.name}...")
 
@@ -265,6 +289,35 @@ if config.B.roberta_base.evaluate:
 # Task C
 
 
+def fine_tune_C(args, model, tokenizer):
+    __print(f"Fine tuning {args.name}...")
+
+    tokenized_dataset = ag_news.tokenize(tokenizer=tokenizer)
+
+    tuner = LoraTuner(
+        model=model,
+        tokenizer=tokenizer,
+        train_dataset=tokenized_dataset["train"],
+        eval_dataset=tokenized_dataset["validation"],
+        checkpoints_dir=args.checkpoints_dir,
+        learning_rate=args.training_args.learning_rate,
+        per_device_eval_batch_size=args.training_args.per_device_eval_batch_size,
+        per_device_train_batch_size=args.training_args.per_device_train_batch_size,
+        weight_decay=args.training_args.weight_decay,
+        epochs=args.training_args.epochs,
+        lora_r=args.training_args.lora_config.r,
+        lora_alpha=args.training_args.lora_config.alpha,
+        lora_dropout=args.training_args.lora_config.dropout,
+        # lora_target_modules=args.training_args.lora_config.target_modules,
+        lora_target_modules=["query"],
+    )
+
+    # print(f"\nWeight Decay Parameter Names:\n{tuner.get_decay_parameter_names()}")
+    print(f"\nNumber of Tunable Parameters: {tuner.get_trainable_parameters()}\n")
+
+    tuner.fine_tune(output_dir=args.model_dir)
+
+
 def fine_tune_C_bert_base_uncased(args):
     __print(f"Fine tuning {args.name}...")
 
@@ -385,11 +438,12 @@ def fine_tune_C_roberta_base(args):
         lora_r=args.training_args.lora_config.r,
         lora_alpha=args.training_args.lora_config.alpha,
         lora_dropout=args.training_args.lora_config.dropout,
-        lora_target_modules=args.training_args.lora_config.target_modules,
+        # lora_target_modules=args.training_args.lora_config.target_modules,
+        lora_target_modules=["query"],
     )
 
     # print(f"\nWeight Decay Parameter Names:\n{tuner.get_decay_parameter_names()}")
-    print(f"\nNumber of Tunable Parameters: {tuner.get_trainable_parameters()}")
+    print(f"\nNumber of Tunable Parameters: {tuner.get_trainable_parameters()}\n")
 
     tuner.fine_tune(output_dir=args.model_dir)
 
