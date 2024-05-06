@@ -32,12 +32,18 @@ class BertBaseUncased:
         num_labels: int = 2,
         id2label: dict = None,
         label2id: dict = None,
-        path=None,
+        path: str = None,
     ):
         self.name = "bert-base-uncased"
 
-        if not path is None:
-            print(f"\n=> Fine tuned model provided at {path}\n")
+        if path is None:
+            print(
+                f"\n=> No fine tuned model provided. Fetching pre trained BertForSequenceClassification from HG"
+            )
+        else:
+            print(
+                f"\n=> Fine tuned BertForSequenceClassification model provided at {path}\n"
+            )
 
         self.model = BertForSequenceClassification.from_pretrained(
             self.name if path is None else path,
@@ -65,12 +71,18 @@ class DistilBertUncased:
         num_labels: int = 2,
         id2label: dict = None,
         label2id: dict = None,
-        path=None,
+        path: str = None,
     ):
         self.name = "distilbert-base-uncased"
 
-        if not path is None:
-            print(f"\n=> Fine tuned model provided at {path}\n")
+        if path is None:
+            print(
+                f"\n=> No fine tuned model provided. Fetching pre trained DistilBertForSequenceClassification from HG"
+            )
+        else:
+            print(
+                f"\n=> Fine tuned DistilBertForSequenceClassification model provided at {path}\n"
+            )
 
         self.model = DistilBertForSequenceClassification.from_pretrained(
             self.name if path is None else path,
@@ -99,12 +111,18 @@ class RobertaBase:
         num_labels: int = 2,
         id2label: dict = None,
         label2id: dict = None,
-        path=None,
+        path: str = None,
     ):
         self.name = "roberta-base"
 
-        if not path is None:
-            print(f"\n=> Fine tuned model provided at {path}\n")
+        if path is None:
+            print(
+                f"\n=> No fine tuned model provided. Fetching pre trained RobertaForSequenceClassification from HG"
+            )
+        else:
+            print(
+                f"\n=> Fine tuned RobertaForSequenceClassification model provided at {path}\n"
+            )
 
         self.model = RobertaForSequenceClassification.from_pretrained(
             self.name if path is None else path,

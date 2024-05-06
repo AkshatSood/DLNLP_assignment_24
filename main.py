@@ -77,56 +77,21 @@ def get_model_and_tokenizer(model_name: str, path: str = None):
         ).load()
 
 
-def evaluate_A_distilbert_base_uncased():
-    __print(f"Evaluating {config.A.distilbert_base_uncased.name}...")
+def evaluate_A(args):
+    __print(f"TASK A: Evaluating {args.name}...")
 
-    model, tokenizer = DistilBertUncased(
-        num_labels=ag_news.num_labels,
-        id2label=ag_news.id2label,
-        label2id=ag_news.label2id,
-    ).load()
+    model, tokenizer = get_model_and_tokenizer(model_name=args.model_name)
+    evaluator.create_evaluations(model=model, tokenizer=tokenizer, name=args.name)
 
-    evaluator.create_evaluations(
-        model=model, tokenizer=tokenizer, name=config.A.distilbert_base_uncased.name
-    )
-
-
-def evaluate_A_bert_base_uncased():
-    __print(f"Evaluating {config.A.bert_base_uncased.name}...")
-
-    model, tokenizer = BertBaseUncased(
-        num_labels=ag_news.num_labels,
-        id2label=ag_news.id2label,
-        label2id=ag_news.label2id,
-    ).load()
-
-    evaluator.create_evaluations(
-        model=model, tokenizer=tokenizer, name=config.A.bert_base_uncased.name
-    )
-
-
-def evaluate_A_roberta_base():
-    __print(f"Evaluating {config.A.roberta_base.name}...")
-
-    model, tokenizer = RobertaBase(
-        num_labels=ag_news.num_labels,
-        id2label=ag_news.id2label,
-        label2id=ag_news.label2id,
-    ).load()
-
-    evaluator.create_evaluations(
-        model=model, tokenizer=tokenizer, name=config.A.roberta_base.name
-    )
-
-
-if config.A.distilbert_base_uncased.evaluate:
-    evaluate_A_distilbert_base_uncased()
 
 if config.A.bert_base_uncased.evaluate:
-    evaluate_A_bert_base_uncased()
+    evaluate_A(args=config.A.bert_base_uncased)
+
+if config.A.distilbert_base_uncased.evaluate:
+    evaluate_A(args=config.A.distilbert_base_uncased)
 
 if config.A.roberta_base.evaluate:
-    evaluate_A_roberta_base()
+    evaluate_A(args=config.A.roberta_base)
 
 
 # ======================================================================================================================
@@ -135,6 +100,41 @@ if config.A.roberta_base.evaluate:
 # acc_B_train = model_B.train(args...)
 # acc_B_test = model_B.test(args...)
 # Clean up memory/GPU etc...
+
+
+def fine_tune_B(args):
+    __print(f"TASK B: Fine tuning {args.name}...")
+
+    model, tokenizer = get_model_and_tokenizer(model_name=args.model_name)
+
+    tokenized_dataset = ag_news.tokenize(tokenizer=tokenizer)
+
+    tuner = Tuner(
+        model=model,
+        tokenizer=tokenizer,
+        train_dataset=tokenized_dataset["train"],
+        eval_dataset=tokenized_dataset["validation"],
+        checkpoints_dir=args.checkpoints_dir,
+        learning_rate=args.training_args.learning_rate,
+        per_device_eval_batch_size=args.training_args.per_device_eval_batch_size,
+        per_device_train_batch_size=args.training_args.per_device_train_batch_size,
+        weight_decay=args.training_args.weight_decay,
+        epochs=args.training_args.epochs,
+    )
+
+    # print(f"\n=>Weight Decay Parameter Names:\n{tuner.get_decay_parameter_names()}")
+    # print(f"\n=>Number of Tunable Parameters:\n{tuner.get_trainable_parameters()}")
+
+    tuner.fine_tune(output_dir=args.model_dir)
+
+
+def evaluate_B(args):
+    __print(f"TASK B: Evaluating {args.name}...")
+
+    model, tokenizer = get_model_and_tokenizer(
+        model_name=args.model_name, path=args.model_dir
+    )
+    evaluator.create_evaluations(model=model, tokenizer=tokenizer, name=args.name)
 
 
 def fine_tune_B_bert_base_uncased(args):
@@ -289,8 +289,10 @@ if config.B.roberta_base.evaluate:
 # Task C
 
 
-def fine_tune_C(args, model, tokenizer):
-    __print(f"Fine tuning {args.name}...")
+def fine_tune_C(args):
+    __print(f"TASK C: Fine tuning {args.name}...")
+
+    model, tokenizer = get_model_and_tokenizer(model_name=args.model_name)
 
     tokenized_dataset = ag_news.tokenize(tokenizer=tokenizer)
 
@@ -313,9 +315,18 @@ def fine_tune_C(args, model, tokenizer):
     )
 
     # print(f"\nWeight Decay Parameter Names:\n{tuner.get_decay_parameter_names()}")
-    print(f"\nNumber of Tunable Parameters: {tuner.get_trainable_parameters()}\n")
+    print(f"\n=>Number of Tunable Parameters: {tuner.get_trainable_parameters()}\n")
 
     tuner.fine_tune(output_dir=args.model_dir)
+
+
+def evaluate_C(args):
+    __print(f"TASK C: Evaluating {args.name}...")
+
+    model, tokenizer = get_model_and_tokenizer(
+        model_name=args.model_name, path=args.model_dir
+    )
+    evaluator.create_evaluations(model=model, tokenizer=tokenizer, name=args.name)
 
 
 def fine_tune_C_bert_base_uncased(args):
@@ -463,6 +474,7 @@ def evaluate_C_roberta_base(args):
 
 if config.C.bert_base_uncased.fine_tune:
     fine_tune_C_bert_base_uncased(config.C.bert_base_uncased)
+    # fine_tune_C(config.C.bert_base_uncased)
 
 if config.C.bert_base_uncased.evaluate:
     evaluate_C_bert_base_uncased(config.C.bert_base_uncased)

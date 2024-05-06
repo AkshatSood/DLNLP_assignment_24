@@ -8,18 +8,18 @@ A:
   distilbert_base_uncased:
     name: "distilbert_base_uncased_pt"
     model_name: "DistilBERT"
-    evaluate: False
+    evaluate: True
   bert_base_uncased:
     name: "bert_base_uncased_pt"
     model_name: "BERT"
-    evaluate: False
+    evaluate: True
   bert_large_uncased:
     name: "bert_large_uncased_pt"
     evaluate: False
   roberta_base:
-    name: "roberta_base"
+    name: "roberta_base_pt"
     model_name: "RoBERTa"
-    evaluate: False
+    evaluate: True
 
 B:
   logs_dir: ".\\B\\logs"
@@ -106,7 +106,7 @@ C:
     name: "roberta_base_ft_c_v1"
     model_name: "RoBERTa"
     fine_tune: False
-    evaluate: True
+    evaluate: False
     checkpoints_dir: ".\\C\\checkpoints\\roberta_v1"
     model_dir: ".\\C\\models\\roberta_v1"
     training_args:
