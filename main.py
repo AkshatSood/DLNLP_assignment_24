@@ -7,6 +7,7 @@ from A.models import (
 )
 from A.evaluator import Evaluator
 from B.tuners import Tuner
+from C.tuners import LoraTuner
 
 
 def __print(text):
@@ -40,7 +41,7 @@ evaluator = Evaluator(
     x_test=x_test,
     y_test=y_test,
     label_map=ag_news.id2label,
-    output_dir=config.A.output_dir,
+    output_dir=config.results_dir,
 )
 
 
@@ -134,8 +135,17 @@ def fine_tune_B_bert_base_uncased(args):
     tuner.fine_tune(output_dir=args.model_dir)
 
 
-def evaluate_B_bert_base_uncased():
-    pass
+def evaluate_B_bert_base_uncased(args):
+    __print(f"Evaluating {args.name}...")
+
+    model, tokenizer = BertBaseUncased(
+        num_labels=ag_news.num_labels,
+        id2label=ag_news.id2label,
+        label2id=ag_news.label2id,
+        path=args.model_dir,
+    ).load()
+
+    evaluator.create_evaluations(model=model, tokenizer=tokenizer, name=args.name)
 
 
 def fine_tune_B_distilbert_base_uncased(args):
@@ -168,8 +178,17 @@ def fine_tune_B_distilbert_base_uncased(args):
     tuner.fine_tune(output_dir=args.model_dir)
 
 
-def evaluate_B_distilbert_base_uncased():
-    pass
+def evaluate_B_distilbert_base_uncased(args):
+    __print(f"Evaluating {args.name}...")
+
+    model, tokenizer = DistilBertUncased(
+        num_labels=ag_news.num_labels,
+        id2label=ag_news.id2label,
+        label2id=ag_news.label2id,
+        path=args.model_dir,
+    ).load()
+
+    evaluator.create_evaluations(model=model, tokenizer=tokenizer, name=args.name)
 
 
 def fine_tune_B_roberta_base(args):
@@ -202,46 +221,200 @@ def fine_tune_B_roberta_base(args):
     tuner.fine_tune(output_dir=args.model_dir)
 
 
-def evaluate_B_roberta_base():
-    pass
+def evaluate_B_roberta_base(args):
+    __print(f"Evaluating {args.name}...")
+
+    model, tokenizer = RobertaBase(
+        num_labels=ag_news.num_labels,
+        id2label=ag_news.id2label,
+        label2id=ag_news.label2id,
+        path=args.model_dir,
+    ).load()
+
+    evaluator.create_evaluations(model=model, tokenizer=tokenizer, name=args.name)
 
 
 if config.B.bert_base_uncased.fine_tune:
     fine_tune_B_bert_base_uncased(config.B.bert_base_uncased)
 
 if config.B.bert_base_uncased.evaluate:
-    evaluate_B_bert_base_uncased()
+    evaluate_B_bert_base_uncased(config.B.bert_base_uncased)
 
 if config.B.distilbert_base_uncased.fine_tune:
     fine_tune_B_distilbert_base_uncased(config.B.distilbert_base_uncased)
 
 if config.B.distilbert_base_uncased.evaluate:
-    evaluate_B_distilbert_base_uncased()
+    evaluate_B_distilbert_base_uncased(config.B.distilbert_base_uncased)
 
 if config.B.roberta_base.fine_tune:
     fine_tune_B_roberta_base(config.B.roberta_base)
 
 if config.B.roberta_base.evaluate:
-    evaluate_B_roberta_base()
+    evaluate_B_roberta_base(config.B.roberta_base)
 
 
-# tokenized_dataset = ag_news.tokenize(tokenizer=tokenizer)
+# ======================================================================================================================
+# Task C
 
-# print(tokenized_dataset)
+
+def fine_tune_C_bert_base_uncased(args):
+    __print(f"Fine tuning {args.name}...")
+
+    model, tokenizer = BertBaseUncased(
+        num_labels=ag_news.num_labels,
+        id2label=ag_news.id2label,
+        label2id=ag_news.label2id,
+    ).load()
+
+    tokenized_dataset = ag_news.tokenize(tokenizer=tokenizer)
+
+    tuner = LoraTuner(
+        model=model,
+        tokenizer=tokenizer,
+        train_dataset=tokenized_dataset["train"],
+        eval_dataset=tokenized_dataset["validation"],
+        checkpoints_dir=args.checkpoints_dir,
+        learning_rate=args.training_args.learning_rate,
+        per_device_eval_batch_size=args.training_args.per_device_eval_batch_size,
+        per_device_train_batch_size=args.training_args.per_device_train_batch_size,
+        weight_decay=args.training_args.weight_decay,
+        epochs=args.training_args.epochs,
+        lora_r=args.training_args.lora_config.r,
+        lora_alpha=args.training_args.lora_config.alpha,
+        lora_dropout=args.training_args.lora_config.dropout,
+        lora_target_modules=args.training_args.lora_config.target_modules,
+    )
+
+    # print(f"\nWeight Decay Parameter Names:\n{tuner.get_decay_parameter_names()}")
+    print(f"\nNumber of Tunable Parameters:\n{tuner.get_trainable_parameters()}")
+
+    # tuner.fine_tune(output_dir=args.model_dir)
 
 
-# tuner = LoraTuner(
-#     model=model,
-#     tokenizer=tokenizer,
-#     train_dataset=tokenized_dataset["train"],
-#     eval_dataset=tokenized_dataset["validation"],
-#     checkpoints_dir="./B/checkpoints/BertBaseUncased",
-#     logs_dir="./B/logs",
-# )
+def evaluate_C_bert_base_uncased(args):
+    __print(f"Evaluating {args.name}...")
 
-# print(tuner.get_trainable_parameters())
+    model, tokenizer = RobertaBase(
+        num_labels=ag_news.num_labels,
+        id2label=ag_news.id2label,
+        label2id=ag_news.label2id,
+        path=args.model_dir,
+    ).load()
 
-# tuner.fine_tune(output_dir="./B/models/BertBaseUncased")
+    evaluator.create_evaluations(model=model, tokenizer=tokenizer, name=args.name)
+
+
+def fine_tune_C_distilbert_base_uncased(args):
+    __print(f"Fine tuning {args.name}...")
+
+    model, tokenizer = BertBaseUncased(
+        num_labels=ag_news.num_labels,
+        id2label=ag_news.id2label,
+        label2id=ag_news.label2id,
+    ).load()
+
+    tokenized_dataset = ag_news.tokenize(tokenizer=tokenizer)
+
+    tuner = LoraTuner(
+        model=model,
+        tokenizer=tokenizer,
+        train_dataset=tokenized_dataset["train"],
+        eval_dataset=tokenized_dataset["validation"],
+        checkpoints_dir=args.checkpoints_dir,
+        learning_rate=args.training_args.learning_rate,
+        per_device_eval_batch_size=args.training_args.per_device_eval_batch_size,
+        per_device_train_batch_size=args.training_args.per_device_train_batch_size,
+        weight_decay=args.training_args.weight_decay,
+        epochs=args.training_args.epochs,
+        lora_r=args.training_args.lora_config.r,
+        lora_alpha=args.training_args.lora_config.alpha,
+        lora_dropout=args.training_args.lora_config.dropout,
+        lora_target_modules=args.training_args.lora_config.target_modules,
+    )
+
+    # print(f"\nWeight Decay Parameter Names:\n{tuner.get_decay_parameter_names()}")
+    print(f"\nNumber of Tunable Parameters:\n{tuner.get_trainable_parameters()}")
+
+    # tuner.fine_tune(output_dir=args.model_dir)
+
+
+def evaluate_C_distilbert_base_uncased(args):
+    __print(f"Evaluating {args.name}...")
+
+    model, tokenizer = DistilBertUncased(
+        num_labels=ag_news.num_labels,
+        id2label=ag_news.id2label,
+        label2id=ag_news.label2id,
+        path=args.model_dir,
+    ).load()
+
+    evaluator.create_evaluations(model=model, tokenizer=tokenizer, name=args.name)
+
+
+def fine_tune_C_roberta_base(args):
+    __print(f"Fine tuning {args.name}...")
+
+    model, tokenizer = RobertaBase(
+        num_labels=ag_news.num_labels,
+        id2label=ag_news.id2label,
+        label2id=ag_news.label2id,
+    ).load()
+
+    tokenized_dataset = ag_news.tokenize(tokenizer=tokenizer)
+
+    tuner = LoraTuner(
+        model=model,
+        tokenizer=tokenizer,
+        train_dataset=tokenized_dataset["train"],
+        eval_dataset=tokenized_dataset["validation"],
+        checkpoints_dir=args.checkpoints_dir,
+        learning_rate=args.training_args.learning_rate,
+        per_device_eval_batch_size=args.training_args.per_device_eval_batch_size,
+        per_device_train_batch_size=args.training_args.per_device_train_batch_size,
+        weight_decay=args.training_args.weight_decay,
+        epochs=args.training_args.epochs,
+        lora_r=args.training_args.lora_config.r,
+        lora_alpha=args.training_args.lora_config.alpha,
+        lora_dropout=args.training_args.lora_config.dropout,
+        lora_target_modules=args.training_args.lora_config.target_modules,
+    )
+
+    # print(f"\nWeight Decay Parameter Names:\n{tuner.get_decay_parameter_names()}")
+    print(f"\nNumber of Tunable Parameters:\n{tuner.get_trainable_parameters()}")
+
+    # tuner.fine_tune(output_dir=args.model_dir)
+
+
+def evaluate_C_roberta_base(args):
+    __print(f"Evaluating {args.name}...")
+
+    model, tokenizer = RobertaBase(
+        num_labels=ag_news.num_labels,
+        id2label=ag_news.id2label,
+        label2id=ag_news.label2id,
+        path=args.model_dir,
+    ).load()
+
+    evaluator.create_evaluations(model=model, tokenizer=tokenizer, name=args.name)
+
+
+if config.C.bert_base_uncased.fine_tune:
+    fine_tune_C_bert_base_uncased(config.C.bert_base_uncased)
+
+if config.C.bert_base_uncased.evaluate:
+    evaluate_C_bert_base_uncased(config.C.bert_base_uncased)
+
+if config.C.distilbert_base_uncased.fine_tune:
+    fine_tune_C_distilbert_base_uncased(config.C.distilbert_base_uncased)
+
+if config.C.distilbert_base_uncased.evaluate:
+    evaluate_C_distilbert_base_uncased(config.C.distilbert_base_uncased)
+
+if config.C.roberta_base.fine_tune:
+    fine_tune_C_roberta_base(config.C.roberta_base)
+
+if config.C.roberta_base.evaluate:
+    evaluate_C_roberta_base(config.C.roberta_base)
 
 # ======================================================================================================================
 ## Print out your results with following format:

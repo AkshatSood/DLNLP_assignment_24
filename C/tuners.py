@@ -27,7 +27,7 @@ class LoraTuner:
         lora_r: int = 4,
         lora_alpha: int = 32,
         lora_dropout: float = 0.01,
-        target_modules: list = None,
+        lora_target_modules: list = None,
     ):
         self.model = model
         self.tokenizer = tokenizer
@@ -37,8 +37,7 @@ class LoraTuner:
             r=lora_r,
             lora_alpha=lora_alpha,
             lora_dropout=lora_dropout,
-            target_modules=target_modules,
-            seed=seed,
+            target_modules=lora_target_modules,
         )
 
         self.model = get_peft_model(self.model, peft_config=peft_config)
@@ -79,7 +78,7 @@ class LoraTuner:
         return self.trainer.get_decay_parameter_names(self.model)
 
     def get_trainable_parameters(self):
-        return self.model.print_trainable_parameters()
+        return self.model.get_nb_trainable_parameters()
 
     def fine_tune(self, output_dir):
         start_time = time()
@@ -87,4 +86,6 @@ class LoraTuner:
         end_time = time()
         self.trainer.save_model(output_dir)
 
-        print(f"\n\nTime Taken: {end_time - start_time} seconds\n\n")
+        print(
+            f'\n\nModel training complete. Saved at "{output_dir}"\nTime Taken: {end_time - start_time} seconds\n\n'
+        )

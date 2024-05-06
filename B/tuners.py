@@ -69,4 +69,6 @@ class Tuner:
         end_time = time()
         self.trainer.save_model(output_dir)
 
-        print(f"\n\nTime Taken: {end_time - start_time} seconds\n\n")
+        print(
+            f'\n\nModel training complete. Saved at "{output_dir}"\nTime Taken: {end_time - start_time} seconds\n\n'
+        )
