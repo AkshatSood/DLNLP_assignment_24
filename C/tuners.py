@@ -29,8 +29,29 @@ class LoraTuner:
         lora_dropout: float = 0.01,
         lora_target_modules: list = None,
     ):
-        self.model = model
-        self.tokenizer = tokenizer
+
+        self.__print_config(
+            checkpoints_dir=checkpoints_dir,
+            learning_rate=learning_rate,
+            per_device_train_batch_size=per_device_train_batch_size,
+            per_device_eval_batch_size=per_device_eval_batch_size,
+            weight_decay=weight_decay,
+            epochs=epochs,
+            evaluation_strategy=evaluation_strategy,
+            save_strategy=save_strategy,
+            load_best_model_at_end=load_best_model_at_end,
+            seed=seed,
+            lora_task_type=lora_task_type,
+            lora_r=lora_r,
+            lora_alpha=lora_alpha,
+            lora_dropout=lora_dropout,
+            lora_target_modules=lora_target_modules,
+        )
+
+        print(type(model))
+        print(type(tokenizer))
+        print(type(train_dataset))
+        print(type(eval_dataset))
 
         peft_config = LoraConfig(
             task_type=lora_task_type,
@@ -40,7 +61,11 @@ class LoraTuner:
             target_modules=lora_target_modules,
         )
 
-        self.model = get_peft_model(self.model, peft_config=peft_config)
+        self.model = get_peft_model(model, peft_config=peft_config)
+        self.tokenizer = tokenizer
+
+        print(type(self.model))
+        print(type(self.tokenizer))
 
         training_args = TrainingArguments(
             output_dir=checkpoints_dir,
@@ -58,10 +83,12 @@ class LoraTuner:
         accuracy = evaluate.load("accuracy")
 
         def compute_metrics(p):
-            predictions, labels = p
+            predictions, references = p
             predictions = np.argmax(predictions, axis=1)
             return {
-                "accuracy": accuracy.compute(predictions=predictions, references=labels)
+                "accuracy": accuracy.compute(
+                    predictions=predictions, references=references
+                )
             }
 
         self.trainer = Trainer(
@@ -73,6 +100,49 @@ class LoraTuner:
             data_collator=DataCollatorWithPadding(tokenizer=self.tokenizer),
             compute_metrics=compute_metrics,
         )
+
+        print(f"\nLoRA Tuner - Training Device: {training_args.device}\n")
+
+    def __print_config(
+        self,
+        checkpoints_dir: str,
+        learning_rate: float,
+        per_device_train_batch_size: int,
+        per_device_eval_batch_size: int,
+        weight_decay: float,
+        epochs: int,
+        evaluation_strategy: str,
+        save_strategy: str,
+        load_best_model_at_end: bool,
+        seed: int,
+        lora_task_type: str,
+        lora_r: int,
+        lora_alpha: int,
+        lora_dropout: float,
+        lora_target_modules: list,
+    ):
+        print("\nLoRATuner Configration")
+        print(f"\tCheckpoints Dir: {checkpoints_dir}")
+        print(f"\tTraining Arguments - Learning Rate: {learning_rate}")
+        print(
+            f"\tTraining Arguments - Per Device Train Batch Size: {per_device_train_batch_size}"
+        )
+        print(
+            f"\tTraining Arguments - Per Device Eval Batch Size: {per_device_eval_batch_size}"
+        )
+        print(f"\tTraining Arguments - Weight Decay: {weight_decay}")
+        print(f"\tTraining Arguments - Epochs: {epochs}")
+        print(f"\tTraining Arguments - Evaluation Strategy: {evaluation_strategy}")
+        print(f"\tTraining Arguments - Save Strategy: {save_strategy}")
+        print(
+            f"\tTraining Arguments - Load Best Model at End: {load_best_model_at_end}"
+        )
+        print(f"\tTraining Arguments - Seed: {seed}")
+        print(f"\tLoRA Config - Task Type: {lora_task_type}")
+        print(f"\tLoRA Config - R: {lora_r}")
+        print(f"\tLoRA Config - Alpha: {lora_alpha}")
+        print(f"\tLoRA Config - Dropout: {lora_dropout}")
+        print(f"\tLoRA Config - Target Modules: {lora_target_modules}\n")
 
     def get_decay_parameter_names(self):
         return self.trainer.get_decay_parameter_names(self.model)

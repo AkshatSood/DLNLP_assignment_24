@@ -36,6 +36,9 @@ class BertBaseUncased:
     ):
         self.name = "bert-base-uncased"
 
+        if not path is None:
+            print(f"\n=> Fine tuned model provided at {path}\n")
+
         self.model = BertForSequenceClassification.from_pretrained(
             self.name if path is None else path,
             num_labels=num_labels,
@@ -65,6 +68,9 @@ class DistilBertUncased:
         path=None,
     ):
         self.name = "distilbert-base-uncased"
+
+        if not path is None:
+            print(f"\n=> Fine tuned model provided at {path}\n")
 
         self.model = DistilBertForSequenceClassification.from_pretrained(
             self.name if path is None else path,
@@ -96,6 +102,9 @@ class RobertaBase:
         path=None,
     ):
         self.name = "roberta-base"
+
+        if not path is None:
+            print(f"\n=> Fine tuned model provided at {path}\n")
 
         self.model = RobertaForSequenceClassification.from_pretrained(
             self.name if path is None else path,

@@ -61,7 +61,10 @@ class Tuner:
         return self.trainer.get_decay_parameter_names(self.model)
 
     def get_trainable_parameters(self):
-        return self.trainer.get_num_trainable_parameters()
+        return (
+            self.model.num_parameters(only_trainable=True),
+            self.model.num_parameters(),
+        )
 
     def fine_tune(self, output_dir):
         start_time = time()

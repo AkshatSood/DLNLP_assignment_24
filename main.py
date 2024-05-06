@@ -9,11 +9,19 @@ from A.evaluator import Evaluator
 from B.tuners import Tuner
 from C.tuners import LoraTuner
 
+# TODO: Remove this later
+from datetime import datetime
+
+timestamp = datetime.now().strftime("%d/%m/%Y, %H:%M:%S")
+print(
+    f"\n\n\n\n\n\n************* NEW EXECUTION STARTED AT {timestamp} *************\n\n\n\n\n\n\n"
+)
+
 
 def __print(text):
-    print("\n\n#######################################################################")
+    print("\n\n\n#####################################################################")
     print(f"=> {text}")
-    print("#######################################################################\n\n")
+    print("#####################################################################\n\n\n")
 
 
 config = OmegaConf.load(open("./config.yaml"))
@@ -282,19 +290,20 @@ def fine_tune_C_bert_base_uncased(args):
         lora_r=args.training_args.lora_config.r,
         lora_alpha=args.training_args.lora_config.alpha,
         lora_dropout=args.training_args.lora_config.dropout,
-        lora_target_modules=args.training_args.lora_config.target_modules,
+        # lora_target_modules=args.training_args.lora_config.target_modules,
+        lora_target_modules=["query"],
     )
 
     # print(f"\nWeight Decay Parameter Names:\n{tuner.get_decay_parameter_names()}")
-    print(f"\nNumber of Tunable Parameters:\n{tuner.get_trainable_parameters()}")
+    print(f"\nNumber of Tunable Parameters: {tuner.get_trainable_parameters()}\n")
 
-    # tuner.fine_tune(output_dir=args.model_dir)
+    tuner.fine_tune(output_dir=args.model_dir)
 
 
 def evaluate_C_bert_base_uncased(args):
     __print(f"Evaluating {args.name}...")
 
-    model, tokenizer = RobertaBase(
+    model, tokenizer = BertBaseUncased(
         num_labels=ag_news.num_labels,
         id2label=ag_news.id2label,
         label2id=ag_news.label2id,
@@ -307,7 +316,7 @@ def evaluate_C_bert_base_uncased(args):
 def fine_tune_C_distilbert_base_uncased(args):
     __print(f"Fine tuning {args.name}...")
 
-    model, tokenizer = BertBaseUncased(
+    model, tokenizer = DistilBertUncased(
         num_labels=ag_news.num_labels,
         id2label=ag_news.id2label,
         label2id=ag_news.label2id,
@@ -333,9 +342,9 @@ def fine_tune_C_distilbert_base_uncased(args):
     )
 
     # print(f"\nWeight Decay Parameter Names:\n{tuner.get_decay_parameter_names()}")
-    print(f"\nNumber of Tunable Parameters:\n{tuner.get_trainable_parameters()}")
+    print(f"\nNumber of Tunable Parameters: {tuner.get_trainable_parameters()}\n")
 
-    # tuner.fine_tune(output_dir=args.model_dir)
+    tuner.fine_tune(output_dir=args.model_dir)
 
 
 def evaluate_C_distilbert_base_uncased(args):
@@ -380,9 +389,9 @@ def fine_tune_C_roberta_base(args):
     )
 
     # print(f"\nWeight Decay Parameter Names:\n{tuner.get_decay_parameter_names()}")
-    print(f"\nNumber of Tunable Parameters:\n{tuner.get_trainable_parameters()}")
+    print(f"\nNumber of Tunable Parameters: {tuner.get_trainable_parameters()}")
 
-    # tuner.fine_tune(output_dir=args.model_dir)
+    tuner.fine_tune(output_dir=args.model_dir)
 
 
 def evaluate_C_roberta_base(args):
