@@ -22,6 +22,19 @@ class Tuner:
         load_best_model_at_end: bool = True,
         seed: int = 42,
     ):
+        self.__print_config(
+            checkpoints_dir=checkpoints_dir,
+            learning_rate=learning_rate,
+            per_device_train_batch_size=per_device_train_batch_size,
+            per_device_eval_batch_size=per_device_eval_batch_size,
+            weight_decay=weight_decay,
+            epochs=epochs,
+            evaluation_strategy=evaluation_strategy,
+            save_strategy=save_strategy,
+            load_best_model_at_end=load_best_model_at_end,
+            seed=seed,
+        )
+
         self.model = model
         self.tokenizer = tokenizer
 
@@ -57,6 +70,39 @@ class Tuner:
             compute_metrics=compute_metrics,
         )
 
+        print(f"\n=> Tuner - Training Device: {training_args.device}\n")
+
+    def __print_config(
+        self,
+        checkpoints_dir: str,
+        learning_rate: float,
+        per_device_train_batch_size: int,
+        per_device_eval_batch_size: int,
+        weight_decay: float,
+        epochs: int,
+        evaluation_strategy: str,
+        save_strategy: str,
+        load_best_model_at_end: bool,
+        seed: int,
+    ):
+        print("\n=> Tuner - Configration:")
+        print(f"\tCheckpoints Dir: {checkpoints_dir}")
+        print(f"\tTraining Arguments - Learning Rate: {learning_rate}")
+        print(
+            f"\tTraining Arguments - Per Device Train Batch Size: {per_device_train_batch_size}"
+        )
+        print(
+            f"\tTraining Arguments - Per Device Eval Batch Size: {per_device_eval_batch_size}"
+        )
+        print(f"\tTraining Arguments - Weight Decay: {weight_decay}")
+        print(f"\tTraining Arguments - Epochs: {epochs}")
+        print(f"\tTraining Arguments - Evaluation Strategy: {evaluation_strategy}")
+        print(f"\tTraining Arguments - Save Strategy: {save_strategy}")
+        print(
+            f"\tTraining Arguments - Load Best Model at End: {load_best_model_at_end}"
+        )
+        print(f"\tTraining Arguments - Seed: {seed}\n")
+
     def get_decay_parameter_names(self):
         return self.trainer.get_decay_parameter_names(self.model)
 
@@ -73,5 +119,5 @@ class Tuner:
         self.trainer.save_model(output_dir)
 
         print(
-            f'\n\nModel training complete. Saved at "{output_dir}"\nTime Taken: {end_time - start_time} seconds\n\n'
+            f'\n\n=> Model training complete. Saved at "{output_dir}"\n=> Time Taken: {end_time - start_time} seconds\n\n'
         )

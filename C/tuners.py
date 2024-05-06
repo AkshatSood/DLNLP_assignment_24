@@ -48,11 +48,6 @@ class LoraTuner:
             lora_target_modules=lora_target_modules,
         )
 
-        print(type(model))
-        print(type(tokenizer))
-        print(type(train_dataset))
-        print(type(eval_dataset))
-
         peft_config = LoraConfig(
             task_type=lora_task_type,
             r=lora_r,
@@ -63,9 +58,6 @@ class LoraTuner:
 
         self.model = get_peft_model(model, peft_config=peft_config)
         self.tokenizer = tokenizer
-
-        print(type(self.model))
-        print(type(self.tokenizer))
 
         training_args = TrainingArguments(
             output_dir=checkpoints_dir,
@@ -101,7 +93,7 @@ class LoraTuner:
             compute_metrics=compute_metrics,
         )
 
-        print(f"\nLoRA Tuner - Training Device: {training_args.device}\n")
+        print(f"\n=> LoRATuner - Training Device: {training_args.device}\n")
 
     def __print_config(
         self,
@@ -121,7 +113,7 @@ class LoraTuner:
         lora_dropout: float,
         lora_target_modules: list,
     ):
-        print("\nLoRATuner Configration")
+        print("\n=> LoRATuner - Configration:")
         print(f"\tCheckpoints Dir: {checkpoints_dir}")
         print(f"\tTraining Arguments - Learning Rate: {learning_rate}")
         print(
@@ -157,5 +149,5 @@ class LoraTuner:
         self.trainer.save_model(output_dir)
 
         print(
-            f'\n\nModel training complete. Saved at "{output_dir}"\nTime Taken: {end_time - start_time} seconds\n\n'
+            f'\n\n=> Model training complete. Saved at "{output_dir}"\n=> Time Taken: {end_time - start_time} seconds\n\n'
         )

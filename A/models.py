@@ -38,7 +38,7 @@ class BertBaseUncased:
 
         if path is None:
             print(
-                f"\n=> No fine tuned model provided. Fetching pre trained BertForSequenceClassification from HG"
+                f"\n=> No fine tuned model provided. Fetching pre trained BertForSequenceClassification from HG\n"
             )
         else:
             print(
@@ -77,7 +77,7 @@ class DistilBertUncased:
 
         if path is None:
             print(
-                f"\n=> No fine tuned model provided. Fetching pre trained DistilBertForSequenceClassification from HG"
+                f"\n=> No fine tuned model provided. Fetching pre trained DistilBertForSequenceClassification from HG\n"
             )
         else:
             print(
@@ -117,7 +117,7 @@ class RobertaBase:
 
         if path is None:
             print(
-                f"\n=> No fine tuned model provided. Fetching pre trained RobertaForSequenceClassification from HG"
+                f"\n=> No fine tuned model provided. Fetching pre trained RobertaForSequenceClassification from HG\n"
             )
         else:
             print(
