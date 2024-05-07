@@ -24,7 +24,7 @@ def __print(text):
     print("#####################################################################\n\n\n")
 
 
-config = OmegaConf.load(open("./config.yaml"))
+config = OmegaConf.load(open("./config_v2.yaml"))
 
 # ======================================================================================================================
 # Data preprocessing
@@ -84,14 +84,9 @@ def evaluate_A(args):
     evaluator.create_evaluations(model=model, tokenizer=tokenizer, name=args.name)
 
 
-if config.A.bert_base_uncased.evaluate:
-    evaluate_A(args=config.A.bert_base_uncased)
-
-if config.A.distilbert_base_uncased.evaluate:
-    evaluate_A(args=config.A.distilbert_base_uncased)
-
-if config.A.roberta_base.evaluate:
-    evaluate_A(args=config.A.roberta_base)
+for model in config.A.models:
+    if model.evaluate:
+        evaluate_A(model)
 
 
 # ======================================================================================================================
@@ -108,9 +103,7 @@ def fine_tune_B(args):
     model, tokenizer = get_model_and_tokenizer(model_name=args.model_name)
 
     tokenized_dataset = ag_news.tokenize(tokenizer=tokenizer)
-    # print(tokenized_dataset)
-    # tokenized_dataset = tokenized_dataset.remove_columns("text")
-    # print(tokenized_dataset)
+    tokenized_dataset = tokenized_dataset.remove_columns("text")
 
     tuner = Tuner(
         model=model,
@@ -140,31 +133,18 @@ def evaluate_B(args):
     evaluator.create_evaluations(model=model, tokenizer=tokenizer, name=args.name)
 
 
-if config.B.bert_base_uncased.fine_tune:
-    fine_tune_B(config.B.bert_base_uncased)
-
-if config.B.bert_base_uncased.evaluate:
-    evaluate_B(config.B.bert_base_uncased)
-
-if config.B.distilbert_base_uncased.fine_tune:
-    fine_tune_B(config.B.distilbert_base_uncased)
-
-if config.B.distilbert_base_uncased.evaluate:
-    evaluate_B(config.B.distilbert_base_uncased)
-
-if config.B.roberta_base.fine_tune:
-    fine_tune_B(config.B.roberta_base)
-
-if config.B.roberta_base.evaluate:
-    evaluate_B(config.B.roberta_base)
+for model in config.B.models:
+    if model.fine_tune:
+        fine_tune_B(args=model)
+    if model.evaluate:
+        evaluate_B(args=model)
 
 
 # ======================================================================================================================
 # Task C
 
 
-# TODO: Fox the error with reading modules
-def fine_tune_C(args, modules):
+def fine_tune_C(args):
     __print(f"TASK C: Fine tuning {args.name}...")
 
     model, tokenizer = get_model_and_tokenizer(model_name=args.model_name)
@@ -186,8 +166,7 @@ def fine_tune_C(args, modules):
         lora_r=args.training_args.lora_config.r,
         lora_alpha=args.training_args.lora_config.alpha,
         lora_dropout=args.training_args.lora_config.dropout,
-        # lora_target_modules=args.training_args.lora_config.target_modules,
-        lora_target_modules=modules,
+        lora_target_modules=list(args.training_args.lora_config.target_modules),
     )
 
     # print(f"\nWeight Decay Parameter Names:\n{tuner.get_decay_parameter_names()}")
@@ -205,23 +184,61 @@ def evaluate_C(args):
     evaluator.create_evaluations(model=model, tokenizer=tokenizer, name=args.name)
 
 
-if config.C.distilbert_base_uncased.fine_tune:
-    fine_tune_C(args=config.C.distilbert_base_uncased, modules=["q_lin"])
+for model in config.C.models:
+    if model.fine_tune:
+        fine_tune_C(args=model)
+    if model.evaluate:
+        evaluate_C(args=model)
 
-if config.C.distilbert_base_uncased.evaluate:
-    evaluate_C(args=config.C.distilbert_base_uncased)
+# ======================================================================================================================
+# Task D
 
-if config.C.bert_base_uncased.fine_tune:
-    fine_tune_C(args=config.C.bert_base_uncased, modules=["query"])
 
-if config.C.bert_base_uncased.evaluate:
-    evaluate_C(args=config.C.bert_base_uncased)
+def fine_tune_D(args):
+    __print(f"TASK D: Fine tuning {args.name}...")
 
-if config.C.roberta_base.fine_tune:
-    fine_tune_C(args=config.C.roberta_base, modules=["query"])
+    model, tokenizer = get_model_and_tokenizer(model_name=args.model_name)
 
-if config.C.roberta_base.evaluate:
-    evaluate_C(args=config.C.roberta_base)
+    tokenized_dataset = ag_news.tokenize(tokenizer=tokenizer)
+    tokenized_dataset = tokenized_dataset.remove_columns("text")
+
+    tuner = LoraTuner(
+        model=model,
+        tokenizer=tokenizer,
+        train_dataset=tokenized_dataset["train"],
+        eval_dataset=tokenized_dataset["validation"],
+        checkpoints_dir=args.checkpoints_dir,
+        learning_rate=args.training_args.learning_rate,
+        per_device_eval_batch_size=args.training_args.per_device_eval_batch_size,
+        per_device_train_batch_size=args.training_args.per_device_train_batch_size,
+        weight_decay=args.training_args.weight_decay,
+        epochs=args.training_args.epochs,
+        lora_r=args.training_args.lora_config.r,
+        lora_alpha=args.training_args.lora_config.alpha,
+        lora_dropout=args.training_args.lora_config.dropout,
+        lora_target_modules=list(args.training_args.lora_config.target_modules),
+    )
+
+    # print(f"\nWeight Decay Parameter Names:\n{tuner.get_decay_parameter_names()}")
+    print(f"\n=>Number of Tunable Parameters: {tuner.get_trainable_parameters()}\n")
+
+    tuner.fine_tune(output_dir=args.model_dir)
+
+
+def evaluate_D(args):
+    __print(f"TASK D: Evaluating {args.name}...")
+
+    model, tokenizer = get_model_and_tokenizer(
+        model_name=args.model_name, path=args.model_dir
+    )
+    evaluator.create_evaluations(model=model, tokenizer=tokenizer, name=args.name)
+
+
+for model in config.D.models:
+    if model.fine_tune:
+        fine_tune_C(args=model)
+    if model.evaluate:
+        evaluate_C(args=model)
 
 # ======================================================================================================================
 ## Print out your results with following format:
