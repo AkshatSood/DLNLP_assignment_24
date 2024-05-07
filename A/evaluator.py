@@ -15,13 +15,13 @@ from sklearn.metrics import (
 
 class Evaluator:
 
-    def __init__(self, x_test, y_test, label_map: dict, output_dir):
+    def __init__(self, x_test, y_test, label_map: dict, output_dir: str):
         self.x_test = x_test
         self.y_test = y_test
         self.label_map = label_map
         self.output_dir = output_dir
 
-    def create_evaluations(self, model, tokenizer, name):
+    def create_evaluations(self, model, tokenizer, name: str):
 
         classes = [self.label_map[i] for i in self.y_test]
         outputs_df = pd.DataFrame(

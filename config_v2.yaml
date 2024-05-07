@@ -205,7 +205,7 @@ D:
   models:
     - name: "bert_base_uncased_ft_d_v1"
       model_name: "BERT"
-      fine_tune: True
+      fine_tune: False
       evaluate: False
       checkpoints_dir: ".\\D\\checkpoints\\bert_v1"
       model_dir: ".\\D\\models\\bert_v1"
@@ -222,7 +222,7 @@ D:
           target_modules: ["key"]
     - name: "distilbert_base_uncased_ft_d_v1"
       model_name: "DistilBERT"
-      fine_tune: True
+      fine_tune: False
       evaluate: False
       checkpoints_dir: ".\\D\\checkpoints\\distilbert_v1"
       model_dir: ".\\D\\models\\distilbert_v1"
@@ -239,7 +239,7 @@ D:
           target_modules: ["k_lin"]
     - name: "roberta_base_ft_d_v1"
       model_name: "RoBERTa"
-      fine_tune: True
+      fine_tune: False
       evaluate: False
       checkpoints_dir: ".\\D\\checkpoints\\roberta_v1"
       model_dir: ".\\D\\models\\roberta_v1"
@@ -256,7 +256,7 @@ D:
           target_modules: ["key"]
     - name: "bert_base_uncased_ft_d_v2"
       model_name: "BERT"
-      fine_tune: True
+      fine_tune: False
       evaluate: False
       checkpoints_dir: ".\\D\\checkpoints\\bert_v2"
       model_dir: ".\\D\\models\\bert_v2"
@@ -273,7 +273,7 @@ D:
           target_modules: ["key"]
     - name: "distilbert_base_uncased_ft_d_v2"
       model_name: "DistilBERT"
-      fine_tune: True
+      fine_tune: False
       evaluate: False
       checkpoints_dir: ".\\D\\checkpoints\\distilbert_v2"
       model_dir: ".\\D\\models\\distilbert_v2"
@@ -290,7 +290,7 @@ D:
           target_modules: ["k_lin"]
     - name: "roberta_base_ft_d_v2"
       model_name: "RoBERTa"
-      fine_tune: True
+      fine_tune: False
       evaluate: False
       checkpoints_dir: ".\\D\\checkpoints\\roberta_v2"
       model_dir: ".\\D\\models\\roberta_v2"
