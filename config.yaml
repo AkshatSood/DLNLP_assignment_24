@@ -53,7 +53,7 @@ B:
     name: "roberta_base_ft_b_v2"
     model_name: "RoBERTa"
     fine_tune: False
-    evaluate: True
+    evaluate: False
     checkpoints_dir: ".\\B\\checkpoints\\roberta_base_ft_b_v2"
     model_dir: ".\\B\\models\\roberta_base_ft_b_v2"
     training_args:
@@ -67,14 +67,14 @@ B:
 C:
   logs_dir: ".\\C\\logs"
   bert_base_uncased:
-    name: "bert_base_uncased_ft_c_v1"
+    name: "bert_base_uncased_ft_c_v2"
     model_name: "BERT"
     fine_tune: False
     evaluate: False
-    checkpoints_dir: ".\\C\\checkpoints\\bert_v1"
-    model_dir: ".\\C\\models\\bert_v1"
+    checkpoints_dir: ".\\C\\checkpoints\\bert_v2"
+    model_dir: ".\\C\\models\\bert_v2"
     training_args:
-      learning_rate: 5e-5
+      learning_rate: 1e-5
       per_device_train_batch_size: 8
       per_device_eval_batch_size: 8
       weight_decay: 0.01
@@ -85,14 +85,14 @@ C:
         dropout: 0.01
         target_modules: ["query"]
   distilbert_base_uncased:
-    name: "distilbert_base_uncased_ft_c_v1"
+    name: "distilbert_base_uncased_ft_c_v2"
     model_name: "DistilBERT"
     fine_tune: False
     evaluate: False
-    checkpoints_dir: ".\\C\\checkpoints\\distilbert_v1"
-    model_dir: ".\\C\\models\\distilbert_v1"
+    checkpoints_dir: ".\\C\\checkpoints\\distilbert_v2"
+    model_dir: ".\\C\\models\\distilbert_v2"
     training_args:
-      learning_rate: 5e-5
+      learning_rate: 1e-5
       per_device_train_batch_size: 8
       per_device_eval_batch_size: 8
       weight_decay: 0.01
@@ -103,14 +103,14 @@ C:
         dropout: 0.01
         target_modules: ["q_lin"]
   roberta_base:
-    name: "roberta_base_ft_c_v1"
+    name: "roberta_base_ft_c_v2"
     model_name: "RoBERTa"
     fine_tune: False
-    evaluate: False
-    checkpoints_dir: ".\\C\\checkpoints\\roberta_v1"
-    model_dir: ".\\C\\models\\roberta_v1"
+    evaluate: True
+    checkpoints_dir: ".\\C\\checkpoints\\roberta_v2"
+    model_dir: ".\\C\\models\\roberta_v2"
     training_args:
-      learning_rate: 5e-5
+      learning_rate: 1e-5
       per_device_train_batch_size: 8
       per_device_eval_batch_size: 8
       weight_decay: 0.01

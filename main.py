@@ -163,12 +163,14 @@ if config.B.roberta_base.evaluate:
 # Task C
 
 
-def fine_tune_C(args):
+# TODO: Fox the error with reading modules
+def fine_tune_C(args, modules):
     __print(f"TASK C: Fine tuning {args.name}...")
 
     model, tokenizer = get_model_and_tokenizer(model_name=args.model_name)
 
     tokenized_dataset = ag_news.tokenize(tokenizer=tokenizer)
+    tokenized_dataset = tokenized_dataset.remove_columns("text")
 
     tuner = LoraTuner(
         model=model,
@@ -185,7 +187,7 @@ def fine_tune_C(args):
         lora_alpha=args.training_args.lora_config.alpha,
         lora_dropout=args.training_args.lora_config.dropout,
         # lora_target_modules=args.training_args.lora_config.target_modules,
-        lora_target_modules=["query"],
+        lora_target_modules=modules,
     )
 
     # print(f"\nWeight Decay Parameter Names:\n{tuner.get_decay_parameter_names()}")
@@ -203,20 +205,20 @@ def evaluate_C(args):
     evaluator.create_evaluations(model=model, tokenizer=tokenizer, name=args.name)
 
 
-if config.C.bert_base_uncased.fine_tune:
-    fine_tune_C(args=config.C.bert_base_uncased)
-
-if config.C.bert_base_uncased.evaluate:
-    evaluate_C(args=config.C.bert_base_uncased)
-
 if config.C.distilbert_base_uncased.fine_tune:
-    fine_tune_C(args=config.C.distilbert_base_uncased)
+    fine_tune_C(args=config.C.distilbert_base_uncased, modules=["q_lin"])
 
 if config.C.distilbert_base_uncased.evaluate:
     evaluate_C(args=config.C.distilbert_base_uncased)
 
+if config.C.bert_base_uncased.fine_tune:
+    fine_tune_C(args=config.C.bert_base_uncased, modules=["query"])
+
+if config.C.bert_base_uncased.evaluate:
+    evaluate_C(args=config.C.bert_base_uncased)
+
 if config.C.roberta_base.fine_tune:
-    fine_tune_C(args=config.C.roberta_base)
+    fine_tune_C(args=config.C.roberta_base, modules=["query"])
 
 if config.C.roberta_base.evaluate:
     evaluate_C(args=config.C.roberta_base)
