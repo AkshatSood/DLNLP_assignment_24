@@ -23,6 +23,7 @@ B:
       model_name: "BERT"
       fine_tune: False
       evaluate: False
+      parse_logs: False
       checkpoints_dir: ".\\B\\checkpoints\\bert_base_uncased_ft_b_v1"
       model_dir: ".\\B\\models\\bert_base_uncased_ft_b_v1"
       training_args:
@@ -35,6 +36,7 @@ B:
       model_name: "DistilBERT"
       fine_tune: False
       evaluate: False
+      report: False
       checkpoints_dir: ".\\B\\checkpoints\\distilbert_base_uncased_ft_b_v1"
       model_dir: ".\\B\\models\\distilbert_base_uncased_ft_b_v1"
       training_args:
@@ -47,6 +49,7 @@ B:
       model_name: "RoBERTa"
       fine_tune: False
       evaluate: False
+      report: False
       checkpoints_dir: ".\\B\\checkpoints\\roberta_base_ft_b_v1"
       model_dir: ".\\B\\models\\roberta_base_ft_b_v1"
       training_args:
@@ -59,6 +62,7 @@ B:
       model_name: "BERT"
       fine_tune: False
       evaluate: False
+      report: False
       checkpoints_dir: ".\\B\\checkpoints\\bert_base_uncased_ft_b_v2"
       model_dir: ".\\B\\models\\bert_base_uncased_ft_b_v2"
       training_args:
@@ -71,6 +75,7 @@ B:
       model_name: "DistilBERT"
       fine_tune: False
       evaluate: False
+      report: False
       checkpoints_dir: ".\\B\\checkpoints\\distilbert_base_uncased_ft_b_v2"
       model_dir: ".\\B\\models\\distilbert_base_uncased_ft_b_v2"
       training_args:
@@ -83,6 +88,7 @@ B:
       model_name: "RoBERTa"
       fine_tune: False
       evaluate: False
+      report: False
       checkpoints_dir: ".\\B\\checkpoints\\roberta_base_ft_b_v2"
       model_dir: ".\\B\\models\\roberta_base_ft_b_v2"
       training_args:
@@ -100,6 +106,7 @@ C:
       model_name: "BERT"
       fine_tune: False
       evaluate: False
+      report: False
       checkpoints_dir: ".\\C\\checkpoints\\bert_v1"
       model_dir: ".\\C\\models\\bert_v1"
       training_args:
@@ -117,6 +124,7 @@ C:
       model_name: "DistilBERT"
       fine_tune: False
       evaluate: False
+      report: False
       checkpoints_dir: ".\\C\\checkpoints\\distilbert_v1"
       model_dir: ".\\C\\models\\distilbert_v1"
       training_args:
@@ -134,6 +142,7 @@ C:
       model_name: "RoBERTa"
       fine_tune: False
       evaluate: False
+      report: False
       checkpoints_dir: ".\\C\\checkpoints\\roberta_v1"
       model_dir: ".\\C\\models\\roberta_v1"
       training_args:
@@ -151,6 +160,7 @@ C:
       model_name: "BERT"
       fine_tune: False
       evaluate: False
+      report: False
       checkpoints_dir: ".\\C\\checkpoints\\bert_v2"
       model_dir: ".\\C\\models\\bert_v2"
       training_args:
@@ -168,6 +178,7 @@ C:
       model_name: "DistilBERT"
       fine_tune: False
       evaluate: False
+      report: False
       checkpoints_dir: ".\\C\\checkpoints\\distilbert_v2"
       model_dir: ".\\C\\models\\distilbert_v2"
       training_args:
@@ -185,6 +196,7 @@ C:
       model_name: "RoBERTa"
       fine_tune: False
       evaluate: False
+      report: False
       checkpoints_dir: ".\\C\\checkpoints\\roberta_v2"
       model_dir: ".\\C\\models\\roberta_v2"
       training_args:
@@ -207,6 +219,7 @@ D:
       model_name: "BERT"
       fine_tune: False
       evaluate: False
+      report: False
       checkpoints_dir: ".\\D\\checkpoints\\bert_v1"
       model_dir: ".\\D\\models\\bert_v1"
       training_args:
@@ -224,6 +237,7 @@ D:
       model_name: "DistilBERT"
       fine_tune: False
       evaluate: False
+      report: False
       checkpoints_dir: ".\\D\\checkpoints\\distilbert_v1"
       model_dir: ".\\D\\models\\distilbert_v1"
       training_args:
@@ -241,6 +255,7 @@ D:
       model_name: "RoBERTa"
       fine_tune: False
       evaluate: False
+      report: False
       checkpoints_dir: ".\\D\\checkpoints\\roberta_v1"
       model_dir: ".\\D\\models\\roberta_v1"
       training_args:
@@ -258,6 +273,7 @@ D:
       model_name: "BERT"
       fine_tune: False
       evaluate: False
+      report: False
       checkpoints_dir: ".\\D\\checkpoints\\bert_v2"
       model_dir: ".\\D\\models\\bert_v2"
       training_args:
@@ -275,6 +291,7 @@ D:
       model_name: "DistilBERT"
       fine_tune: False
       evaluate: False
+      report: False
       checkpoints_dir: ".\\D\\checkpoints\\distilbert_v2"
       model_dir: ".\\D\\models\\distilbert_v2"
       training_args:
@@ -292,6 +309,7 @@ D:
       model_name: "RoBERTa"
       fine_tune: False
       evaluate: False
+      report: False
       checkpoints_dir: ".\\D\\checkpoints\\roberta_v2"
       model_dir: ".\\D\\models\\roberta_v2"
       training_args:
@@ -314,6 +332,7 @@ E:
       model_name: "BERT"
       fine_tune: False
       evaluate: False
+      report: False
       checkpoints_dir: ".\\E\\checkpoints\\bert_v1"
       model_dir: ".\\E\\models\\bert_v1"
       training_args:
@@ -331,6 +350,7 @@ E:
       model_name: "DistilBERT"
       fine_tune: False
       evaluate: False
+      report: False
       checkpoints_dir: ".\\E\\checkpoints\\distilbert_v1"
       model_dir: ".\\E\\models\\distilbert_v1"
       training_args:
@@ -346,8 +366,9 @@ E:
           target_modules: ["q_lin"]
     - name: "roberta_base_ft_e_v1"
       model_name: "RoBERTa"
-      fine_tune: True
-      evaluate: True
+      fine_tune: False
+      evaluate: False
+      report: False
       checkpoints_dir: ".\\E\\checkpoints\\roberta_v1"
       model_dir: ".\\E\\models\\roberta_v1"
       training_args:
@@ -365,6 +386,7 @@ E:
       model_name: "BERT"
       fine_tune: False
       evaluate: False
+      report: False
       checkpoints_dir: ".\\E\\checkpoints\\bert_v2"
       model_dir: ".\\E\\models\\bert_v2"
       training_args:
@@ -382,6 +404,7 @@ E:
       model_name: "DistilBERT"
       fine_tune: False
       evaluate: False
+      report: False
       checkpoints_dir: ".\\E\\checkpoints\\distilbert_v2"
       model_dir: ".\\E\\models\\distilbert_v2"
       training_args:
@@ -397,8 +420,9 @@ E:
           target_modules: ["q_lin"]
     - name: "roberta_base_ft_e_v2"
       model_name: "RoBERTa"
-      fine_tune: True
-      evaluate: True
+      fine_tune: False
+      evaluate: False
+      report: False
       checkpoints_dir: ".\\E\\checkpoints\\roberta_v2"
       model_dir: ".\\E\\models\\roberta_v2"
       training_args:

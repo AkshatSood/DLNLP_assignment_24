@@ -7,6 +7,7 @@ from A.models import (
 )
 from A.evaluator import Evaluator
 from B.tuners import Tuner
+from B.reporter import Reporter
 from C.tuners import LoraTuner
 
 # TODO: Remove this later
@@ -26,7 +27,7 @@ def __print(text):
     print("#####################################################################\n\n\n")
 
 
-config = OmegaConf.load(open("./config_v2.yaml"))
+config = OmegaConf.load(open("./config.yaml"))
 
 # ======================================================================================================================
 # Data preprocessing
@@ -133,6 +134,10 @@ def evaluate_B(args):
         model_name=args.model_name, path=args.model_dir
     )
     evaluator.create_evaluations(model=model, tokenizer=tokenizer, name=args.name)
+
+
+def create_report_B(args):
+    pass
 
 
 for model in config.B.models:

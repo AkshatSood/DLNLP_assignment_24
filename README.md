@@ -88,7 +88,12 @@ _It is important to note that a large amount of disk space (~40GB) is required i
 The entire code structure along with the functions of each file have been provided below.
 
 - [main.py](./main.py) - Runs the entire pipeline for the project based on the configuration values provided.
-- [config.yaml](./config.yaml) - Lists the configuration arguments for each task and subtask executed in the project.
+- [config.yaml](./config.yaml) - Lists the configuration arguments for each task and subtask executed in the project. Some key configuration arguments have been detailed below:
+  - *logs_dir*: The directory where the logs for each task will be stored.
+  - *model_name*: Used to select the base model which will be fine tuned in the task
+  - *fine_tune* (bool): If set to True, the model specified model will be fine tuned using the *training_args*. During the fine tuning process, checkpoints will saved in the *checkpoints_dir* and the selected model will be saved in the *model_dir*. If set to False, this step will be skipped.
+  - *evaluate* (bool): If set to True, the fine tuned model (from the *model_dir*) will be evaluated against the test dataset and the results will be stored in the *results_dir*. If set to False, this step will be skipped.
+  - *parse_logs* (bool): If set to True, the checkpoints created during fine tuning (in the *checkpoints_dir*) will be used to create a log for each epochs loss and accuracy in the *logs_dir*. If set to False, this step will be skipped.
 - [environment.yml](./environment.yml) - File used to create the conda environment. Contains information about dependencies used in the project.
 - [README.md](./README.md) - This file :)
 - [.gitignore](./.gitignore) - Git ignore
