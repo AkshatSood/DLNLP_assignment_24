@@ -15,13 +15,21 @@ from sklearn.metrics import (
 
 class Evaluator:
 
-    def __init__(self, x_test, y_test, label_map: dict, output_dir: str):
+    def __init__(
+        self,
+        x_test,
+        y_test,
+        label_map: dict,
+        evaluations_dir: str,
+        test_outputs_dir: str,
+    ):
         self.x_test = x_test
         self.y_test = y_test
         self.label_map = label_map
-        self.output_dir = output_dir
+        self.evaluations_dir = evaluations_dir
+        self.test_outputs_dir = test_outputs_dir
 
-    def create_evaluations(self, model, tokenizer, name: str):
+    def create_evaluations(self, model, tokenizer, model_name: str, task_name: str):
 
         classes = [self.label_map[i] for i in self.y_test]
         outputs_df = pd.DataFrame(
@@ -46,7 +54,8 @@ class Evaluator:
 
         end_time = time()
         evaluation = {
-            "model": name,
+            "model": model_name,
+            "task": task_name,
             "evaluation_time": end_time - start_time,
             "accuracy": accuracy_score(y_true=self.y_test, y_pred=pred_labels),
             "f1_score": f1_score(
@@ -65,17 +74,21 @@ class Evaluator:
             ).tolist(),
         }
 
-        print(evaluation)
-
         # Write the outputs to a CSV file
-        outputs_df.to_csv(os.path.join(self.output_dir, f"{name}-outputs.csv"))
+        outputs_df.to_csv(
+            os.path.join(self.test_outputs_dir, f"{task_name}_{model_name}.csv")
+        )
 
-        # Write the evaluations to a JSON file
+        # Write the evaluation to a JSON file
         json.dump(
             evaluation,
             codecs.open(
-                filename=os.path.join(self.output_dir, f"{name}-evaluation.json"),
+                filename=os.path.join(
+                    self.evaluations_dir, f"{task_name}_{model_name}.json"
+                ),
                 mode="w",
                 encoding="utf-8",
             ),
         )
+
+        return evaluation

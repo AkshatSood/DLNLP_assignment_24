@@ -1,3 +1,4 @@
+from datetime import datetime
 from omegaconf import OmegaConf
 from data.dataset import AGNewsDatasetLoader
 from A.models import (
@@ -10,8 +11,7 @@ from B.tuners import Tuner
 from B.reporter import Reporter
 from C.tuners import LoraTuner
 
-# TODO: Remove this later
-from datetime import datetime
+config = OmegaConf.load(open("./config.yaml"))
 
 timestamp = datetime.now().strftime("%d/%m/%Y, %H:%M:%S")
 print(
@@ -27,14 +27,12 @@ def __print(text):
     print("#####################################################################\n\n\n")
 
 
-config = OmegaConf.load(open("./config.yaml"))
-
 # ======================================================================================================================
 # Data preprocessing
 # data_train, data_val, data_test = data_preprocessing(args...)
 
 ag_news = AGNewsDatasetLoader(config.dataset.ag_news)
-# print(ag_news.information())
+print(ag_news.information())
 
 dataset = ag_news.load()
 
@@ -43,16 +41,13 @@ y_test = dataset["test"][ag_news.label_header]
 
 # ======================================================================================================================
 # Task A
-# model_A = A(args...)                 # Build model object.
-# acc_A_train = model_A.train(args...) # Train model based on the training set (you should fine-tune your model based on validation set.)
-# acc_A_test = model_A.test(args...)   # Test model based on the test set.
-# Clean up memory/GPU etc...             # Some code to free memory if necessary.
 
 evaluator = Evaluator(
     x_test=x_test,
     y_test=y_test,
     label_map=ag_news.id2label,
-    output_dir=config.results_dir,
+    evaluations_dir=config.evaluations_dir,
+    test_outputs_dir=config.test_outputs_dir,
 )
 
 
@@ -94,14 +89,12 @@ for model in config.A.models:
 
 # ======================================================================================================================
 # Task B
-# model_B = B(args...)
-# acc_B_train = model_B.train(args...)
-# acc_B_test = model_B.test(args...)
-# Clean up memory/GPU etc...
+
+reporter = Reporter(logs_dir=config.fine_tuning_logs_dir)
 
 
 def fine_tune_B(args):
-    __print(f"TASK B: Fine tuning {args.name}...")
+    __print(f"TASK B: Fine tuning {args.name} ({args.model_name})...")
 
     model, tokenizer = get_model_and_tokenizer(model_name=args.model_name)
 
@@ -121,23 +114,33 @@ def fine_tune_B(args):
         epochs=args.training_args.epochs,
     )
 
-    # print(f"\n=> Weight Decay Parameter Names: {tuner.get_decay_parameter_names()}")
-    # print(f"\n=> Number of Tunable Parameters: {tuner.get_trainable_parameters()}")
+    # print(f"\n=> Weight Decay Parameter Names: {tuner.get_decay_parameter_names()}\n")
+    # print(f"\n=> Number of Tunable Parameters: {tuner.get_trainable_parameters()}\n")
 
     tuner.fine_tune(output_dir=args.model_dir)
 
 
 def evaluate_B(args):
-    __print(f"TASK B: Evaluating {args.name}...")
+    __print(f"TASK B: Fine tuning {args.name} ({args.model_name})...")
 
-    model, tokenizer = get_model_and_tokenizer(
-        model_name=args.model_name, path=args.model_dir
+    # model, tokenizer = get_model_and_tokenizer(
+    #     model_name=args.model_name, path=args.model_dir
+    # )
+    # evaluation = evaluator.create_evaluations(
+    #     model=model,
+    #     tokenizer=tokenizer,
+    #     model_name=args.model_name,
+    #     task_name=args.name,
+    # )
+
+    # print(f"\n=> Evaluation Results: {evaluation}\n")
+
+    tuning_results = reporter.create_fine_tuning_log(
+        checkpoints_dir=args.checkpoints_dir,
+        model_name=args.model_name,
+        task_name=args.name,
     )
-    evaluator.create_evaluations(model=model, tokenizer=tokenizer, name=args.name)
-
-
-def create_report_B(args):
-    pass
+    print(f"\n=> Tuning Results: {tuning_results}\n")
 
 
 for model in config.B.models:
@@ -152,7 +155,7 @@ for model in config.B.models:
 
 
 def fine_tune_C(args):
-    __print(f"TASK C: Fine tuning {args.name}...")
+    __print(f"TASK C: Fine tuning {args.name} ({args.model_name})...")
 
     model, tokenizer = get_model_and_tokenizer(model_name=args.model_name)
 
@@ -176,14 +179,14 @@ def fine_tune_C(args):
         lora_target_modules=list(args.training_args.lora_config.target_modules),
     )
 
-    # print(f"\nWeight Decay Parameter Names:\n{tuner.get_decay_parameter_names()}")
+    # print(f"\nWeight Decay Parameter Names:\n{tuner.get_decay_parameter_names()}\n")
     print(f"\n=>Number of Tunable Parameters: {tuner.get_trainable_parameters()}\n")
 
     tuner.fine_tune(output_dir=args.model_dir)
 
 
 def evaluate_C(args):
-    __print(f"TASK C: Evaluating {args.name}...")
+    __print(f"TASK C: Evaluating {args.name} ({args.model_name})...")
 
     model, tokenizer = get_model_and_tokenizer(
         model_name=args.model_name, path=args.model_dir
@@ -202,7 +205,7 @@ for model in config.C.models:
 
 
 def fine_tune_D(args):
-    __print(f"TASK D: Fine tuning {args.name}...")
+    __print(f"TASK D: Fine tuning {args.name} ({args.model_name})...")
 
     model, tokenizer = get_model_and_tokenizer(model_name=args.model_name)
 
@@ -233,7 +236,7 @@ def fine_tune_D(args):
 
 
 def evaluate_D(args):
-    __print(f"TASK D: Evaluating {args.name}...")
+    __print(f"TASK D: Evaluating {args.name} ({args.model_name})...")
 
     model, tokenizer = get_model_and_tokenizer(
         model_name=args.model_name, path=args.model_dir
@@ -252,7 +255,7 @@ for model in config.D.models:
 
 
 def fine_tune_E(args):
-    __print(f"TASK E: Fine tuning {args.name}...")
+    __print(f"TASK E: Fine tuning {args.name} ({args.model_name})...")
 
     model, tokenizer = get_model_and_tokenizer(model_name=args.model_name)
 
@@ -284,7 +287,7 @@ def fine_tune_E(args):
 
 
 def evaluate_E(args):
-    __print(f"TASK E: Evaluating {args.name}...")
+    __print(f"TASK E: Evaluating {args.name} ({args.model_name})...")
 
     model, tokenizer = get_model_and_tokenizer(
         model_name=args.model_name, path=args.model_dir
