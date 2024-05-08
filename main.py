@@ -191,7 +191,21 @@ def evaluate_C(args):
     model, tokenizer = get_model_and_tokenizer(
         model_name=args.model_name, path=args.model_dir
     )
-    evaluator.create_evaluations(model=model, tokenizer=tokenizer, name=args.name)
+    evaluation = evaluator.create_evaluations(
+        model=model,
+        tokenizer=tokenizer,
+        model_name=args.model_name,
+        task_name=args.name,
+    )
+
+    print(f"\n=> Evaluation Results: {evaluation}\n")
+
+    tuning_results = reporter.create_fine_tuning_log(
+        checkpoints_dir=args.checkpoints_dir,
+        model_name=args.model_name,
+        task_name=args.name,
+    )
+    print(f"\n=> Tuning Results: {tuning_results}\n")
 
 
 for model in config.C.models:
@@ -241,7 +255,21 @@ def evaluate_D(args):
     model, tokenizer = get_model_and_tokenizer(
         model_name=args.model_name, path=args.model_dir
     )
-    evaluator.create_evaluations(model=model, tokenizer=tokenizer, name=args.name)
+    evaluation = evaluator.create_evaluations(
+        model=model,
+        tokenizer=tokenizer,
+        model_name=args.model_name,
+        task_name=args.name,
+    )
+
+    print(f"\n=> Evaluation Results: {evaluation}\n")
+
+    tuning_results = reporter.create_fine_tuning_log(
+        checkpoints_dir=args.checkpoints_dir,
+        model_name=args.model_name,
+        task_name=args.name,
+    )
+    print(f"\n=> Tuning Results: {tuning_results}\n")
 
 
 for model in config.D.models:
@@ -292,7 +320,21 @@ def evaluate_E(args):
     model, tokenizer = get_model_and_tokenizer(
         model_name=args.model_name, path=args.model_dir
     )
-    evaluator.create_evaluations(model=model, tokenizer=tokenizer, name=args.name)
+    evaluation = evaluator.create_evaluations(
+        model=model,
+        tokenizer=tokenizer,
+        model_name=args.model_name,
+        task_name=args.name,
+    )
+
+    print(f"\n=> Evaluation Results: {evaluation}\n")
+
+    tuning_results = reporter.create_fine_tuning_log(
+        checkpoints_dir=args.checkpoints_dir,
+        model_name=args.model_name,
+        task_name=args.name,
+    )
+    print(f"\n=> Tuning Results: {tuning_results}\n")
 
 
 for model in config.E.models:
