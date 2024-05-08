@@ -43,7 +43,7 @@ The various *training arguments* used during this task have been listed below. M
 |       | Learning Rate | Per device train batch size | Per device eval batch size | Weight decay | Epochs |
 | :---: | :-----------: | :-------------------------: | :------------------------: | :----------: | :----: |
 |  v1   |     5e-5      |              8              |             8              |     0.01     |   5    |
-|  v2   |               |                             |                            |              |        |
+|  v2   |     1e-5      |              8              |             8              |     0.01     |   5    |
 
 
 
@@ -56,8 +56,13 @@ Task C focuses on updating the *query* matrices of the attention mechanism. Quer
 ### Task D - Fine Tune (with LoRA) and Evaluate Models
 Similar to Task C, Task D aims to fine tune the models by employing LoRA. Instead of focusing on the *query* matrices, Task D focuses on training the *key* matrices. This can make the model more or less sensitive to specific features in the input data. This is useful in tasks where certain input features need to be emphasized or suppressed.
 
+### Task E - Fine Tune (with Rank Stabalised LoRA) and Evaluate Models
+Similar to Task C, Task E aims to fine tune the models by employing LoRA but with rank stablisation which has been proven to improve the effectiveness of LoRA.
+
 
 ## Results
+
+The fine tuning time and relevant metrics have been listed below. For each task (i.e., A, B, ..., E) all three models have been used (1 = BERT, 2 = DistilBERT, 3 = RoBERTa, such that A1 means task A using BERT) along with both sets of the training arguments (*v1* and *v2*, such that B1.1 means task B using BERT and training arguments *v1*)
 
 ## Setup and Execution
 
@@ -74,7 +79,7 @@ Once in the conda environment, the entire pipeline can be executed from [main.py
 python main.py
 ```
 
-_It is important to note that a large amount of disk space is required in order to run the entire pipeline. A large RAM, and a good quality GPU will also be required. It is hard to estimate the run time of the entire pipeline, but it is expected to take multiple hours_
+_It is important to note that a large amount of disk space (~40GB) is required in order to run the entire pipeline. A large RAM, and a good quality GPU will also be required. It is hard to estimate the run time of the entire pipeline, but it is expected to take multiple hours_
 
 
 
