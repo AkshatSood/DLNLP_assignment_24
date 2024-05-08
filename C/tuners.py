@@ -28,6 +28,7 @@ class LoraTuner:
         lora_alpha: int = 32,
         lora_dropout: float = 0.01,
         lora_target_modules: list = None,
+        lora_use_rslora: bool = False,
     ):
 
         self.__print_config(
@@ -46,6 +47,7 @@ class LoraTuner:
             lora_alpha=lora_alpha,
             lora_dropout=lora_dropout,
             lora_target_modules=lora_target_modules,
+            lora_use_rslora=lora_use_rslora,
         )
 
         peft_config = LoraConfig(
@@ -54,6 +56,7 @@ class LoraTuner:
             lora_alpha=lora_alpha,
             lora_dropout=lora_dropout,
             target_modules=lora_target_modules,
+            use_rslora=lora_use_rslora,
         )
 
         self.model = get_peft_model(model, peft_config=peft_config)
@@ -112,6 +115,7 @@ class LoraTuner:
         lora_alpha: int,
         lora_dropout: float,
         lora_target_modules: list,
+        lora_use_rslora: bool,
     ):
         print("\n=> LoRATuner - Configration:")
         print(f"\tCheckpoints Dir: {checkpoints_dir}")
@@ -134,7 +138,8 @@ class LoraTuner:
         print(f"\tLoRA Config - R: {lora_r}")
         print(f"\tLoRA Config - Alpha: {lora_alpha}")
         print(f"\tLoRA Config - Dropout: {lora_dropout}")
-        print(f"\tLoRA Config - Target Modules: {lora_target_modules}\n")
+        print(f"\tLoRA Config - Target Modules: {lora_target_modules}")
+        print(f"\tLoRA Config - Use RS LoRA: {lora_use_rslora}\n")
 
     def get_decay_parameter_names(self):
         return self.trainer.get_decay_parameter_names(self.model)

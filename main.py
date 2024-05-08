@@ -238,9 +238,60 @@ def evaluate_D(args):
 
 for model in config.D.models:
     if model.fine_tune:
-        fine_tune_C(args=model)
+        fine_tune_D(args=model)
     if model.evaluate:
-        evaluate_C(args=model)
+        evaluate_D(args=model)
+
+# ======================================================================================================================
+# Task E
+
+
+def fine_tune_E(args):
+    __print(f"TASK E: Fine tuning {args.name}...")
+
+    model, tokenizer = get_model_and_tokenizer(model_name=args.model_name)
+
+    tokenized_dataset = ag_news.tokenize(tokenizer=tokenizer)
+    tokenized_dataset = tokenized_dataset.remove_columns("text")
+
+    tuner = LoraTuner(
+        model=model,
+        tokenizer=tokenizer,
+        train_dataset=tokenized_dataset["train"],
+        eval_dataset=tokenized_dataset["validation"],
+        checkpoints_dir=args.checkpoints_dir,
+        learning_rate=args.training_args.learning_rate,
+        per_device_eval_batch_size=args.training_args.per_device_eval_batch_size,
+        per_device_train_batch_size=args.training_args.per_device_train_batch_size,
+        weight_decay=args.training_args.weight_decay,
+        epochs=args.training_args.epochs,
+        lora_r=args.training_args.lora_config.r,
+        lora_alpha=args.training_args.lora_config.alpha,
+        lora_dropout=args.training_args.lora_config.dropout,
+        lora_target_modules=list(args.training_args.lora_config.target_modules),
+        lora_use_rslora=True,
+    )
+
+    # print(f"\nWeight Decay Parameter Names:\n{tuner.get_decay_parameter_names()}")
+    print(f"\n=>Number of Tunable Parameters: {tuner.get_trainable_parameters()}\n")
+
+    tuner.fine_tune(output_dir=args.model_dir)
+
+
+def evaluate_E(args):
+    __print(f"TASK E: Evaluating {args.name}...")
+
+    model, tokenizer = get_model_and_tokenizer(
+        model_name=args.model_name, path=args.model_dir
+    )
+    evaluator.create_evaluations(model=model, tokenizer=tokenizer, name=args.name)
+
+
+for model in config.E.models:
+    if model.fine_tune:
+        fine_tune_E(args=model)
+    if model.evaluate:
+        evaluate_E(args=model)
 
 # ======================================================================================================================
 ## Print out your results with following format:

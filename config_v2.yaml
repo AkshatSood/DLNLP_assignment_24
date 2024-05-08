@@ -305,3 +305,110 @@ D:
           alpha: 32
           dropout: 0.01
           target_modules: ["key"]
+
+
+E:
+  logs_dir: ".\\E\\logs"
+  models:
+    - name: "bert_base_uncased_ft_e_v1"
+      model_name: "BERT"
+      fine_tune: False
+      evaluate: False
+      checkpoints_dir: ".\\E\\checkpoints\\bert_v1"
+      model_dir: ".\\E\\models\\bert_v1"
+      training_args:
+        learning_rate: 5e-5
+        per_device_train_batch_size: 8
+        per_device_eval_batch_size: 8
+        weight_decay: 0.01
+        epochs: 5
+        lora_config:
+          r: 8
+          alpha: 32
+          dropout: 0.01
+          target_modules: ["query"]
+    - name: "distilbert_base_uncased_ft_e_v1"
+      model_name: "DistilBERT"
+      fine_tune: False
+      evaluate: False
+      checkpoints_dir: ".\\E\\checkpoints\\distilbert_v1"
+      model_dir: ".\\E\\models\\distilbert_v1"
+      training_args:
+        learning_rate: 5e-5
+        per_device_train_batch_size: 8
+        per_device_eval_batch_size: 8
+        weight_decay: 0.01
+        epochs: 5
+        lora_config:
+          r: 8
+          alpha: 32
+          dropout: 0.01
+          target_modules: ["q_lin"]
+    - name: "roberta_base_ft_e_v1"
+      model_name: "RoBERTa"
+      fine_tune: True
+      evaluate: True
+      checkpoints_dir: ".\\E\\checkpoints\\roberta_v1"
+      model_dir: ".\\E\\models\\roberta_v1"
+      training_args:
+        learning_rate: 5e-5
+        per_device_train_batch_size: 8
+        per_device_eval_batch_size: 8
+        weight_decay: 0.01
+        epochs: 5
+        lora_config:
+          r: 8
+          alpha: 32
+          dropout: 0.01
+          target_modules: ["query"]
+    - name: "bert_base_uncased_ft_e_v2"
+      model_name: "BERT"
+      fine_tune: False
+      evaluate: False
+      checkpoints_dir: ".\\E\\checkpoints\\bert_v2"
+      model_dir: ".\\E\\models\\bert_v2"
+      training_args:
+        learning_rate: 1e-5
+        per_device_train_batch_size: 8
+        per_device_eval_batch_size: 8
+        weight_decay: 0.01
+        epochs: 5
+        lora_config:
+          r: 8
+          alpha: 32
+          dropout: 0.01
+          target_modules: ["query"]
+    - name: "distilbert_base_uncased_ft_e_v2"
+      model_name: "DistilBERT"
+      fine_tune: False
+      evaluate: False
+      checkpoints_dir: ".\\E\\checkpoints\\distilbert_v2"
+      model_dir: ".\\E\\models\\distilbert_v2"
+      training_args:
+        learning_rate: 1e-5
+        per_device_train_batch_size: 8
+        per_device_eval_batch_size: 8
+        weight_decay: 0.01
+        epochs: 5
+        lora_config:
+          r: 8
+          alpha: 32
+          dropout: 0.01
+          target_modules: ["q_lin"]
+    - name: "roberta_base_ft_e_v2"
+      model_name: "RoBERTa"
+      fine_tune: True
+      evaluate: True
+      checkpoints_dir: ".\\E\\checkpoints\\roberta_v2"
+      model_dir: ".\\E\\models\\roberta_v2"
+      training_args:
+        learning_rate: 1e-5
+        per_device_train_batch_size: 8
+        per_device_eval_batch_size: 8
+        weight_decay: 0.01
+        epochs: 5
+        lora_config:
+          r: 8
+          alpha: 32
+          dropout: 0.01
+          target_modules: ["query"]
