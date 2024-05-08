@@ -49,6 +49,11 @@ class Reporter:
 
         df = pd.DataFrame(logs)
 
-        df.to_csv(os.path.join(self.logs_dir, f"{task_name}_{model_name}"), index=False)
+        df.to_csv(
+            os.path.join(self.logs_dir, f"{task_name}_{model_name}.csv"), index=False
+        )
 
         return final_epoch_log
+
+    def create_fine_tuning_summary(file_name: str):
+        pass

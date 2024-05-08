@@ -92,3 +92,6 @@ class Evaluator:
         )
 
         return evaluation
+
+    def create_evaluations_summary(file_name: str):
+        pass

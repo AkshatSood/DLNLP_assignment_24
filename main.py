@@ -123,17 +123,17 @@ def fine_tune_B(args):
 def evaluate_B(args):
     __print(f"TASK B: Fine tuning {args.name} ({args.model_name})...")
 
-    # model, tokenizer = get_model_and_tokenizer(
-    #     model_name=args.model_name, path=args.model_dir
-    # )
-    # evaluation = evaluator.create_evaluations(
-    #     model=model,
-    #     tokenizer=tokenizer,
-    #     model_name=args.model_name,
-    #     task_name=args.name,
-    # )
+    model, tokenizer = get_model_and_tokenizer(
+        model_name=args.model_name, path=args.model_dir
+    )
+    evaluation = evaluator.create_evaluations(
+        model=model,
+        tokenizer=tokenizer,
+        model_name=args.model_name,
+        task_name=args.name,
+    )
 
-    # print(f"\n=> Evaluation Results: {evaluation}\n")
+    print(f"\n=> Evaluation Results: {evaluation}\n")
 
     tuning_results = reporter.create_fine_tuning_log(
         checkpoints_dir=args.checkpoints_dir,

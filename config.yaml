@@ -24,7 +24,7 @@ B:
     - name: "B1_v1"
       model_name: "BERT"
       fine_tune: False
-      evaluate: False
+      evaluate: True
       checkpoints_dir: ".\\B\\checkpoints\\bert_base_uncased_ft_b_v1"
       model_dir: ".\\B\\models\\bert_base_uncased_ft_b_v1"
       training_args:
@@ -48,7 +48,7 @@ B:
     - name: "B3_v1"
       model_name: "RoBERTa"
       fine_tune: False
-      evaluate: False
+      evaluate: True
       checkpoints_dir: ".\\B\\checkpoints\\roberta_base_ft_b_v1"
       model_dir: ".\\B\\models\\roberta_base_ft_b_v1"
       training_args:
@@ -60,7 +60,7 @@ B:
     - name: "B1_v2"
       model_name: "BERT"
       fine_tune: False
-      evaluate: False
+      evaluate: True
       checkpoints_dir: ".\\B\\checkpoints\\bert_base_uncased_ft_b_v2"
       model_dir: ".\\B\\models\\bert_base_uncased_ft_b_v2"
       training_args:
@@ -72,7 +72,7 @@ B:
     - name: "B2_v2"
       model_name: "DistilBERT"
       fine_tune: False
-      evaluate: False
+      evaluate: True
       checkpoints_dir: ".\\B\\checkpoints\\distilbert_base_uncased_ft_b_v2"
       model_dir: ".\\B\\models\\distilbert_base_uncased_ft_b_v2"
       training_args:
@@ -84,7 +84,7 @@ B:
     - name: "B3_v2"
       model_name: "RoBERTa"
       fine_tune: False
-      evaluate: False
+      evaluate: True
       checkpoints_dir: ".\\B\\checkpoints\\roberta_base_ft_b_v2"
       model_dir: ".\\B\\models\\roberta_base_ft_b_v2"
       training_args:
