@@ -1,5 +1,5 @@
 from omegaconf import OmegaConf
-from dataset import AGNewsDatasetLoader
+from data.dataset import AGNewsDatasetLoader
 from A.models import (
     DistilBertUncased,
     BertBaseUncased,
