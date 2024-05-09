@@ -26,26 +26,48 @@ class Reporter:
 
         trainer_state = json.load(open(file_path))
 
+        def __get_entry_from_log(log, prefix: str):
+            return {
+                "Task": task_name,
+                "Model": model_name,
+                "Type": prefix,
+                "Epoch": int(log["epoch"]),
+                "Accuracy": log[f"{prefix}_accuracy"]["accuracy"],
+                "F1": log[f"{prefix}_f1"]["f1"],
+                "Precision": log[f"{prefix}_precision"]["precision"],
+                "Recall": log[f"{prefix}_recall"]["recall"],
+                "Loss": log[f"{prefix}_loss"],
+                "Step": log["step"],
+                "Runtime": log[f"{prefix}_runtime"],
+                "Samples Per Second": log[f"{prefix}_samples_per_second"],
+                "Steps Per Second": log[f"{prefix}_steps_per_second"],
+            }
+
         logs = []
-        final_epoch_log = None
+        selected_epoch = None
+        selected_loss = None
         for log in trainer_state["log_history"]:
             if "eval_accuracy" in log:
+                eval_entry = __get_entry_from_log(log, "eval")
 
-                entry = {
-                    "task": task_name,
-                    "model": model_name,
-                    "epoch": int(log["epoch"]),
-                    "accuracy": log["eval_accuracy"]["accuracy"],
-                    "loss": log["eval_loss"],
-                    "step": log["step"],
-                }
+                # if final_epoch_log is None:
+                #     final_epoch_log = eval_entry
+                # elif final_epoch_log["Epoch"] < int(eval_entry["Epoch"]):
+                #     final_epoch_log = eval_entry
 
-                if final_epoch_log is None:
-                    final_epoch_log = entry
-                elif final_epoch_log["epoch"] < int(log["epoch"]):
-                    final_epoch_log = entry
+                if selected_loss is None:
+                    selected_loss = eval_entry["Loss"]
+                    selected_epoch = eval_entry["Epoch"]
+                elif selected_loss >= eval_entry["Loss"]:
+                    selected_loss = eval_entry["Loss"]
+                    selected_epoch = eval_entry["Epoch"]
 
-                logs.append(entry)
+                logs.append(eval_entry)
+
+            if "train_accuracy" in log:
+                train_entry = __get_entry_from_log(log, "train")
+
+                logs.append(train_entry)
 
         df = pd.DataFrame(logs)
 
@@ -53,7 +75,7 @@ class Reporter:
             os.path.join(self.logs_dir, f"{task_name}_{model_name}.csv"), index=False
         )
 
-        return final_epoch_log
+        return [log for log in logs if log["Epoch"] == selected_epoch]
 
     def create_fine_tuning_summary(file_name: str):
         pass
