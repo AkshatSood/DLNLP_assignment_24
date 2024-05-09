@@ -1,8 +1,14 @@
 from time import time
 import numpy as np
-from transformers import DataCollatorWithPadding, TrainingArguments, Trainer
+from transformers import (
+    DataCollatorWithPadding,
+    TrainingArguments,
+    Trainer,
+    IntervalStrategy,
+)
 from peft import get_peft_model, LoraConfig
 import evaluate
+from B.tuners import EvaluateTrainingCallback
 
 
 class LoraTuner:
@@ -19,9 +25,11 @@ class LoraTuner:
         per_device_eval_batch_size: int = 8,
         weight_decay: float = 0.01,
         epochs: int = 5,
-        evaluation_strategy: str = "epoch",
-        save_strategy: str = "epoch",
+        evaluation_strategy: str = IntervalStrategy.EPOCH,
+        save_strategy: str = IntervalStrategy.EPOCH,
         load_best_model_at_end: bool = True,
+        metric_for_best_model: str = "loss",
+        greater_is_better: bool = False,
         seed: int = 42,
         lora_task_type: str = "SEQ_CLS",
         lora_r: int = 4,
@@ -41,6 +49,8 @@ class LoraTuner:
             evaluation_strategy=evaluation_strategy,
             save_strategy=save_strategy,
             load_best_model_at_end=load_best_model_at_end,
+            metric_for_best_model=metric_for_best_model,
+            greater_is_better=greater_is_better,
             seed=seed,
             lora_task_type=lora_task_type,
             lora_r=lora_r,
@@ -76,6 +86,9 @@ class LoraTuner:
         )
 
         accuracy = evaluate.load("accuracy")
+        f1 = evaluate.load("f1")
+        precision = evaluate.load("precision")
+        recall = evaluate.load("recall")
 
         def compute_metrics(p):
             predictions, references = p
@@ -83,7 +96,16 @@ class LoraTuner:
             return {
                 "accuracy": accuracy.compute(
                     predictions=predictions, references=references
-                )
+                ),
+                "f1": f1.compute(
+                    predictions=predictions, references=references, average="macro"
+                ),
+                "precision": precision.compute(
+                    predictions=predictions, references=references, average="macro"
+                ),
+                "recall": recall.compute(
+                    predictions=predictions, references=references, average="macro"
+                ),
             }
 
         self.trainer = Trainer(
@@ -95,6 +117,8 @@ class LoraTuner:
             data_collator=DataCollatorWithPadding(tokenizer=self.tokenizer),
             compute_metrics=compute_metrics,
         )
+
+        self.trainer.add_callback(EvaluateTrainingCallback(self.trainer))
 
         print(f"\n=> LoRATuner - Training Device: {training_args.device}\n")
 
@@ -109,6 +133,8 @@ class LoraTuner:
         evaluation_strategy: str,
         save_strategy: str,
         load_best_model_at_end: bool,
+        metric_for_best_model: str,
+        greater_is_better: bool,
         seed: int,
         lora_task_type: str,
         lora_r: int,
@@ -130,6 +156,8 @@ class LoraTuner:
         print(f"\tTraining Arguments - Epochs: {epochs}")
         print(f"\tTraining Arguments - Evaluation Strategy: {evaluation_strategy}")
         print(f"\tTraining Arguments - Save Strategy: {save_strategy}")
+        print(f"\tTraining Arguments - Metric for Best Model: {metric_for_best_model}")
+        print(f"\tTraining Arguments - Greater is Better: {greater_is_better}")
         print(
             f"\tTraining Arguments - Load Best Model at End: {load_best_model_at_end}"
         )
@@ -156,3 +184,5 @@ class LoraTuner:
         print(
             f'\n\n=> Model training complete. Saved at "{output_dir}"\n=> Time Taken: {end_time - start_time} seconds\n\n'
         )
+
+        return end_time - start_time
