@@ -2,9 +2,9 @@ from transformers import (
     DistilBertForSequenceClassification,
     BertForSequenceClassification,
     RobertaForSequenceClassification,
-    RobertaTokenizer,
-    DistilBertTokenizer,
-    BertTokenizer,
+    BertTokenizerFast,
+    DistilBertTokenizerFast,
+    RobertaTokenizerFast,
 )
 
 
@@ -34,7 +34,9 @@ class BertBaseUncased:
             label2id=label2id,
         )
 
-        self.tokenizer = BertTokenizer.from_pretrained(self.name, add_prefix_space=True)
+        self.tokenizer = BertTokenizerFast.from_pretrained(
+            self.name, add_prefix_space=True
+        )
 
         self.tokenizer.truncation_side = "left"
 
@@ -73,7 +75,7 @@ class DistilBertUncased:
             label2id=label2id,
         )
 
-        self.tokenizer = DistilBertTokenizer.from_pretrained(
+        self.tokenizer = DistilBertTokenizerFast.from_pretrained(
             self.name, add_prefix_space=True
         )
 
@@ -113,7 +115,7 @@ class RobertaBase:
             label2id=label2id,
         )
 
-        self.tokenizer = RobertaTokenizer.from_pretrained(
+        self.tokenizer = RobertaTokenizerFast.from_pretrained(
             self.name, add_prefix_space=True
         )
 
