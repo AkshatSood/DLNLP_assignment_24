@@ -35,7 +35,7 @@ class DatasetLoader:
 
         return self.dataset
 
-    def information(self):
+    def information(self) -> dict:
 
         distributions = {}
         for split in self.dataset.keys():
