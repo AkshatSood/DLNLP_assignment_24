@@ -3,7 +3,7 @@ ELEC0141 Deep Learning for Natural Language Processing Assignment (2024)
 
 ## Dataset
 
-The [ag_news](https://huggingface.co/datasets/ag_news) dataset was used. This dataset consists of samples of news articles and corresponding classification into populat news categories, namely *World*, *Sports*, *Business*, and *Sci/Tech*.
+The [ag_news](https://huggingface.co/datasets/ag_news) dataset was used. This dataset consists of samples of news articles and corresponding classification into popular news categories, namely *World*, *Sports*, *Business*, and *Sci/Tech*.
 
 This dataset can be loaded into the project using the [dataset.py](./dataset.py) script. The dataset provided on [HuggingFace](https://huggingface.co/) contains a training and a test split. This script creates a validation split from the provided training split to create the following splits:
 
@@ -68,18 +68,24 @@ The fine tuning time and relevant metrics have been listed below. For each task 
 
 The conda environment can be created using the [environment.yml](./environment.yml) file provided. The following commands can be run in order to create and access the environment.
 
-```
+```bash
 conda env create -f environment.yml
 conda activate dlnlp24
 ```
 
 Once in the conda environment, the entire pipeline can be executed from [main.py](./main.py), using the following command. Based on which tasks (and corresponding subtasks) you wish to run, the [config.yaml](./config.yaml) file will need to be configured as well. This file is read at the start of the program execution and tasks are performed based on it. Fine tuning hyperparameters can also be updated for each task via this file.
 
-```
+```bash
 python main.py
 ```
 
-_It is important to note that a large amount of disk space (~40GB) is required in order to run the entire pipeline. A large RAM, and a good quality GPU will also be required. It is hard to estimate the run time of the entire pipeline, but it is expected to take multiple hours_
+
+
+_It is important to note that the following would be required to run the entire pipeline_
+
+- *A large amount of disk space (~40GB) to store the checkpoints and final models during fine tuning. Additional CSV and JSON files are created for evaluation and logs, but they have been included in this repository ([here](./results/)).*
+- *A large RAM and a good quality GPU.*
+- *The estimated runtime for the entire pipeline is (TODO), but this can vary depending on the platform that the pipeline is running on.*
 
 
 
@@ -96,5 +102,5 @@ The entire code structure along with the functions of each file have been provid
   - *parse_logs* (bool): If set to True, the checkpoints created during fine tuning (in the *checkpoints_dir*) will be used to create a log for each epochs loss and accuracy in the *logs_dir*. If set to False, this step will be skipped.
   - *training_args*: Used to set the training arguments for fine tuning.
 - [environment.yml](./environment.yml) - File used to create the conda environment. Contains information about dependencies used in the project.
-- [README.md](./README.md) - This file :)
+- [README.md](./README.md) - This file :smile:
 - [.gitignore](./.gitignore) - Git ignore
