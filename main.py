@@ -13,7 +13,7 @@ from B.tuners import Tuner
 from B.reporter import Reporter
 from C.tuners import LoraTuner
 
-config = OmegaConf.load(open("./config copy.yaml"))
+config = OmegaConf.load(open("./config v2.yaml"))
 
 logger = Logger(logs_dir=config.logs_dir)
 logger.print_execution_start()
