@@ -87,13 +87,15 @@ def evaluate_A(args):
 
 for model in config.A.models:
     if model.evaluate:
-        evaluate_A(model)
+        evaluate_A(args=model)
 
 
 # ======================================================================================================================
 # Task B
 
-reporter = Reporter(logs_dir=config.logging.fine_tuning_logs_dir)
+reporter = Reporter(
+    logs_dir=config.logging.fine_tuning_logs_dir, plots_dir=config.logging.plots_dir
+)
 
 
 def fine_tune_B(args):
@@ -152,6 +154,13 @@ def evaluate_B(args):
     print(f"\n=> Tuning Results:\n{logger.format_dict(tuning_results)}\n")
     logger.log_fine_tuning_results(
         task=args.name, model=args.model_name, results=tuning_results
+    )
+
+    print(f"\n=> Creating Fine Tuning Plot at {config.logging.plots_dir}")
+    reporter.create_fine_tuning_plots(
+        checkpoints_dir=args.checkpoints_dir,
+        model_name=args.model_name,
+        task_name=args.name,
     )
 
 
@@ -228,6 +237,13 @@ def evaluate_C(args):
         task=args.name, model=args.model_name, results=tuning_results
     )
 
+    print(f"\n=> Creating Fine Tuning Plot at {config.logging.plots_dir}")
+    reporter.create_fine_tuning_plots(
+        checkpoints_dir=args.checkpoints_dir,
+        model_name=args.model_name,
+        task_name=args.name,
+    )
+
 
 for model in config.C.models:
     if model.fine_tune:
@@ -299,6 +315,13 @@ def evaluate_D(args):
     print(f"\n=> Tuning Results:\n{logger.format_dict(tuning_results)}\n")
     logger.log_fine_tuning_results(
         task=args.name, model=args.model_name, results=tuning_results
+    )
+
+    print(f"\n=> Creating Fine Tuning Plot at {config.logging.plots_dir}")
+    reporter.create_fine_tuning_plots(
+        checkpoints_dir=args.checkpoints_dir,
+        model_name=args.model_name,
+        task_name=args.name,
     )
 
 
@@ -373,6 +396,13 @@ def evaluate_E(args):
     print(f"\n=> Tuning Results:\n{logger.format_dict(tuning_results)}\n")
     logger.log_fine_tuning_results(
         task=args.name, model=args.model_name, results=tuning_results
+    )
+
+    print(f"\n=> Creating Fine Tuning Plot at {config.logging.plots_dir}")
+    reporter.create_fine_tuning_plots(
+        checkpoints_dir=args.checkpoints_dir,
+        model_name=args.model_name,
+        task_name=args.name,
     )
 
 
