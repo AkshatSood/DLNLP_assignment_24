@@ -7,8 +7,7 @@ dependencies:
     - numpy==1.26.*
     - torch==2.2.*
     - torchvision==0.17.*
-    - --index-url https://download.pytorch.org/whl/cu121
-    # - cuda-python==12.4.*
+    # - --index-url https://download.pytorch.org/whl/cu121
     - transformers==4.39.*
     - accelerate==0.29.*
     - scikit-learn==1.4.*
@@ -17,3 +16,4 @@ dependencies:
     - peft==0.10.*
     - evaluate==0.4.*
     - tqdm==4.66.*
+    - matplotlib==3.8.*
