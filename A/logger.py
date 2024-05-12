@@ -1,6 +1,7 @@
 import os
 from datetime import datetime
 import json, codecs
+import pandas as pd
 
 
 class Logger:
@@ -81,3 +82,11 @@ class Logger:
                 encoding="utf-8",
             ),
         )
+
+    def create_evaluation_summary(self, evaluations_dir: str) -> None:
+        json_files = [
+            file for file in os.listdir(evaluations_dir) if file.endswith(".json")
+        ]
+
+    def create_fine_tuning_logs_summary(self, fine_tuning_logs_dir: str) -> None:
+        pass
