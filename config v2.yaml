@@ -1,8 +1,12 @@
-logs_dir: ".\\logs"
-results_dir: ".\\results"
-evaluations_dir: ".\\results\\evaluations"
-test_outputs_dir: ".\\results\\test_outputs"
-fine_tuning_logs_dir: ".\\results\\tuning_logs"
+logging:
+  logs_dir: ".\\logs"
+  results_dir: ".\\results"
+  evaluations_dir: ".\\results\\evaluations"
+  test_outputs_dir: ".\\results\\test_outputs"
+  fine_tuning_logs_dir: ".\\results\\tuning_logs"
+  create_log: True
+  create_evaluations_summary: True
+  create_fine_tuning_logs_summary: True
 
 dataset:
   ag_news:
@@ -10,13 +14,13 @@ dataset:
 
 A:
   models:
-    - name: "bert_base_uncased_pt"
+    - name: "A1"
       model_name: "BERT"
       evaluate: False
-    - name: "distilbert_base_uncased_pt"
+    - name: "A2"
       model_name: "DistilBERT"
       evaluate: False
-    - name: "roberta_base_pt"
+    - name: "A3"
       model_name: "RoBERTa"
       evaluate: False
 
@@ -346,8 +350,8 @@ E:
           target_modules: ["q_lin"]
     - name: "E3_v1"
       model_name: "RoBERTa"
-      fine_tune: True
-      evaluate: True
+      fine_tune: False
+      evaluate: False
       checkpoints_dir: ".\\E\\checkpoints\\E3_v1_RoBERTa"
       model_dir: ".\\E\\models\\E3_v1_RoBERTa"
       training_args:
@@ -397,8 +401,8 @@ E:
           target_modules: ["q_lin"]
     - name: "E3_v2"
       model_name: "RoBERTa"
-      fine_tune: True
-      evaluate: True
+      fine_tune: False
+      evaluate: False
       checkpoints_dir: ".\\E\\checkpoints\\E3_v2_RoBERTa"
       model_dir: ".\\E\\models\\E3_v2_RoBERTa"
       training_args:

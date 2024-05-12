@@ -1,7 +1,12 @@
-results_dir: ".\\results"
-evaluations_dir: ".\\results\\evaluations"
-test_outputs_dir: ".\\results\\test_outputs"
-fine_tuning_logs_dir: ".\\results\\tuning_logs"
+logging:
+  logs_dir: ".\\logs"
+  results_dir: ".\\results"
+  evaluations_dir: ".\\results\\evaluations"
+  test_outputs_dir: ".\\results\\test_outputs"
+  fine_tuning_logs_dir: ".\\results\\tuning_logs"
+  create_log: True
+  create_evaluations_summary: True
+  create_fine_tuning_logs_summary: True
 
 dataset:
   ag_news:
