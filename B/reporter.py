@@ -50,11 +50,6 @@ class Reporter:
             if "eval_accuracy" in log:
                 eval_entry = __get_entry_from_log(log, "eval")
 
-                # if final_epoch_log is None:
-                #     final_epoch_log = eval_entry
-                # elif final_epoch_log["Epoch"] < int(eval_entry["Epoch"]):
-                #     final_epoch_log = eval_entry
-
                 if selected_loss is None:
                     selected_loss = eval_entry["Loss"]
                     selected_epoch = eval_entry["Epoch"]
@@ -76,6 +71,3 @@ class Reporter:
         )
 
         return [log for log in logs if log["Epoch"] == selected_epoch]
-
-    def create_fine_tuning_summary(file_name: str):
-        pass

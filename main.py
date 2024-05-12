@@ -1,6 +1,4 @@
-from datetime import datetime
 from omegaconf import OmegaConf
-import json
 from A.logger import Logger
 from data.dataset import AGNewsDatasetLoader
 from A.models import (
@@ -15,7 +13,7 @@ from C.tuners import LoraTuner
 
 config = OmegaConf.load(open("./config v2.yaml"))
 
-logger = Logger(logs_dir=config.logs_dir)
+logger = Logger(logs_dir=config.logging.logs_dir)
 logger.print_execution_start()
 
 
@@ -23,8 +21,8 @@ logger.print_execution_start()
 # Data preprocessing
 # data_train, data_val, data_test = data_preprocessing(args...)
 
+logger.print_heading("Loading AG News Dataset")
 ag_news = AGNewsDatasetLoader(config.dataset.ag_news)
-
 
 print(
     f"\n=> AG News Dataset Information:\n{logger.format_dict(ag_news.information())}\n"
@@ -42,8 +40,8 @@ evaluator = Evaluator(
     x_test=x_test,
     y_test=y_test,
     label_map=ag_news.id2label,
-    evaluations_dir=config.evaluations_dir,
-    test_outputs_dir=config.test_outputs_dir,
+    evaluations_dir=config.logging.evaluations_dir,
+    test_outputs_dir=config.logging.test_outputs_dir,
 )
 
 
@@ -75,7 +73,16 @@ def evaluate_A(args):
     logger.print_heading(f"TASK A: Evaluating {args.name}...")
 
     model, tokenizer = get_model_and_tokenizer(model_name=args.model_name)
-    evaluator.create_evaluations(model=model, tokenizer=tokenizer, name=args.name)
+    evaluation_results = evaluator.create_evaluations(
+        model=model,
+        tokenizer=tokenizer,
+        model_name=args.model_name,
+        task_name=args.name,
+    )
+    print(f"\n=> Evaluation Results:\n{logger.format_dict(evaluation_results)}\n")
+    logger.log_evaluation_results(
+        task=args.name, model=args.model_name, results=evaluation_results
+    )
 
 
 for model in config.A.models:
@@ -86,7 +93,7 @@ for model in config.A.models:
 # ======================================================================================================================
 # Task B
 
-reporter = Reporter(logs_dir=config.fine_tuning_logs_dir)
+reporter = Reporter(logs_dir=config.logging.fine_tuning_logs_dir)
 
 
 def fine_tune_B(args):
@@ -384,4 +391,19 @@ for model in config.E.models:
 # acc_A_train = 'TBD'
 # acc_B_test = 'TBD'
 
-logger.create_log()
+if config.logging.create_log:
+    logger.create_log()
+
+if config.logging.create_evaluations_summary:
+    logger.print_heading("Evaluations Summary")
+    logger.create_evaluation_summary(
+        evaluations_dir=config.logging.evaluations_dir,
+        output_dir=config.logging.results_dir,
+    )
+
+if config.logging.create_fine_tuning_logs_summary:
+    logger.print_heading("Fine Tuning Summary")
+    logger.create_fine_tuning_logs_summary(
+        fine_tuning_logs_dir=config.logging.fine_tuning_logs_dir,
+        output_dir=config.logging.results_dir,
+    )

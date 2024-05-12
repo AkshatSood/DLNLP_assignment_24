@@ -11,14 +11,14 @@ class Logger:
         self.logs = []
         self.execution_start_time = None
 
-    def print_execution_start(self):
+    def print_execution_start(self) -> None:
         timestamp = datetime.now().strftime("%d/%m/%Y, %H:%M:%S")
         self.execution_start_time = timestamp
         print(
             f"\n\n\n\n\n\n************* NEW EXECUTION STARTED AT {timestamp} *************\n\n\n\n\n\n\n"
         )
 
-    def print_heading(self, text: str):
+    def print_heading(self, text: str) -> None:
         print(
             "\n\n\n#####################################################################"
         )
@@ -67,7 +67,7 @@ class Logger:
             }
         )
 
-    def create_log(self):
+    def create_log(self) -> None:
         execution_end_time = datetime.now().strftime("%d/%m/%Y, %H:%M:%S")
         timestamp = datetime.now().strftime("%Y_%m_%d_%H_%M_%S")
         json.dump(
@@ -83,10 +83,44 @@ class Logger:
             ),
         )
 
-    def create_evaluation_summary(self, evaluations_dir: str) -> None:
+    def create_evaluation_summary(self, evaluations_dir: str, output_dir: str) -> None:
         json_files = [
             file for file in os.listdir(evaluations_dir) if file.endswith(".json")
         ]
 
-    def create_fine_tuning_logs_summary(self, fine_tuning_logs_dir: str) -> None:
-        pass
+        evaluations = []
+
+        for json_file in json_files:
+            evaluation = json.load(open(os.path.join(evaluations_dir, json_file)))
+            evaluation.pop("confusion_matrix", None)
+            evaluations.append(evaluation)
+
+        df = pd.DataFrame(evaluations)
+        df = df.sort_values("task", ascending=True)
+
+        print(df)
+
+        output_csv = os.path.join(output_dir, "Evaluation Summary.csv")
+        df.to_csv(output_csv, index=False)
+
+        print(f"\n=> Evaluation summary created at {output_csv}")
+
+    def create_fine_tuning_logs_summary(
+        self, fine_tuning_logs_dir: str, output_dir: str
+    ) -> None:
+        csv_files = [
+            file for file in os.listdir(fine_tuning_logs_dir) if file.endswith(".csv")
+        ]
+
+        df = pd.concat(
+            (pd.read_csv(os.path.join(fine_tuning_logs_dir, f)) for f in csv_files),
+            ignore_index=True,
+        )
+        df = df.sort_values("Task", ascending=True)
+
+        print(df)
+
+        output_csv = os.path.join(output_dir, "Fine Tuning Summary.csv")
+        df.to_csv(output_csv, index=False)
+
+        print(f"\n=> Fine tuning summary created at {output_csv}")
