@@ -83,10 +83,14 @@ python main.py
 
 _It is important to note that the following would be required to run the entire pipeline_
 
-- *A large amount of disk space (~40GB) to store the checkpoints and final models during fine tuning. Additional CSV and JSON files are created for evaluation and logs, but they have been included in this repository ([here](./results/)).*
+- *A large amount of disk space (~40GB) to store the checkpoints and final models during fine tuning. Additional CSV and JSON files are created for evaluation and logs, but they have been included in this repository ([results](./results/) and [logs](./logs/)).*
 - *A large RAM and a good quality GPU.*
-- *The estimated runtime for the entire pipeline is (TODO), but this can vary depending on the platform that the pipeline is running on.*
+- *The estimated runtime for the entire pipeline is 54 hours, but this can vary depending on the platform/environment that the pipeline is running on.*
 
+
+### Running the Demo
+
+For the purposes of testing a subsection of the entire pipeline a demo has been setup. The following steps can be followed to run this demo.
 
 
 ## Project Structure
