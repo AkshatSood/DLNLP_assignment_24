@@ -1,0 +1,522 @@
+{
+    "Execution Start Time": "10/05/2024, 21:07:56",
+    "Execution End Time": "11/05/2024, 12:43:53",
+    "Logs": [
+        {
+            "task": "B3_v1",
+            "model": "RoBERTa",
+            "type": "Fine Tuning Duration",
+            "time": "10/05/2024, 23:29:00",
+            "time_taken": 8446.013422250748
+        },
+        {
+            "task": "B3_v1",
+            "model": "RoBERTa",
+            "type": "Evaluation Results",
+            "time": "10/05/2024, 23:36:35",
+            "evaluation_results": {
+                "model": "RoBERTa",
+                "task": "B3_v1",
+                "evaluation_time": 454.7340919971466,
+                "accuracy": 0.7888157894736842,
+                "f1_score": 0.7877405649394515,
+                "precision": 0.8505008297410839,
+                "recall": 0.7888157894736841,
+                "confusion_matrix": [
+                    [
+                        1400,
+                        59,
+                        390,
+                        51
+                    ],
+                    [
+                        12,
+                        1806,
+                        76,
+                        6
+                    ],
+                    [
+                        20,
+                        4,
+                        1847,
+                        29
+                    ],
+                    [
+                        40,
+                        10,
+                        908,
+                        942
+                    ]
+                ]
+            }
+        },
+        {
+            "task": "B3_v1",
+            "model": "RoBERTa",
+            "type": "Fine Tuning Results",
+            "time": "10/05/2024, 23:36:35",
+            "tuning_results": [
+                {
+                    "Task": "B3_v1",
+                    "Model": "RoBERTa",
+                    "Type": "train",
+                    "Epoch": 1,
+                    "Accuracy": 0.79252,
+                    "F1": 0.7910852116815718,
+                    "Precision": 0.8553287823998874,
+                    "Recall": 0.79252,
+                    "Loss": 0.5702508091926575,
+                    "Step": 12500,
+                    "Runtime": 260.435,
+                    "Samples Per Second": 383.973,
+                    "Steps Per Second": 47.997
+                },
+                {
+                    "Task": "B3_v1",
+                    "Model": "RoBERTa",
+                    "Type": "eval",
+                    "Epoch": 1,
+                    "Accuracy": 0.7894,
+                    "F1": 0.7883707944951643,
+                    "Precision": 0.8535911368850786,
+                    "Recall": 0.7894,
+                    "Loss": 0.5796061754226685,
+                    "Step": 12500,
+                    "Runtime": 51.1988,
+                    "Samples Per Second": 390.634,
+                    "Steps Per Second": 48.829
+                }
+            ]
+        },
+        {
+            "task": "B3_v2",
+            "model": "RoBERTa",
+            "type": "Fine Tuning Duration",
+            "time": "11/05/2024, 01:50:51",
+            "time_taken": 8032.960963010788
+        },
+        {
+            "task": "B3_v2",
+            "model": "RoBERTa",
+            "type": "Evaluation Results",
+            "time": "11/05/2024, 01:58:28",
+            "evaluation_results": {
+                "model": "RoBERTa",
+                "task": "B3_v2",
+                "evaluation_time": 446.01370763778687,
+                "accuracy": 0.9384210526315789,
+                "f1_score": 0.9380770449131897,
+                "precision": 0.9401833657003276,
+                "recall": 0.9384210526315789,
+                "confusion_matrix": [
+                    [
+                        1809,
+                        14,
+                        29,
+                        48
+                    ],
+                    [
+                        10,
+                        1884,
+                        3,
+                        3
+                    ],
+                    [
+                        70,
+                        12,
+                        1618,
+                        200
+                    ],
+                    [
+                        29,
+                        11,
+                        39,
+                        1821
+                    ]
+                ]
+            }
+        },
+        {
+            "task": "B3_v2",
+            "model": "RoBERTa",
+            "type": "Fine Tuning Results",
+            "time": "11/05/2024, 01:58:28",
+            "tuning_results": [
+                {
+                    "Task": "B3_v2",
+                    "Model": "RoBERTa",
+                    "Type": "train",
+                    "Epoch": 1,
+                    "Accuracy": 0.9512,
+                    "F1": 0.9509946864752192,
+                    "Precision": 0.9525425069481313,
+                    "Recall": 0.9512,
+                    "Loss": 0.19740377366542816,
+                    "Step": 12500,
+                    "Runtime": 261.1138,
+                    "Samples Per Second": 382.975,
+                    "Steps Per Second": 47.872
+                },
+                {
+                    "Task": "B3_v2",
+                    "Model": "RoBERTa",
+                    "Type": "eval",
+                    "Epoch": 1,
+                    "Accuracy": 0.9422,
+                    "F1": 0.941943455311937,
+                    "Precision": 0.9434802339516707,
+                    "Recall": 0.9422000000000001,
+                    "Loss": 0.25130072236061096,
+                    "Step": 12500,
+                    "Runtime": 51.1278,
+                    "Samples Per Second": 391.177,
+                    "Steps Per Second": 48.897
+                }
+            ]
+        },
+        {
+            "task": "C3_v1",
+            "model": "RoBERTa",
+            "type": "Fine Tuning Duration",
+            "time": "11/05/2024, 04:31:02",
+            "time_taken": 9141.575730085373
+        },
+        {
+            "task": "C3_v1",
+            "model": "RoBERTa",
+            "type": "Evaluation Results",
+            "time": "11/05/2024, 04:39:03",
+            "evaluation_results": {
+                "model": "RoBERTa",
+                "task": "C3_v1",
+                "evaluation_time": 480.6929466724396,
+                "accuracy": 0.9397368421052632,
+                "f1_score": 0.9396493032136535,
+                "precision": 0.9397140316499981,
+                "recall": 0.9397368421052632,
+                "confusion_matrix": [
+                    [
+                        1798,
+                        20,
+                        47,
+                        35
+                    ],
+                    [
+                        9,
+                        1878,
+                        9,
+                        4
+                    ],
+                    [
+                        47,
+                        11,
+                        1702,
+                        140
+                    ],
+                    [
+                        38,
+                        7,
+                        91,
+                        1764
+                    ]
+                ]
+            }
+        },
+        {
+            "task": "C3_v1",
+            "model": "RoBERTa",
+            "type": "Fine Tuning Results",
+            "time": "11/05/2024, 04:39:03",
+            "tuning_results": [
+                {
+                    "Task": "C3_v1",
+                    "Model": "RoBERTa",
+                    "Type": "train",
+                    "Epoch": 7,
+                    "Accuracy": 0.9476,
+                    "F1": 0.947599325651601,
+                    "Precision": 0.9477017158398057,
+                    "Recall": 0.9476,
+                    "Loss": 0.17938485741615295,
+                    "Step": 87500,
+                    "Runtime": 267.1862,
+                    "Samples Per Second": 374.271,
+                    "Steps Per Second": 46.784
+                },
+                {
+                    "Task": "C3_v1",
+                    "Model": "RoBERTa",
+                    "Type": "eval",
+                    "Epoch": 7,
+                    "Accuracy": 0.94115,
+                    "F1": 0.9411358917947424,
+                    "Precision": 0.9412270068510248,
+                    "Recall": 0.94115,
+                    "Loss": 0.21713459491729736,
+                    "Step": 87500,
+                    "Runtime": 52.5812,
+                    "Samples Per Second": 380.364,
+                    "Steps Per Second": 47.546
+                }
+            ]
+        },
+        {
+            "task": "C3_v2",
+            "model": "RoBERTa",
+            "type": "Fine Tuning Duration",
+            "time": "11/05/2024, 07:13:01",
+            "time_taken": 9180.66510438919
+        },
+        {
+            "task": "C3_v2",
+            "model": "RoBERTa",
+            "type": "Evaluation Results",
+            "time": "11/05/2024, 07:21:04",
+            "evaluation_results": {
+                "model": "RoBERTa",
+                "task": "C3_v2",
+                "evaluation_time": 482.23894333839417,
+                "accuracy": 0.9280263157894737,
+                "f1_score": 0.9278539983154784,
+                "precision": 0.9281632978888599,
+                "recall": 0.9280263157894737,
+                "confusion_matrix": [
+                    [
+                        1758,
+                        42,
+                        50,
+                        50
+                    ],
+                    [
+                        11,
+                        1878,
+                        7,
+                        4
+                    ],
+                    [
+                        55,
+                        11,
+                        1664,
+                        170
+                    ],
+                    [
+                        41,
+                        8,
+                        98,
+                        1753
+                    ]
+                ]
+            }
+        },
+        {
+            "task": "C3_v2",
+            "model": "RoBERTa",
+            "type": "Fine Tuning Results",
+            "time": "11/05/2024, 07:21:04",
+            "tuning_results": [
+                {
+                    "Task": "C3_v2",
+                    "Model": "RoBERTa",
+                    "Type": "train",
+                    "Epoch": 9,
+                    "Accuracy": 0.93185,
+                    "F1": 0.9317767901111318,
+                    "Precision": 0.9319787911198585,
+                    "Recall": 0.93185,
+                    "Loss": 0.22979573905467987,
+                    "Step": 112500,
+                    "Runtime": 268.8396,
+                    "Samples Per Second": 371.969,
+                    "Steps Per Second": 46.496
+                },
+                {
+                    "Task": "C3_v2",
+                    "Model": "RoBERTa",
+                    "Type": "eval",
+                    "Epoch": 9,
+                    "Accuracy": 0.9283,
+                    "F1": 0.9282024693200148,
+                    "Precision": 0.9284272105601378,
+                    "Recall": 0.9283000000000001,
+                    "Loss": 0.2454889714717865,
+                    "Step": 112500,
+                    "Runtime": 52.663,
+                    "Samples Per Second": 379.773,
+                    "Steps Per Second": 47.472
+                }
+            ]
+        },
+        {
+            "task": "D3_v1",
+            "model": "RoBERTa",
+            "type": "Fine Tuning Duration",
+            "time": "11/05/2024, 09:54:41",
+            "time_taken": 9195.023771047592
+        },
+        {
+            "task": "D3_v1",
+            "model": "RoBERTa",
+            "type": "Evaluation Results",
+            "time": "11/05/2024, 10:02:37",
+            "evaluation_results": {
+                "model": "RoBERTa",
+                "task": "D3_v1",
+                "evaluation_time": 474.60480093955994,
+                "accuracy": 0.9402631578947368,
+                "f1_score": 0.9402141520587888,
+                "precision": 0.9404800223972307,
+                "recall": 0.9402631578947369,
+                "confusion_matrix": [
+                    [
+                        1793,
+                        23,
+                        44,
+                        40
+                    ],
+                    [
+                        10,
+                        1878,
+                        9,
+                        3
+                    ],
+                    [
+                        42,
+                        6,
+                        1699,
+                        153
+                    ],
+                    [
+                        33,
+                        7,
+                        84,
+                        1776
+                    ]
+                ]
+            }
+        },
+        {
+            "task": "D3_v1",
+            "model": "RoBERTa",
+            "type": "Fine Tuning Results",
+            "time": "11/05/2024, 10:02:37",
+            "tuning_results": [
+                {
+                    "Task": "D3_v1",
+                    "Model": "RoBERTa",
+                    "Type": "train",
+                    "Epoch": 7,
+                    "Accuracy": 0.9489,
+                    "F1": 0.9488854462400365,
+                    "Precision": 0.9491711403711952,
+                    "Recall": 0.9489,
+                    "Loss": 0.172036811709404,
+                    "Step": 87500,
+                    "Runtime": 267.0924,
+                    "Samples Per Second": 374.402,
+                    "Steps Per Second": 46.8
+                },
+                {
+                    "Task": "D3_v1",
+                    "Model": "RoBERTa",
+                    "Type": "eval",
+                    "Epoch": 7,
+                    "Accuracy": 0.94105,
+                    "F1": 0.9410181868687837,
+                    "Precision": 0.9412666164927257,
+                    "Recall": 0.9410499999999999,
+                    "Loss": 0.20777052640914917,
+                    "Step": 87500,
+                    "Runtime": 52.8699,
+                    "Samples Per Second": 378.287,
+                    "Steps Per Second": 47.286
+                }
+            ]
+        },
+        {
+            "task": "D3_v2",
+            "model": "RoBERTa",
+            "type": "Fine Tuning Duration",
+            "time": "11/05/2024, 12:37:02",
+            "time_taken": 9252.714076042175
+        },
+        {
+            "task": "D3_v2",
+            "model": "RoBERTa",
+            "type": "Evaluation Results",
+            "time": "11/05/2024, 12:43:53",
+            "evaluation_results": {
+                "model": "RoBERTa",
+                "task": "D3_v2",
+                "evaluation_time": 410.1561541557312,
+                "accuracy": 0.9282894736842106,
+                "f1_score": 0.9281931908927588,
+                "precision": 0.9284362224140479,
+                "recall": 0.9282894736842104,
+                "confusion_matrix": [
+                    [
+                        1762,
+                        35,
+                        54,
+                        49
+                    ],
+                    [
+                        14,
+                        1875,
+                        5,
+                        6
+                    ],
+                    [
+                        50,
+                        9,
+                        1672,
+                        169
+                    ],
+                    [
+                        41,
+                        8,
+                        105,
+                        1746
+                    ]
+                ]
+            }
+        },
+        {
+            "task": "D3_v2",
+            "model": "RoBERTa",
+            "type": "Fine Tuning Results",
+            "time": "11/05/2024, 12:43:53",
+            "tuning_results": [
+                {
+                    "Task": "D3_v2",
+                    "Model": "RoBERTa",
+                    "Type": "train",
+                    "Epoch": 9,
+                    "Accuracy": 0.93228,
+                    "F1": 0.9322164020931487,
+                    "Precision": 0.9324044769273321,
+                    "Recall": 0.93228,
+                    "Loss": 0.22568124532699585,
+                    "Step": 112500,
+                    "Runtime": 269.9362,
+                    "Samples Per Second": 370.458,
+                    "Steps Per Second": 46.307
+                },
+                {
+                    "Task": "D3_v2",
+                    "Model": "RoBERTa",
+                    "Type": "eval",
+                    "Epoch": 9,
+                    "Accuracy": 0.9295,
+                    "F1": 0.9294184562786079,
+                    "Precision": 0.9296702251347096,
+                    "Recall": 0.9295,
+                    "Loss": 0.23836076259613037,
+                    "Step": 112500,
+                    "Runtime": 52.1422,
+                    "Samples Per Second": 383.567,
+                    "Steps Per Second": 47.946
+                }
+            ]
+        }
+    ]
+}

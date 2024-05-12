@@ -1,0 +1,178 @@
+{
+    "Execution Start Time": "09/05/2024, 20:17:02",
+    "Execution End Time": "10/05/2024, 00:25:54",
+    "Logs": [
+        {
+            "task": "C1_v1",
+            "model": "BERT",
+            "type": "Fine Tuning Duration",
+            "time": "09/05/2024, 22:54:00",
+            "time_taken": 9396.37275505066
+        },
+        {
+            "task": "C1_v1",
+            "model": "BERT",
+            "type": "Evaluation Results",
+            "time": "09/05/2024, 23:00:48",
+            "evaluation_results": {
+                "model": "BERT",
+                "task": "C1_v1",
+                "evaluation_time": 407.2276248931885,
+                "accuracy": 0.9319736842105263,
+                "f1_score": 0.9319167083040996,
+                "precision": 0.9318783117666323,
+                "recall": 0.9319736842105263,
+                "confusion_matrix": [
+                    [
+                        1780,
+                        21,
+                        54,
+                        45
+                    ],
+                    [
+                        17,
+                        1875,
+                        6,
+                        2
+                    ],
+                    [
+                        57,
+                        7,
+                        1700,
+                        136
+                    ],
+                    [
+                        42,
+                        8,
+                        122,
+                        1728
+                    ]
+                ]
+            }
+        },
+        {
+            "task": "C1_v1",
+            "model": "BERT",
+            "type": "Fine Tuning Results",
+            "time": "09/05/2024, 23:00:48",
+            "tuning_results": [
+                {
+                    "Task": "C1_v1",
+                    "Model": "BERT",
+                    "Type": "train",
+                    "Epoch": 9,
+                    "Accuracy": 0.94521,
+                    "F1": 0.945187432789568,
+                    "Precision": 0.945215274549096,
+                    "Recall": 0.94521,
+                    "Loss": 0.20031538605690002,
+                    "Step": 112500,
+                    "Runtime": 273.8081,
+                    "Samples Per Second": 365.219,
+                    "Steps Per Second": 45.652
+                },
+                {
+                    "Task": "C1_v1",
+                    "Model": "BERT",
+                    "Type": "eval",
+                    "Epoch": 9,
+                    "Accuracy": 0.93425,
+                    "F1": 0.9342146950219385,
+                    "Precision": 0.9342620139064487,
+                    "Recall": 0.93425,
+                    "Loss": 0.2545095384120941,
+                    "Step": 112500,
+                    "Runtime": 53.4837,
+                    "Samples Per Second": 373.946,
+                    "Steps Per Second": 46.743
+                }
+            ]
+        },
+        {
+            "task": "C2_v1",
+            "model": "DistilBERT",
+            "type": "Fine Tuning Duration",
+            "time": "10/05/2024, 00:22:18",
+            "time_taken": 4880.960959672928
+        },
+        {
+            "task": "C2_v1",
+            "model": "DistilBERT",
+            "type": "Evaluation Results",
+            "time": "10/05/2024, 00:25:54",
+            "evaluation_results": {
+                "model": "DistilBERT",
+                "task": "C2_v1",
+                "evaluation_time": 215.15984296798706,
+                "accuracy": 0.9351315789473684,
+                "f1_score": 0.9350747311435079,
+                "precision": 0.9353750526682849,
+                "recall": 0.9351315789473684,
+                "confusion_matrix": [
+                    [
+                        1786,
+                        22,
+                        47,
+                        45
+                    ],
+                    [
+                        8,
+                        1875,
+                        10,
+                        7
+                    ],
+                    [
+                        49,
+                        7,
+                        1683,
+                        161
+                    ],
+                    [
+                        38,
+                        10,
+                        89,
+                        1763
+                    ]
+                ]
+            }
+        },
+        {
+            "task": "C2_v1",
+            "model": "DistilBERT",
+            "type": "Fine Tuning Results",
+            "time": "10/05/2024, 00:25:54",
+            "tuning_results": [
+                {
+                    "Task": "C2_v1",
+                    "Model": "DistilBERT",
+                    "Type": "train",
+                    "Epoch": 7,
+                    "Accuracy": 0.94843,
+                    "F1": 0.9483660392677334,
+                    "Precision": 0.9487718568342461,
+                    "Recall": 0.9484300000000001,
+                    "Loss": 0.16692544519901276,
+                    "Step": 87500,
+                    "Runtime": 144.5033,
+                    "Samples Per Second": 692.026,
+                    "Steps Per Second": 86.503
+                },
+                {
+                    "Task": "C2_v1",
+                    "Model": "DistilBERT",
+                    "Type": "eval",
+                    "Epoch": 7,
+                    "Accuracy": 0.93795,
+                    "F1": 0.937849075801761,
+                    "Precision": 0.9383296727382774,
+                    "Recall": 0.9379500000000001,
+                    "Loss": 0.21483244001865387,
+                    "Step": 87500,
+                    "Runtime": 28.3487,
+                    "Samples Per Second": 705.5,
+                    "Steps Per Second": 88.187
+                }
+            ]
+        }
+    ]
+}
