@@ -100,8 +100,8 @@ C:
   models:
     - name: "C1_v1"
       model_name: "BERT"
-      fine_tune: True
-      evaluate: True
+      fine_tune: False
+      evaluate: False
       checkpoints_dir: ".\\C\\checkpoints\\C1_v1_BERT"
       model_dir: ".\\C\\models\\C1_v1_BERT"
       training_args:
@@ -117,8 +117,8 @@ C:
           target_modules: ["query"]
     - name: "C2_v1"
       model_name: "DistilBERT"
-      fine_tune: True
-      evaluate: True
+      fine_tune: False
+      evaluate: False
       checkpoints_dir: ".\\C\\checkpoints\\C2_v1_DistilBERT"
       model_dir: ".\\C\\models\\C2_v1_DistilBERT"
       training_args:
@@ -346,8 +346,8 @@ E:
           target_modules: ["q_lin"]
     - name: "E3_v1"
       model_name: "RoBERTa"
-      fine_tune: False
-      evaluate: False
+      fine_tune: True
+      evaluate: True
       checkpoints_dir: ".\\E\\checkpoints\\E3_v1_RoBERTa"
       model_dir: ".\\E\\models\\E3_v1_RoBERTa"
       training_args:
@@ -397,8 +397,8 @@ E:
           target_modules: ["q_lin"]
     - name: "E3_v2"
       model_name: "RoBERTa"
-      fine_tune: False
-      evaluate: False
+      fine_tune: True
+      evaluate: True
       checkpoints_dir: ".\\E\\checkpoints\\E3_v2_RoBERTa"
       model_dir: ".\\E\\models\\E3_v2_RoBERTa"
       training_args:
