@@ -9,6 +9,7 @@ from A.models import (
 from A.evaluator import Evaluator
 from B.tuners import Tuner
 from B.reporter import Reporter
+from B.plotter import Plotter
 from C.tuners import LoraTuner
 
 # Read the config file
@@ -94,8 +95,10 @@ for model in config.A.models:
 # ======================================================================================================================
 # Task B
 
-reporter = Reporter(
-    logs_dir=config.logging.fine_tuning_logs_dir, plots_dir=config.logging.plots_dir
+reporter = Reporter(logs_dir=config.logging.fine_tuning_logs_dir)
+plotter = Plotter(
+    fine_tuning_logs_dir=config.logging.fine_tuning_logs_dir,
+    plots_dir=config.logging.plots_dir,
 )
 
 
@@ -158,7 +161,7 @@ def evaluate_B(args):
     )
 
     print(f"\n=> Creating Fine Tuning Plot at {config.logging.plots_dir}")
-    reporter.create_fine_tuning_plots(
+    plotter.create_fine_tuning_plots(
         checkpoints_dir=args.checkpoints_dir,
         model_name=args.model_name,
         task_name=args.name,
@@ -239,7 +242,7 @@ def evaluate_C(args):
     )
 
     print(f"\n=> Creating Fine Tuning Plot at {config.logging.plots_dir}")
-    reporter.create_fine_tuning_plots(
+    plotter.create_fine_tuning_plots(
         checkpoints_dir=args.checkpoints_dir,
         model_name=args.model_name,
         task_name=args.name,
@@ -319,7 +322,7 @@ def evaluate_D(args):
     )
 
     print(f"\n=> Creating Fine Tuning Plot at {config.logging.plots_dir}")
-    reporter.create_fine_tuning_plots(
+    plotter.create_fine_tuning_plots(
         checkpoints_dir=args.checkpoints_dir,
         model_name=args.model_name,
         task_name=args.name,
@@ -400,7 +403,7 @@ def evaluate_E(args):
     )
 
     print(f"\n=> Creating Fine Tuning Plot at {config.logging.plots_dir}")
-    reporter.create_fine_tuning_plots(
+    plotter.create_fine_tuning_plots(
         checkpoints_dir=args.checkpoints_dir,
         model_name=args.model_name,
         task_name=args.name,
@@ -438,3 +441,7 @@ if config.logging.create_fine_tuning_logs_summary:
         fine_tuning_logs_dir=config.logging.fine_tuning_logs_dir,
         output_dir=config.logging.results_dir,
     )
+
+if config.logging.create_summary_plots:
+    logger.print_heading("Summary Plots")
+    plotter.create_bar_charts()

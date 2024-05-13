@@ -8,6 +8,7 @@ logging:
   create_log: True
   create_evaluations_summary: True
   create_fine_tuning_logs_summary: True
+  create_summary_plots: True
 
 dataset:
   ag_news:
