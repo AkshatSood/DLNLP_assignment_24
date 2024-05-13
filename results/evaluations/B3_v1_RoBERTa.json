@@ -1,7 +1,7 @@
 {
     "model": "RoBERTa",
     "task": "B3_v1",
-    "evaluation_time": 454.7340919971466,
+    "evaluation_time": 380.7418096065521,
     "accuracy": 0.7888157894736842,
     "f1_score": 0.7877405649394515,
     "precision": 0.8505008297410839,

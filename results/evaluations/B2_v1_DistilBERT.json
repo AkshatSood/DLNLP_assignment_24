@@ -1,7 +1,7 @@
 {
     "model": "DistilBERT",
     "task": "B2_v1",
-    "evaluation_time": 242.75218057632446,
+    "evaluation_time": 199.67881560325623,
     "accuracy": 0.9360526315789474,
     "f1_score": 0.9358281819493368,
     "precision": 0.9366291846214527,

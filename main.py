@@ -11,15 +11,16 @@ from B.tuners import Tuner
 from B.reporter import Reporter
 from C.tuners import LoraTuner
 
+# Read the config file
 config = OmegaConf.load(open("./config v2.yaml"))
 
+# Set up logger
 logger = Logger(logs_dir=config.logging.logs_dir)
 logger.print_execution_start()
 
-
 # ======================================================================================================================
 # Data preprocessing
-# data_train, data_val, data_test = data_preprocessing(args...)
+#   Load the AG News dataset
 
 logger.print_heading("Loading AG News Dataset")
 ag_news = AGNewsDatasetLoader(config.dataset.ag_news)

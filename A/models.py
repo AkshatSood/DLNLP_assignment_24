@@ -35,7 +35,7 @@ class BertBaseUncased:
         )
 
         self.tokenizer = BertTokenizerFast.from_pretrained(
-            self.name, add_prefix_space=True
+            self.name if path is None else path, add_prefix_space=True
         )
 
         self.tokenizer.truncation_side = "left"
@@ -76,7 +76,7 @@ class DistilBertUncased:
         )
 
         self.tokenizer = DistilBertTokenizerFast.from_pretrained(
-            self.name, add_prefix_space=True
+            self.name if path is None else path, add_prefix_space=True
         )
 
         self.tokenizer.truncation_side = "left"
@@ -116,7 +116,7 @@ class RobertaBase:
         )
 
         self.tokenizer = RobertaTokenizerFast.from_pretrained(
-            self.name, add_prefix_space=True
+            self.name if path is None else path, add_prefix_space=True
         )
 
         self.tokenizer.truncation_side = "left"

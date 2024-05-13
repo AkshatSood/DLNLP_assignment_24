@@ -1,7 +1,7 @@
 {
     "model": "BERT",
     "task": "B1_v2",
-    "evaluation_time": 458.56688141822815,
+    "evaluation_time": 377.95951104164124,
     "accuracy": 0.9394736842105263,
     "f1_score": 0.9392310585281476,
     "precision": 0.9399917532073956,
