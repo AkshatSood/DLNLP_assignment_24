@@ -1,0 +1,122 @@
+{
+    "Execution Start Time": "15/05/2024, 21:40:20",
+    "Execution End Time": "15/05/2024, 21:40:37",
+    "Logs": [
+        {
+            "task": "A0",
+            "model": "NaiveBayes",
+            "type": "Evaluation Results",
+            "time": "15/05/2024, 21:40:37",
+            "evaluation_results": [
+                {
+                    "model": "NaiveBayes",
+                    "task": "A0",
+                    "split": "test",
+                    "evaluation_time": 0,
+                    "accuracy": 0.9018421052631579,
+                    "f1_score": 0.9015396110113952,
+                    "precision": 0.9015894690658142,
+                    "recall": 0.901842105263158,
+                    "confusion_matrix": [
+                        [
+                            1696,
+                            58,
+                            97,
+                            49
+                        ],
+                        [
+                            20,
+                            1862,
+                            6,
+                            12
+                        ],
+                        [
+                            72,
+                            19,
+                            1608,
+                            201
+                        ],
+                        [
+                            62,
+                            17,
+                            133,
+                            1688
+                        ]
+                    ]
+                },
+                {
+                    "model": "NaiveBayes",
+                    "task": "A0",
+                    "split": "validation",
+                    "evaluation_time": 0,
+                    "accuracy": 0.9081,
+                    "f1_score": 0.9078817482632467,
+                    "precision": 0.9079655821187564,
+                    "recall": 0.9081000000000001,
+                    "confusion_matrix": [
+                        [
+                            4476,
+                            151,
+                            229,
+                            144
+                        ],
+                        [
+                            52,
+                            4895,
+                            24,
+                            29
+                        ],
+                        [
+                            177,
+                            39,
+                            4304,
+                            480
+                        ],
+                        [
+                            170,
+                            33,
+                            310,
+                            4487
+                        ]
+                    ]
+                },
+                {
+                    "model": "NaiveBayes",
+                    "task": "A0",
+                    "split": "training",
+                    "evaluation_time": 0,
+                    "accuracy": 0.91806,
+                    "f1_score": 0.9178577539237858,
+                    "precision": 0.9179510782834824,
+                    "recall": 0.91806,
+                    "confusion_matrix": [
+                        [
+                            22520,
+                            788,
+                            1042,
+                            650
+                        ],
+                        [
+                            183,
+                            24635,
+                            81,
+                            101
+                        ],
+                        [
+                            698,
+                            191,
+                            22042,
+                            2069
+                        ],
+                        [
+                            729,
+                            126,
+                            1536,
+                            22609
+                        ]
+                    ]
+                }
+            ]
+        }
+    ]
+}
