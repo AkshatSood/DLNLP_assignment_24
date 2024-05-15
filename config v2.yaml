@@ -6,15 +6,21 @@ logging:
   fine_tuning_logs_dir: ".\\results\\tuning_logs"
   plots_dir: ".\\results\\plots"
   create_log: True
-  create_evaluations_summary: True
-  create_fine_tuning_logs_summary: True
-  create_summary_plots: True
+  create_evaluations_summary: False
+  create_fine_tuning_logs_summary: False
+  create_summary_plots: False
 
 dataset:
   ag_news:
     validation_size: 20000
 
 A:
+  naive_bayes:
+    name: "A0"
+    model_name: "NaiveBayes"
+    execute: True
+    grid_search: False
+
   models:
     - name: "A1"
       model_name: "BERT"
@@ -418,3 +424,108 @@ E:
           alpha: 32
           dropout: 0.01
           target_modules: ["query"]
+
+F:
+  models:
+    - name: "F1_v1"
+      model_name: "BERT"
+      fine_tune: False
+      evaluate: False
+      checkpoints_dir: ".\\F\\checkpoints\\F1_v1_BERT"
+      model_dir: ".\\F\\models\\F1_v1_BERT"
+      training_args:
+        learning_rate: 5e-5
+        per_device_train_batch_size: 8
+        per_device_eval_batch_size: 8
+        weight_decay: 0.01
+        epochs: 10
+        lora_config:
+          r: 8
+          alpha: 32
+          dropout: 0.01
+          target_modules: ["key"]
+    - name: "F2_v1"
+      model_name: "DistilBERT"
+      fine_tune: False
+      evaluate: False
+      checkpoints_dir: ".\\F\\checkpoints\\F2_v1_DistilBERT"
+      model_dir: ".\\F\\models\\F2_v1_DistilBERT"
+      training_args:
+        learning_rate: 5e-5
+        per_device_train_batch_size: 8
+        per_device_eval_batch_size: 8
+        weight_decay: 0.01
+        epochs: 10
+        lora_config:
+          r: 8
+          alpha: 32
+          dropout: 0.01
+          target_modules: ["k_lin"]
+    - name: "F3_v1"
+      model_name: "RoBERTa"
+      fine_tune: False
+      evaluate: False
+      checkpoints_dir: ".\\F\\checkpoints\\F3_v1_RoBERTa"
+      model_dir: ".\\F\\models\\F3_v1_RoBERTa"
+      training_args:
+        learning_rate: 5e-5
+        per_device_train_batch_size: 8
+        per_device_eval_batch_size: 8
+        weight_decay: 0.01
+        epochs: 10
+        lora_config:
+          r: 8
+          alpha: 32
+          dropout: 0.01
+          target_modules: ["key"]
+    - name: "F1_v2"
+      model_name: "BERT"
+      fine_tune: False
+      evaluate: False
+      checkpoints_dir: ".\\F\\checkpoints\\F1_v2_BERT"
+      model_dir: ".\\F\\models\\F1_v2_BERT"
+      training_args:
+        learning_rate: 1e-5
+        per_device_train_batch_size: 8
+        per_device_eval_batch_size: 8
+        weight_decay: 0.01
+        epochs: 10
+        lora_config:
+          r: 8
+          alpha: 32
+          dropout: 0.01
+          target_modules: ["key"]
+    - name: "F2_v2"
+      model_name: "DistilBERT"
+      fine_tune: False
+      evaluate: False
+      checkpoints_dir: ".\\F\\checkpoints\\F2_v2_DistilBERT"
+      model_dir: ".\\F\\models\\F2_v2_DistilBERT"
+      training_args:
+        learning_rate: 1e-5
+        per_device_train_batch_size: 8
+        per_device_eval_batch_size: 8
+        weight_decay: 0.01
+        epochs: 10
+        lora_config:
+          r: 8
+          alpha: 32
+          dropout: 0.01
+          target_modules: ["k_lin"]
+    - name: "F3_v2"
+      model_name: "RoBERTa"
+      fine_tune: False
+      evaluate: False
+      checkpoints_dir: ".\\F\\checkpoints\\F3_v2_RoBERTa"
+      model_dir: ".\\F\\models\\F3_v2_RoBERTa"
+      training_args:
+        learning_rate: 1e-5
+        per_device_train_batch_size: 8
+        per_device_eval_batch_size: 8
+        weight_decay: 0.01
+        epochs: 10
+        lora_config:
+          r: 8
+          alpha: 32
+          dropout: 0.01
+          target_modules: ["key"]
