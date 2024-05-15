@@ -13,7 +13,7 @@ class Plotter:
     def create_fine_tuning_plots(
         self, checkpoints_dir: str, task_name: str, model_name: str
     ) -> None:
-        logs, selected_epoch, selected_loss = self.get_fine_tuning_logs(
+        logs, selected_epoch, selected_loss = self.reporter.get_fine_tuning_logs(
             checkpoints_dir=checkpoints_dir, task_name=task_name, model_name=model_name
         )
 
