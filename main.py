@@ -2,8 +2,9 @@ from omegaconf import OmegaConf
 from A.logger import Logger
 from data.dataset import AGNewsDatasetLoader
 from A.models import (
-    DistilBertUncased,
+    NaiveBayes,
     BertBaseUncased,
+    DistilBertUncased,
     RobertaBase,
 )
 from A.evaluator import Evaluator
@@ -32,6 +33,7 @@ print(
 
 dataset = ag_news.load()
 
+
 x_test = dataset["test"][ag_news.text_header]
 y_test = dataset["test"][ag_news.label_header]
 
@@ -45,6 +47,36 @@ evaluator = Evaluator(
     evaluations_dir=config.logging.evaluations_dir,
     test_outputs_dir=config.logging.test_outputs_dir,
 )
+
+nb_config = config.A.naive_bayes
+
+if nb_config.execute:
+    x_train = dataset["train"][ag_news.text_header]
+    y_train = dataset["train"][ag_news.label_header]
+    x_val = dataset["validation"][ag_news.text_header]
+    y_val = dataset["validation"][ag_news.label_header]
+
+    # Train and evaluate the Naive Bayes Classifier
+    model = NaiveBayes(gridsearch=nb_config.grid_search)
+
+    model.fit(x_train=x_train, y_train=y_train)
+
+    evaluation_results = evaluator.create_nb_evaluations(
+        model,
+        x_train=x_train,
+        y_train=y_train,
+        x_val=x_val,
+        y_val=y_val,
+        x_test=x_test,
+        y_test=y_test,
+        model_name=nb_config.model_name,
+        task_name=nb_config.name,
+    )
+
+    print(f"\n=> Evaluation Results:\n{logger.format_dict(evaluation_results)}\n")
+    logger.log_evaluation_results(
+        task=nb_config.name, model=nb_config.model_name, results=evaluation_results
+    )
 
 
 def get_model_and_tokenizer(model_name: str, path: str = None):
@@ -415,6 +447,88 @@ for model in config.E.models:
         fine_tune_E(args=model)
     if model.evaluate:
         evaluate_E(args=model)
+
+
+# ======================================================================================================================
+# Task F
+
+
+def fine_tune_F(args):
+    logger.print_heading(f"TASK F: Fine tuning {args.name} ({args.model_name})...")
+
+    model, tokenizer = get_model_and_tokenizer(model_name=args.model_name)
+
+    tokenized_dataset = ag_news.tokenize(tokenizer=tokenizer)
+    tokenized_dataset = tokenized_dataset.remove_columns("text")
+
+    tuner = LoraTuner(
+        model=model,
+        tokenizer=tokenizer,
+        train_dataset=tokenized_dataset["train"],
+        eval_dataset=tokenized_dataset["validation"],
+        checkpoints_dir=args.checkpoints_dir,
+        learning_rate=args.training_args.learning_rate,
+        per_device_eval_batch_size=args.training_args.per_device_eval_batch_size,
+        per_device_train_batch_size=args.training_args.per_device_train_batch_size,
+        weight_decay=args.training_args.weight_decay,
+        epochs=args.training_args.epochs,
+        lora_r=args.training_args.lora_config.r,
+        lora_alpha=args.training_args.lora_config.alpha,
+        lora_dropout=args.training_args.lora_config.dropout,
+        lora_target_modules=list(args.training_args.lora_config.target_modules),
+        lora_use_rslora=True,
+    )
+
+    # print(f"\nWeight Decay Parameter Names:\n{tuner.get_decay_parameter_names()}")
+    # print(f"\n=>Number of Tunable Parameters: {tuner.get_trainable_parameters()}\n")
+
+    time_taken = tuner.fine_tune(output_dir=args.model_dir)
+    logger.log_fine_tuning_duration(
+        task=args.name, model=args.model_name, time_taken=time_taken
+    )
+
+
+def evaluate_F(args):
+    logger.print_heading(f"TASK F: Evaluating {args.name} ({args.model_name})...")
+
+    model, tokenizer = get_model_and_tokenizer(
+        model_name=args.model_name, path=args.model_dir
+    )
+    evaluation_results = evaluator.create_evaluations(
+        model=model,
+        tokenizer=tokenizer,
+        model_name=args.model_name,
+        task_name=args.name,
+    )
+
+    print(f"\n=> Evaluation Results:\n{logger.format_dict(evaluation_results)}\n")
+    logger.log_evaluation_results(
+        task=args.name, model=args.model_name, results=evaluation_results
+    )
+
+    tuning_results = reporter.create_fine_tuning_log(
+        checkpoints_dir=args.checkpoints_dir,
+        model_name=args.model_name,
+        task_name=args.name,
+    )
+    print(f"\n=> Tuning Results:\n{logger.format_dict(tuning_results)}\n")
+    logger.log_fine_tuning_results(
+        task=args.name, model=args.model_name, results=tuning_results
+    )
+
+    print(f"\n=> Creating Fine Tuning Plot at {config.logging.plots_dir}")
+    plotter.create_fine_tuning_plots(
+        checkpoints_dir=args.checkpoints_dir,
+        model_name=args.model_name,
+        task_name=args.name,
+    )
+
+
+for model in config.F.models:
+    if model.fine_tune:
+        fine_tune_F(args=model)
+    if model.evaluate:
+        evaluate_F(args=model)
 
 # ======================================================================================================================
 ## Print out your results with following format:
