@@ -92,3 +92,115 @@ class Evaluator:
         )
 
         return evaluation
+
+    def create_nb_evaluations(
+        self,
+        model,
+        x_train: list,
+        y_train: list,
+        x_val: list,
+        y_val: list,
+        x_test: list,
+        y_test: list,
+        model_name: str,
+        task_name: str,
+    ) -> list:
+
+        y_train_pred = model.predict(x_train)
+        y_val_pred = model.predict(x_val)
+        y_test_pred = model.predict(x_test)
+
+        test_evaluation = {
+            "model": model_name,
+            "task": task_name,
+            "evaluation_time": 0,
+            "accuracy": accuracy_score(y_true=y_test, y_pred=y_test_pred),
+            "f1_score": f1_score(y_true=y_test, y_pred=y_test_pred, average="macro"),
+            "precision": precision_score(
+                y_true=y_test, y_pred=y_test_pred, average="macro"
+            ),
+            "recall": recall_score(y_true=y_test, y_pred=y_test_pred, average="macro"),
+            "confusion_matrix": confusion_matrix(
+                y_true=y_test,
+                y_pred=y_test_pred,
+                labels=list(self.label_map.keys()),
+            ).tolist(),
+        }
+
+        all_evaluations = [
+            {
+                "model": model_name,
+                "task": task_name,
+                "split": "test",
+                "evaluation_time": 0,
+                "accuracy": accuracy_score(y_true=y_test, y_pred=y_test_pred),
+                "f1_score": f1_score(
+                    y_true=y_test, y_pred=y_test_pred, average="macro"
+                ),
+                "precision": precision_score(
+                    y_true=y_test, y_pred=y_test_pred, average="macro"
+                ),
+                "recall": recall_score(
+                    y_true=y_test, y_pred=y_test_pred, average="macro"
+                ),
+                "confusion_matrix": confusion_matrix(
+                    y_true=y_test,
+                    y_pred=y_test_pred,
+                    labels=list(self.label_map.keys()),
+                ).tolist(),
+            },
+            {
+                "model": model_name,
+                "task": task_name,
+                "split": "validation",
+                "evaluation_time": 0,
+                "accuracy": accuracy_score(y_true=y_val, y_pred=y_val_pred),
+                "f1_score": f1_score(y_true=y_val, y_pred=y_val_pred, average="macro"),
+                "precision": precision_score(
+                    y_true=y_val, y_pred=y_val_pred, average="macro"
+                ),
+                "recall": recall_score(
+                    y_true=y_val, y_pred=y_val_pred, average="macro"
+                ),
+                "confusion_matrix": confusion_matrix(
+                    y_true=y_val,
+                    y_pred=y_val_pred,
+                    labels=list(self.label_map.keys()),
+                ).tolist(),
+            },
+            {
+                "model": model_name,
+                "task": task_name,
+                "split": "training",
+                "evaluation_time": 0,
+                "accuracy": accuracy_score(y_true=y_train, y_pred=y_train_pred),
+                "f1_score": f1_score(
+                    y_true=y_train, y_pred=y_train_pred, average="macro"
+                ),
+                "precision": precision_score(
+                    y_true=y_train, y_pred=y_train_pred, average="macro"
+                ),
+                "recall": recall_score(
+                    y_true=y_train, y_pred=y_train_pred, average="macro"
+                ),
+                "confusion_matrix": confusion_matrix(
+                    y_true=y_train,
+                    y_pred=y_train_pred,
+                    labels=list(self.label_map.keys()),
+                ).tolist(),
+            },
+        ]
+
+        # Write the evaluation to a JSON file
+        json.dump(
+            test_evaluation,
+            codecs.open(
+                filename=os.path.join(
+                    self.evaluations_dir, f"{task_name}_{model_name}.json"
+                ),
+                mode="w",
+                encoding="utf-8",
+            ),
+        )
+
+        return all_evaluations
