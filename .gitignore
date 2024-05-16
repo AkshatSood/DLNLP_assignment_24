@@ -40,7 +40,6 @@ test*.py
 B/checkpoints/
 B/models/
 C/checkpoints/
-C/models/
 D/checkpoints/
 E/checkpoints/
 F/checkpoints/
