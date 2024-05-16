@@ -1,0 +1,25 @@
+logging:
+  logs_dir: ".\\demo"
+  results_dir: ".\\demo"
+  evaluations_dir: ".\\demo"
+  test_outputs_dir: ".\\demo"
+
+
+dataset:
+  ag_news:
+    validation_size: 20000
+
+
+naive_bayes:
+  name: "A0"
+  model_name: "NaiveBayes"
+  evaluate: False
+
+models:
+  - name: "F3_v1"
+    model_name: "RoBERTa"
+    evaluate: True
+    # model_path: akshatsood/dlnlp-agnews-roberta-f3v1
+    model_path: ".\\F\\models\\F3_v1_RoBERTa"
+    
+    
