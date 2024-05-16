@@ -14,7 +14,7 @@ from B.plotter import Plotter
 from C.tuners import LoraTuner
 
 # Read the config file
-config = OmegaConf.load(open("./config v2.yaml"))
+config = OmegaConf.load(open("./config.yaml"))
 
 # Set up logger
 logger = Logger(logs_dir=config.logging.logs_dir)

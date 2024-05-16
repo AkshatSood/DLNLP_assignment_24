@@ -6,8 +6,8 @@ logging:
   fine_tuning_logs_dir: ".\\results\\tuning_logs"
   plots_dir: ".\\results\\plots"
   create_log: True
-  create_evaluations_summary: True
-  create_fine_tuning_logs_summary: True
+  create_evaluations_summary: False
+  create_fine_tuning_logs_summary: False
   create_summary_plots: False
 
 dataset:
