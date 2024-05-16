@@ -85,7 +85,7 @@ _It is important to note that the following would be required to run the entire 
 
 - *A large amount of disk space (~40GB) to store the checkpoints and final models during fine tuning. Additional CSV and JSON files are created for evaluation and logs, but they have been included in this repository ([results](./results/) and [logs](./logs/)).*
 - *A large RAM and a good quality GPU.*
-- *The estimated runtime for the entire pipeline is 54 hours, but this can vary depending on the platform/environment that the pipeline is running on.*
+- *The estimated runtime for the entire pipeline is 67 hours, but this can vary depending on the platform/environment that the pipeline is running on.*
 
 
 ### Running the Demo
