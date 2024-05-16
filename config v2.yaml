@@ -6,8 +6,8 @@ logging:
   fine_tuning_logs_dir: ".\\results\\tuning_logs"
   plots_dir: ".\\results\\plots"
   create_log: True
-  create_evaluations_summary: False
-  create_fine_tuning_logs_summary: False
+  create_evaluations_summary: True
+  create_fine_tuning_logs_summary: True
   create_summary_plots: False
 
 dataset:
@@ -18,7 +18,7 @@ A:
   naive_bayes:
     name: "A0"
     model_name: "NaiveBayes"
-    execute: True
+    execute: False
     grid_search: False
 
   models:
@@ -106,7 +106,6 @@ B:
         per_device_eval_batch_size: 8
         weight_decay: 0.01
         epochs: 5
-
 
 C:
   models:
@@ -213,7 +212,6 @@ C:
           dropout: 0.01
           target_modules: ["query"]
 
-
 D:
   models:
     - name: "D1_v1"
@@ -318,7 +316,6 @@ D:
           alpha: 32
           dropout: 0.01
           target_modules: ["key"]
-
 
 E:
   models:

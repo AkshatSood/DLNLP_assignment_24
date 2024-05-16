@@ -51,6 +51,8 @@ evaluator = Evaluator(
 nb_config = config.A.naive_bayes
 
 if nb_config.execute:
+    logger.print_heading(f"TASK A0: Evaluating Naive Bayes Classifier...")
+
     x_train = dataset["train"][ag_news.text_header]
     y_train = dataset["train"][ag_news.label_header]
     x_val = dataset["validation"][ag_news.text_header]
