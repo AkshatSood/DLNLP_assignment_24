@@ -13,9 +13,10 @@ dataset:
 naive_bayes:
   name: "A0"
   model_name: "NaiveBayes"
-  evaluate: False
+  evaluate: True
 
 models:
+  - name: "B1_v1"
     model_name: "BERT"
     evaluate: False
     model_dir: ".\\B\\models\\B1_v1_BERT"
@@ -33,7 +34,7 @@ models:
     model_dir: ".\\B\\models\\B1_v2_BERT"
   - name: "B2_v2"
     model_name: "DistilBERT"
-    evaluate: False
+    evaluate: True
     model_dir: ".\\B\\models\\B2_v2_DistilBERT"
   - name: "B3_v2"
     model_name: "RoBERTa"
@@ -121,7 +122,7 @@ models:
     model_dir: ".\\F\\models\\F2_v1_DistilBERT"
   - name: "F3_v1"
     model_name: "RoBERTa"
-    evaluate: False
+    evaluate: True
     model_dir: ".\\F\\models\\F3_v1_RoBERTa"
   - name: "F1_v2"
     model_name: "BERT"

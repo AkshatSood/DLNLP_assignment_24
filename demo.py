@@ -97,7 +97,7 @@ def evaluate_model(args):
     )
 
     model, tokenizer = get_model_and_tokenizer(
-        name=args.model_name, path=args.model_path
+        name=args.model_name, path=args.model_dir
     )
     evaluation_results = evaluator.create_evaluations(
         model=model,
