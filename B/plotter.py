@@ -122,7 +122,7 @@ class Plotter:
             0.9286,
         ]
 
-        fig = plt.figure(figsize=(8, 4))
+        fig = plt.figure(figsize=(10, 4))
         plt.grid(axis="y")
         plt.bar(tasks, testing_accuracy, align="center", width=0.8, color=colors)
         plt.ylim([0.9, 0.945])
@@ -139,7 +139,7 @@ class Plotter:
         )
         plt.xlabel("Tasks")
         plt.ylabel("Testing Accuracy")
-        plt.title("Testing Accuracy by Task (and Model)")
+        #  ("Testing Accuracy by Task (and Model)")
 
         fig.savefig(
             os.path.join(self.plots_dir, "Summary - Testing Accuracy.png"),
@@ -190,7 +190,7 @@ class Plotter:
             0.93155,
         ]
 
-        fig = plt.figure(figsize=(8, 4))
+        fig = plt.figure(figsize=(10, 4))
         plt.grid(axis="y")
         plt.bar(tasks, validation_accuracy, align="center", width=0.8, color=colors)
         plt.ylim([0.9, 0.945])
@@ -207,7 +207,7 @@ class Plotter:
         )
         plt.xlabel("Tasks")
         plt.ylabel("Validation Accuracy")
-        plt.title("Validation Accuracy by Task (and Model)")
+        # plt.title("Validation Accuracy by Task (and Model)")
 
         fig.savefig(
             os.path.join(self.plots_dir, "Summary - Validation Accuracy.png"),
@@ -258,7 +258,7 @@ class Plotter:
             0.9286,
         ]
 
-        fig = plt.figure(figsize=(8, 4))
+        fig = plt.figure(figsize=(10, 4))
         plt.grid(axis="y")
         plt.bar(tasks, testing_f1, align="center", width=0.8, color=colors)
         plt.ylim([0.9, 0.945])
@@ -272,7 +272,7 @@ class Plotter:
         plt.legend(handles=patches, loc="lower right", prop={"size": 8})
         plt.xlabel("Tasks")
         plt.ylabel("F1 Score")
-        plt.title("Testing F1 Scores by Task (and Model)")
+        # plt.title("Testing F1 Scores by Task (and Model)")
 
         fig.savefig(
             os.path.join(self.plots_dir, "Summary - Testing F1.png"),
@@ -321,7 +321,7 @@ class Plotter:
             616.78,
         ]
 
-        fig = plt.figure(figsize=(8, 4))
+        fig = plt.figure(figsize=(10, 4))
         plt.grid(axis="y")
         plt.bar(
             tasks[2:], time_per_ft_epoch, align="center", width=0.8, color=colors[2:]
@@ -330,7 +330,7 @@ class Plotter:
         plt.legend(handles=patches[1:], loc="upper right", prop={"size": 8})
         plt.xlabel("Tasks")
         plt.ylabel("Time (s)")
-        plt.title("Fine Tuning Time Per Epoch by Task (and Model)")
+        # plt.title("Fine Tuning Time Per Epoch by Task (and Model)")
 
         fig.savefig(
             os.path.join(self.plots_dir, "Summary - FT Time per Epoch.png"),
@@ -379,14 +379,14 @@ class Plotter:
             486.09,
         ]
 
-        fig = plt.figure(figsize=(8, 4))
+        fig = plt.figure(figsize=(10, 4))
         plt.grid(axis="y")
         plt.bar(tasks[2:], testing_time, align="center", width=0.8, color=colors[2:])
         plt.xticks(tasks[2:], rotation=70)
         plt.legend(handles=patches[1:], loc="lower right", prop={"size": 8})
         plt.xlabel("Tasks")
         plt.ylabel("Time (s)")
-        plt.title("Testing Time by Task (and Model)")
+        # plt.title("Testing Time by Task (and Model)")
 
         fig.savefig(
             os.path.join(self.plots_dir, "Summary - Testing Time.png"),
@@ -435,7 +435,7 @@ class Plotter:
             9,
         ]
 
-        fig = plt.figure(figsize=(8, 4))
+        fig = plt.figure(figsize=(10, 4))
         plt.grid(axis="y")
         plt.bar(tasks[2:], selected_epoch, align="center", width=0.8, color=colors[2:])
         plt.xticks(tasks[2:], rotation=70)
@@ -443,10 +443,105 @@ class Plotter:
         plt.xlabel("Tasks")
         plt.ylabel("Epoch")
         plt.yticks([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11])
-        plt.title("Selected Epoch During Fine Tuning by Task (and Model)")
+        # plt.title("Selected Epoch During Fine Tuning by Task (and Model)")
 
         fig.savefig(
             os.path.join(self.plots_dir, "Summary - Selected Epoch.png"),
+            dpi=800,
+            format="png",
+            bbox_inches="tight",
+        )
+
+    def __create_time_taken_to_selected_epoch_plot(
+        self, colors: list, patches: list, tasks: list
+    ) -> None:
+        testing_time = [
+            388.60,
+            377.96,
+            199.68,
+            198.61,
+            380.74,
+            388.96,
+            0,
+            398.24,
+            395.82,
+            206.51,
+            206.46,
+            402.51,
+            401.49,
+            0,
+            396.23,
+            396.65,
+            206.45,
+            207.14,
+            402.27,
+            402.98,
+            0,
+            396.30,
+            397.41,
+            206.61,
+            206.80,
+            402.66,
+            403.22,
+            0,
+            471.60,
+            458.01,
+            212.18,
+            213.53,
+            412.04,
+            486.09,
+        ]
+
+        selected_epoch = [
+            1,
+            1,
+            1,
+            2,
+            1,
+            1,
+            0,
+            9,
+            10,
+            7,
+            9,
+            7,
+            9,
+            0,
+            10,
+            10,
+            7,
+            10,
+            7,
+            9,
+            0,
+            8,
+            10,
+            5,
+            9,
+            7,
+            9,
+            0,
+            7,
+            10,
+            7,
+            9,
+            7,
+            9,
+        ]
+
+        time_taken = [x * y for x, y in zip(testing_time, selected_epoch)]
+
+        fig = plt.figure(figsize=(10, 4))
+        plt.grid(axis="y")
+        plt.bar(tasks[2:], time_taken, align="center", width=0.8, color=colors[2:])
+        plt.xticks(tasks[2:], rotation=70)
+        plt.legend(handles=patches[1:], loc="lower right", prop={"size": 8})
+        plt.xlabel("Tasks")
+        plt.ylabel("Time (s)")
+        # plt.title("Testing Time by Task (and Model)")
+
+        fig.savefig(
+            os.path.join(self.plots_dir, "Summary - Time Taken to Selected Epoch.png"),
             dpi=800,
             format="png",
             bbox_inches="tight",
@@ -558,5 +653,9 @@ class Plotter:
         )
 
         self.__create_selected_epoch_summary_plot(
+            colors=colors, patches=patches, tasks=tasks
+        )
+
+        self.__create_time_taken_to_selected_epoch_plot(
             colors=colors, patches=patches, tasks=tasks
         )
