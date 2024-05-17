@@ -134,7 +134,7 @@ _It is important to note that the following would be required to run the entire 
 
 ### Running the Demo
 
-For the purposes of testing a subsection of the entire pipeline a demo has been setup. This demo does not perform any fine-tuning, but evaluates the performance of all the models. The following steps can be followed to run this demo.
+For the purposes of testing a subsection of the entire pipeline a demo has been setup. This demo does not perform any fine-tuning, but evaluates the performance of all the models. The demo will use the [demo config.yaml](./demo%20config.yaml) file to check which models need to be evaluated. Currently, only 3 tasks (*A0*, *B2_v2*, and *F3_v1*) have been enabled. To enable additional tasks, the `evaluate` parameter needs to be changed to `True`. The following steps can be followed to run this demo.
 
 ```bash
 conda env create -f environment.yml
@@ -143,7 +143,7 @@ conda activate dlnlp24
 python demo.py
 ```
 
-The demo will use the [demo config.yaml](./demo%20config.yaml) file to check which models need to be evaluated. Currently, only 3 tasks (*A0*, *B2_v2*, and *F3_v1*) have been enabled. To enable additional tasks, the `evaluate` parameter needs to be changed to `True`.
+Once the demo has been executed, the results will be printed in the console and stored in the [demo directory](./demo/).
 
 
 ## Project Structure
@@ -183,7 +183,7 @@ The entire code structure along with the functions of each file have been provid
   - [models/](./F/models/) - Contains the fine-tuned models from task *F*.
   - [checkpoints/](./F/checkpoints/) - Omitted from this reposiroty due to redundant file data. The best checkpoint for each model was selected as the final model and stored in the models directory.
 - [logs/](./logs/) - This directory stores the logs produced during pipeline execution.
-- [results](./results/) - This directory contains the results from the pipeline execution. The base directory contains summary CSVs created from the data in the sub directories.
+- [results/](./results/) - This directory contains the results from the pipeline execution. The base directory contains summary CSVs created from the data in the sub directories.
   - [evaluations/](./results/evaluations/) - Contains JSON files which store the evaluations for each model that has been evaluated.
   - [plots/](./results/plots/) - Contains plots that were generated during model execution (fine tuning plots) and additional summary plots used in the report.
   - [test_outputs/](./results/test_outputs/) - Contains CSV files which have contain the prediction results for each sample of the test data.
