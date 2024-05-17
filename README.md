@@ -57,7 +57,10 @@ Task C focuses on updating the *query* matrices of the attention mechanism. Quer
 Similar to Task C, Task D aims to fine tune the models by employing LoRA. Instead of focusing on the *query* matrices, Task D focuses on training the *key* matrices. This can make the model more or less sensitive to specific features in the input data. This is useful in tasks where certain input features need to be emphasized or suppressed.
 
 ### Task E - Fine Tune (with Rank Stabalised LoRA) and Evaluate Models
-Similar to Task C, Task E aims to fine tune the models by employing LoRA but with rank stablisation which has been proven to improve the effectiveness of LoRA.
+Similar to Task C, Task E aims to fine tune the models by employing LoRA (updating the *query* matrices) but with rank stablisation which has been proven to improve the effectiveness of LoRA.
+
+### Task E - Fine Tune (with Rank Stabalised LoRA) and Evaluate Models
+Similar to Task C, Task E aims to fine tune the models by employing LoRA (updating the *key* matrices) but with rank stablisation which has been proven to improve the effectiveness of LoRA.
 
 
 ## Results

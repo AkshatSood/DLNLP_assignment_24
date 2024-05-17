@@ -104,6 +104,7 @@ def evaluate_model(args):
         tokenizer=tokenizer,
         model_name=args.model_name,
         task_name=args.name,
+        create_outputs=False,
     )
     print(f"\n=> Evaluation Results:\n{logger.format_dict(evaluation_results)}\n")
     logger.log_evaluation_results(
@@ -115,5 +116,11 @@ for model in config.models:
     if model.evaluate:
         evaluate_model(args=model)
 
+
+logger.print_heading("Evaluations Summary")
+logger.create_evaluation_summary(
+    evaluations_dir=config.logging.evaluations_dir,
+    output_dir=config.logging.results_dir,
+)
 
 logger.create_log()

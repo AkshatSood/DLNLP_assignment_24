@@ -29,7 +29,14 @@ class Evaluator:
         self.evaluations_dir = evaluations_dir
         self.test_outputs_dir = test_outputs_dir
 
-    def create_evaluations(self, model, tokenizer, model_name: str, task_name: str):
+    def create_evaluations(
+        self,
+        model,
+        tokenizer,
+        model_name: str,
+        task_name: str,
+        create_outputs: bool = True,
+    ):
 
         classes = [self.label_map[i] for i in self.y_test]
         outputs_df = pd.DataFrame(
@@ -74,10 +81,11 @@ class Evaluator:
             ).tolist(),
         }
 
-        # Write the outputs to a CSV file
-        outputs_df.to_csv(
-            os.path.join(self.test_outputs_dir, f"{task_name}_{model_name}.csv")
-        )
+        if create_outputs:
+            # Write the outputs to a CSV file
+            outputs_df.to_csv(
+                os.path.join(self.test_outputs_dir, f"{task_name}_{model_name}.csv")
+            )
 
         # Write the evaluation to a JSON file
         json.dump(

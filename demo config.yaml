@@ -1,5 +1,5 @@
 logging:
-  logs_dir: ".\\demo"
+  logs_dir: ".\\demo\\logs"
   results_dir: ".\\demo"
   evaluations_dir: ".\\demo"
   test_outputs_dir: ".\\demo"
@@ -16,10 +16,122 @@ naive_bayes:
   evaluate: False
 
 models:
+    model_name: "BERT"
+    evaluate: False
+    model_dir: ".\\B\\models\\B1_v1_BERT"
+  - name: "B2_v1"
+    model_name: "DistilBERT"
+    evaluate: False
+    model_dir: ".\\B\\models\\B2_v1_DistilBERT"
+  - name: "B3_v1"
+    model_name: "RoBERTa"
+    evaluate: False
+    model_dir: ".\\B\\models\\B3_v1_RoBERTa"
+  - name: "B1_v2"
+    model_name: "BERT"
+    evaluate: False
+    model_dir: ".\\B\\models\\B1_v2_BERT"
+  - name: "B2_v2"
+    model_name: "DistilBERT"
+    evaluate: False
+    model_dir: ".\\B\\models\\B2_v2_DistilBERT"
+  - name: "B3_v2"
+    model_name: "RoBERTa"
+    evaluate: False
+    model_dir: ".\\B\\models\\B3_v2_RoBERTa"
+  - name: "C1_v1"
+    model_name: "BERT"
+    evaluate: False
+    model_dir: ".\\C\\models\\C1_v1_BERT"
+  - name: "C2_v1"
+    model_name: "DistilBERT"
+    evaluate: False
+    model_dir: ".\\C\\models\\C2_v1_DistilBERT"
+  - name: "C3_v1"
+    model_name: "RoBERTa"
+    evaluate: False
+    model_dir: ".\\C\\models\\C3_v1_RoBERTa"
+  - name: "C1_v2"
+    model_name: "BERT"
+    evaluate: False
+    model_dir: ".\\C\\models\\C1_v2_BERT"
+  - name: "C2_v2"
+    model_name: "DistilBERT"
+    evaluate: False
+    model_dir: ".\\C\\models\\C2_v2_DistilBERT"
+  - name: "C3_v2"
+    model_name: "RoBERTa"
+    evaluate: False
+    model_dir: ".\\C\\models\\C3_v2_RoBERTa"
+  - name: "D1_v1"
+    model_name: "BERT"
+    evaluate: False
+    model_dir: ".\\D\\models\\D1_v1_BERT"
+  - name: "D2_v1"
+    model_name: "DistilBERT"
+    evaluate: False
+    model_dir: ".\\D\\models\\D2_v1_DistilBERT"
+  - name: "D3_v1"
+    model_name: "RoBERTa"
+    evaluate: False
+    model_dir: ".\\D\\models\\D3_v1_RoBERTa"
+  - name: "D1_v2"
+    model_name: "BERT"
+    evaluate: False
+    model_dir: ".\\D\\models\\D1_v2_BERT"
+  - name: "D2_v2"
+    model_name: "DistilBERT"
+    evaluate: False
+    model_dir: ".\\D\\models\\D2_v2_DistilBERT"
+  - name: "D3_v2"
+    model_name: "RoBERTa"
+    evaluate: False
+    model_dir: ".\\D\\models\\D3_v2_RoBERTa"
+  - name: "E1_v1"
+    model_name: "BERT"
+    evaluate: False
+    model_dir: ".\\E\\models\\E1_v1_BERT"
+  - name: "E2_v1"
+    model_name: "DistilBERT"
+    evaluate: False
+    model_dir: ".\\E\\models\\E2_v1_DistilBERT"
+  - name: "E3_v1"
+    model_name: "RoBERTa"
+    evaluate: False
+    model_dir: ".\\E\\models\\E3_v1_RoBERTa"
+  - name: "E1_v2"
+    model_name: "BERT"
+    evaluate: False
+    model_dir: ".\\E\\models\\E1_v2_BERT"
+  - name: "E2_v2"
+    model_name: "DistilBERT"
+    evaluate: False
+    model_dir: ".\\E\\models\\E2_v2_DistilBERT"
+  - name: "E3_v2"
+    model_name: "RoBERTa"
+    evaluate: False
+    model_dir: ".\\E\\models\\E3_v2_RoBERTa"
+  - name: "F1_v1"
+    model_name: "BERT"
+    evaluate: False
+    model_dir: ".\\F\\models\\F1_v1_BERT"
+  - name: "F2_v1"
+    model_name: "DistilBERT"
+    evaluate: False
+    model_dir: ".\\F\\models\\F2_v1_DistilBERT"
   - name: "F3_v1"
     model_name: "RoBERTa"
-    evaluate: True
-    # model_path: akshatsood/dlnlp-agnews-roberta-f3v1
-    model_path: ".\\F\\models\\F3_v1_RoBERTa"
-    
-    
+    evaluate: False
+    model_dir: ".\\F\\models\\F3_v1_RoBERTa"
+  - name: "F1_v2"
+    model_name: "BERT"
+    evaluate: False
+    model_dir: ".\\F\\models\\F1_v2_BERT"
+  - name: "F2_v2"
+    model_name: "DistilBERT"
+    evaluate: False
+    model_dir: ".\\F\\models\\F2_v2_DistilBERT"
+  - name: "F3_v2"
+    model_name: "RoBERTa"
+    evaluate: False
+    model_dir: ".\\F\\models\\F3_v2_RoBERTa"
